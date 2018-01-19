@@ -223,15 +223,15 @@
                     document.location.href = data.redirect;
                     return;
                 }
-                if(form && $(form).data('form')['closeModalOnSucess'])
-                {
-                    form.modal('close');
-                }
                 if(data.callback)
                 {
                     window[data.callback](data);
                     if(form) form.modal('close');
                     return;
+                }
+                if(form && data.leaveModal != true)//form && $(form).data('form')['closeModalOnSucess'])
+                {
+                    form.modal('close');
                 }
             }
             else
