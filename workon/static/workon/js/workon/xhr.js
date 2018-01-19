@@ -234,12 +234,20 @@
                     form.modal('close');
                 }
             }
+            // HTML data Case
             else
             {
                 var $data = $(data);
-                if(form && ( $data.data('form') == "modal" ))
+                if(form && $data.data('form'))
                 {
-                    if(form) form.html($data.html());
+                    form.html($data.html());
+                    if(form.parent().attr('id') == 'modal-content' ) {
+                        form.parent().trigger('modal.ready', {
+                            content: form.parent(),
+                            wrapper: form.parent().parent(),
+                            target: form
+                        });
+                    }
                 }
                 // else if($data.is(formSelector) && form)
                 // {

@@ -54,7 +54,7 @@
         if(target[0] == '#')
         {
             var target = $(target);
-            oldContainer = html.parent();
+            oldContainer = target.parent();
             content.empty().append(target);
             wrapper.removeClass('loading');
             $(content).trigger('modal.ready', {
@@ -100,7 +100,12 @@
                     catch(e) {
                         content.html('<div class="modal"><div class="modal-body"><pre class="error500">'+data.responseText+'</pre></div></div>')
                     }
-                    wrapper.removeClass('loading').addClass('error500');                
+                    wrapper.removeClass('loading').addClass('error500');  
+                    $(content).trigger('modal.ready', {
+                        content: content,
+                        wrapper: wrapper,
+                        xhrdata: data
+                    });              
                 }
             };
             $.ajax(options);
