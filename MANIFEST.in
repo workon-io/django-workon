@@ -1,0 +1,9 @@
+global-exclude __pycache__
+global-exclude *pyc
+global-exclude .project
+global-exclude .pydevproject
+include README.rst
+include LICENSE
+recursive-include docs *
+recursive-include workon/static *
+recursive-include workon/templates *

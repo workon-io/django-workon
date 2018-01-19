@@ -22,9 +22,9 @@ def read(*parts):
 
 # Provided as an attribute, so you can append to these instead
 # of replicating them:
-standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
-standard_exclude_directories = ('.*', 'CVS', '_darcs', './build',
-                                './dist', 'EGG-INFO', '*.egg-info')
+# standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
+# standard_exclude_directories = ('.*', 'CVS', '_darcs', './build',
+#                                 './dist', 'EGG-INFO', '*.egg-info')
 
 setup(
     name='django-workon',
@@ -33,9 +33,10 @@ setup(
     long_description=read('README.rst'),
     author='Autrusseau Damien',
     author_email='autrusseau.damien@gmail.com',
-    # url='http://github.com/workon-io/django-workon',
+    url='http://github.com/workon-io/django-workon',
     packages=find_packages(exclude=('tests',)),
-    # zip_safe=False,
+    zip_safe=False,
+    include_package_data=True,
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
