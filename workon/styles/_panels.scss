@@ -1,0 +1,31 @@
+.panel {
+    margin: 0px;
+    margin-bottom: 25px;
+    @extend .bs1;
+
+    > h1 {
+        padding: 10px 15px;
+        margin: 0px 0px 0px 0px ;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    > h2 {
+        padding: 10px 15px;
+        margin: 0px 0px 0px 0px ;
+        border-bottom: 1px solid #e8e8e8;
+        a {
+            font-size: 18px;
+        }
+    }
+
+    .field {
+    }
+}
+    
+.panel-body {
+    padding: 25px;
+}   
+@media #{$medium-and-down} {
+    .panel-body {
+        padding: 15px;
+    }
+}

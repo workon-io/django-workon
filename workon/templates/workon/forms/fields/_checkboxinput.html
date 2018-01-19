@@ -1,0 +1,18 @@
+<div class="{{ field.classes }} field-widget-checkbox">
+    <div class="{{ classes.single_value }}">
+        <div class="checkbox">
+            {% if field.auto_id %}
+                {{ field }}
+                <label for="{{ field.id_for_label }}" {% if field.field.required and form.required_css_class %}class="{{ form.required_css_class }}"{% endif %}>
+                    <span>{{ field.label }}</span>
+                </label>
+            {% endif %}
+            {% for error in field.errors %}
+                <p class="{{ field.error_classes }}">{{ error }}</p>
+            {% endfor %}
+            {% if field.help_text %}
+                <p class="{{ field.help_classes }}">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

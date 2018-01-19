@@ -1,0 +1,19 @@
+<div class="{{ field.classes }} {{ classes.label }}" >
+    {% load app %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+    {{ field }}
+    {% for error in field.errors %}
+        <p class="{{ field.error_classes }}">{{ error }}</p>
+    {% endfor %}
+    {% if field.help_text %}
+        <p class="{{ field.help_classes }}">{{ field.help_text|safe }}</p>
+    {% endif %}
+    <script>
+        $('#{{ field.auto_id }}').daterangepicker({{ field.field.widget.options|jsonify|safe }});
+
+        $('#{{ field.auto_id }}').on('cancel.daterangepicker', function(ev, picker) {
+              $(this).val('').change();
+          });
+    </script>
+</div>
