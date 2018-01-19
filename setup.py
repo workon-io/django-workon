@@ -33,9 +33,9 @@ setup(
     long_description=read('README.rst'),
     author='Autrusseau Damien',
     author_email='autrusseau.damien@gmail.com',
-    url='http://github.com/workon-io/django-workon',
-    packages=find_packages(exclude=('tests*',)),
-    zip_safe=False,
+    # url='http://github.com/workon-io/django-workon',
+    packages=find_packages(exclude=('tests',)),
+    # zip_safe=False,
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
