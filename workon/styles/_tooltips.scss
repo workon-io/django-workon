@@ -4,6 +4,7 @@
 
 $border-color: $secondary-color;
 $border: 2px solid $secondary-color;
+$tootlip-color: white;
 
 .tooltipster-base {
     /* this ensures that a constrained height set by functionPosition,
@@ -280,9 +281,9 @@ corresponds to the arrow we want to display */
         text-align: center;
         overflow: visible;
         max-width: 300px;
-        color: $primary-color;
+        color: $tootlip-color;
         a {
-            color: $primary-color;;
+            color: $tootlip-color;
         }
         ul {
             margin: -8px -10px;
@@ -297,7 +298,7 @@ corresponds to the arrow we want to display */
                     display: block;
                     border-bottom: 1px solid #CCC;
                     font-size: 15px;
-                    color: white;//$primary-color;
+                    color: $tootlip-color;//$primary-color;
                     &.read {
                         opacity: 0.5;
                     }
