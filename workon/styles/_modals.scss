@@ -38,6 +38,13 @@
         float: right;
     }
 }
+.modal {
+    &.modal-media {
+        img {
+            width: 100%;
+        }
+    }
+}
 .modal-head {
     text-align: center;
     background-color: $primary-color;

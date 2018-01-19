@@ -53,17 +53,26 @@
         var target_lower = target.toLowerCase();
         if(target[0] == '#')
         {
-            var html = $(target);
+            var target = $(target);
             oldContainer = html.parent();
-            content.empty().append(html);
+            content.empty().append(target);
             wrapper.removeClass('loading');
+            $(content).trigger('modal.ready', {
+                content: content,
+                wrapper: wrapper,
+                target: target
+            });
         }
         else if(target_lower.endsWith('.png') || target_lower.endsWith('.jpg') || target_lower.endsWith('.gif'))
         {
-            content.empty().append('<img class="modal  large" src="'+target+'"/>');
-            $(content).trigger('modal.ready', target);
+            content.empty().append('<div class="modal modal-media large"><img src="'+target+'"/></div>');
             body.addClass('has-modal');
             wrapper.removeClass('loading');
+            $(content).trigger('modal.ready', {
+                content: content,
+                wrapper: wrapper,
+                target: target
+            });
         }
         else
         {
