@@ -94,11 +94,11 @@
                 error: function(data) {
                     try {
                         var html = $(data.responseText);
-                        content.html('<div class="modal-body"><iframe class="error500"></iframe></div>');
+                        content.html('<div class="modal"><div class="modal-body"><iframe class="error500"></iframe></div></div>');
                         content.find('iframe')[0].contentWindow.document.write(data.responseText)
                     }
                     catch(e) {
-                        content.html('<div class="modal-body"><pre class="error500">'+data.responseText+'</pre></div>')
+                        content.html('<div class="modal"><div class="modal-body"><pre class="error500">'+data.responseText+'</pre></div></div>')
                     }
                     wrapper.removeClass('loading').addClass('error500');                
                 }

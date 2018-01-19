@@ -25,6 +25,12 @@
     });
 })(jQuery);
 
+
+$(document).on('click', '[data-nav-top]', function(i, self)
+{
+    $(window).stop().animate({ scrollTop: 0 }, 500);
+});
+
 /*!
  * jQuery.scrollTo
  * Copyright (c) 2007 Ariel Flesler - aflesler ○ gmail • com | https://github.com/flesler
