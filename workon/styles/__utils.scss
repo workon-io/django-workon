@@ -57,7 +57,8 @@
 @mixin truncate($n:'...') {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: $n;
+    text-overflow: ellipsis;
+    display:block;
 }
 @mixin tr($n...) {
     -ms-transition: $n;
