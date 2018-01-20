@@ -16,7 +16,7 @@
 		if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                field.find('>img').attr('src', e.target.result).show();
+                field.find('.preview img').attr('src', e.target.result).show();
             };
             reader.readAsDataURL(input.files[0]);
         }
