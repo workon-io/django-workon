@@ -12,8 +12,23 @@ __all__ = ['View', 'ModalView']
 
 
 class View(generic.DetailView):
-	pass
+    
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return getattr(self, 'ajax_template_name', 
+                        getattr(self, 'template_name_ajax', 
+                            getattr(self, 'xhr_template_name', 
+                                getattr(self, 'template_name_xhr', 
+                                    getattr(self, 'template_name')
+                                )
+                            )
+
+                        )
+                    )
+        else:
+            return self.template_name
 
 
-class ModalView(generic.DetailView):
-	pass
+
+class ModalView(View):
+    pass

@@ -1,11 +1,1 @@
-<form   class="modal {% block modal-classes %}{% endblock %}"
-        {% block modal-attrs %}{% endblock %}
->
-{% block modal-content %}
-    {% block modal-pre %}{% endblock %}
-    <div class="modal-head">{% block modal-head %}{% endblock %}</div>
-    <div class="modal-body">{% block modal-body %}{% endblock %}</div>
-    <div class="modal-foot">{% block modal-foot %}{% endblock %}</div> 
-    {% block modal-post %}{% endblock %}
-{% endblock %}
-</form>
+{% extends 'workon/views/modal/_modal.html' %}

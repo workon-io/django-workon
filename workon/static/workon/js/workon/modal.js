@@ -1,4 +1,4 @@
-(function($, modal, open, wrapper, content, closer, content, oldContainer, addClose, blocker, createModalWrapper)
+(function($, modal, open, wrapper, closer, content, oldContainer, addClose, blocker, createModalWrapper)
 {
     blocker = false;
 
@@ -31,14 +31,9 @@
 
     createModalWrapper = function() {
 
+        closer = $('<div id="modal-closer" data-modal-close><i class="icon">close</i></div>').appendTo($('body'));
         wrapper = $('<div id="modal-wrapper"></div>').appendTo($('body'));
         content = $('<div id="modal-content"></div>').appendTo(wrapper);
-        closer = $('<a id="modal-closer"><i class="icon">close</i></a>').click(function() {
-            
-            wrapper.removeClass('active');
-            closer.removeClass('active');
-            $('body').removeClass('has-modal');
-        }).appendTo(content);
     }
 
     open = function(options, trigger, target, body)
@@ -65,7 +60,7 @@
         }
         else if(target_lower.endsWith('.png') || target_lower.endsWith('.jpg') || target_lower.endsWith('.gif'))
         {
-            content.empty().append('<div class="modal modal-media large"><img src="'+target+'"/></div>');
+            content.html('<div class="modal modal-media"><img src="'+target+'"/></div>');
             body.addClass('has-modal');
             wrapper.removeClass('loading');
             $(content).trigger('modal.ready', {
@@ -83,8 +78,8 @@
                 success: function(data)
                 {
                     content.html(data);
-                    wrapper.removeClass('loading');
                     body.addClass('has-modal');
+                    wrapper.removeClass('loading');
                     $(content).trigger('modal.ready', {
                         content: content,
                         wrapper: wrapper,
@@ -100,7 +95,8 @@
                     catch(e) {
                         content.html('<div class="modal"><div class="modal-body"><pre class="error500">'+data.responseText+'</pre></div></div>')
                     }
-                    wrapper.removeClass('loading').addClass('error500');  
+                    body.addClass('has-modal');
+                    wrapper.removeClass('loading').addClass('error500');
                     $(content).trigger('modal.ready', {
                         content: content,
                         wrapper: wrapper,

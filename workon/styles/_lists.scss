@@ -26,10 +26,6 @@ ul {
     }
     td, th { 
         padding: 0px 3px;
-        &:first-child 
-        {
-            
-        }
     }
 }
 
@@ -66,9 +62,6 @@ ul {
         margin:0px;
         padding:5px 0px;
     }
-    > .row {
-        font-weight: bold;
-    }
     .field {
         bottom: -4px;
         top: auto;
@@ -81,7 +74,11 @@ ul {
     position: relative;
     font-size: 13px;
     cursor: pointer;
-    @extend .hoverable;
+    @include tr(box-shadow .25s);
+    @include bs(0);
+    &:hover {
+        @include bs(0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
+    }
 
     > td.actions-box > .actions {
         white-space: nowrap;
@@ -95,9 +92,6 @@ ul {
         }
     }
 
-    // &:last-child {
-    //    border-bottom: 0px;
-    // }
     > .actions {
         top: 16px;
         top: 13px;
@@ -107,6 +101,7 @@ ul {
 .list-results {
     // min-height: 500px;
     .pagination {
+        @include bs1();
         position: fixed;
         z-index: 10;
         bottom: 0px;

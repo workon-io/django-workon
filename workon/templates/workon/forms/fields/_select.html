@@ -1,7 +1,8 @@
-{% load workon %}<div class="{{ field.classes }} {{ classes.label }}">
+<div class="{{ field.classes }}">
+    {% load workon %}
+    {% include "workon/forms/fields/__label.html" %}
+    {% include 'workon/forms/fields/__help_and_errors.html' %}
     {% if field|is_checkbox_select_multiple %}
-        {% include "workon/forms/fields/__label.html" %}
-        {% include 'workon/forms/fields/__help_and_errors.html' %}
         <div class="{{ classes.value }}">
             {% for choice in field %}
                   <p>
@@ -12,8 +13,6 @@
         </div>
 
     {% else %}
-        {% include "workon/forms/fields/__label.html" %}
-        {% include 'workon/forms/fields/__help_and_errors.html' %}
         {{ field }}
     {% endif %}
 

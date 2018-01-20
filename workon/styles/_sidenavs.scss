@@ -17,7 +17,7 @@ $sidenav-line-height: $sidenav-item-height !default;
     height: 120vh;
     background-color: rgba(0,0,0,.5);
     z-index: 10001;
-    @extend .t300;
+    @include tr(all 0.30s ease-out);;
 
     will-change: opacity;
     &.active {
@@ -25,6 +25,15 @@ $sidenav-line-height: $sidenav-item-height !default;
         visibility: visible;
     }
 }
+
+.sidenav-layout {
+    margin-left: 250px; 
+    @include tablet-and-down {
+        margin-left: 0px; 
+
+    }  
+}
+
 .sidenav {
     
     position: fixed;
@@ -42,8 +51,19 @@ $sidenav-line-height: $sidenav-item-height !default;
     will-change: transform;
     backface-visibility: hidden;
     @include tf(translateX(0%));
-    @extend .t300;
-    @extend .bs1;
+    @include tr(all 0.30s ease-out);;
+    @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));;
+
+
+    @include tablet-and-down {
+        transform: translateX(-105%);
+        &.relative {
+            transform: translateX(0%);
+        }
+        a {
+            padding: 0 $sidenav-padding;
+        }
+    }
 
     &.relative {
         position: relative;
@@ -52,7 +72,6 @@ $sidenav-line-height: $sidenav-item-height !default;
 
     &.collapsed {
         @include tf(translateX(-105%));
-
     }
 
     &.active {
@@ -209,7 +228,7 @@ $sidenav-line-height: $sidenav-item-height !default;
     //     background-size: contain;
     //     // img {
     //     //     @extend .circle;
-    //     //     @extend .bs1;
+    //     //     @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));;
     //     //     margin-left: 32px;
     //     //     height: 64px;
     //     //     width: 64px;
@@ -232,19 +251,3 @@ $sidenav-line-height: $sidenav-item-height !default;
 // }
 
 // Fixed sideNav hide on smaller
-@media #{$medium-and-down} {
-    .sidenav {
-        transform: translateX(-105%);
-
-        &.relative {
-            transform: translateX(0%);
-        }
-        a {
-            padding: 0 $sidenav-padding;
-        }
-
-        .userView {
-            padding: $sidenav-padding $sidenav-padding 0;
-        }
-    }
-}

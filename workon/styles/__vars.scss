@@ -44,8 +44,39 @@
 @if variable-exists('medium-only') { } @else { $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default !global; }
 
 
+@if variable-exists('tablet-width') { } @else { $tablet-width: 768px !default !global; }
+@if variable-exists('desktop-width') { } @else { $desktop-width: 1024px !default !global; }
 
-
+@mixin phone {
+  @media (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet-and-down {
+  @media (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet-and-up {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+@mixin desktop-and-up {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
 
 @if variable-exists('tabs-underline-color') { } @else { $tabs-underline-color: $primary-color-light !default !global; }
 @if variable-exists('tabs-text-color') { }  @else { $tabs-text-color: $primary-color !default !global; }

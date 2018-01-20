@@ -2,12 +2,12 @@
     position: relative;
     > .on-hover {
         opacity: 0;
-        @extend .t250;
+        @include tr(all 0.25s ease-out);;
         visibility: hidden;        
     }
     > .actions, .__field-action {
         opacity: 0;
-        @extend .t250;
+        @include tr(all 0.25s ease-out);;
         visibility: hidden;
         display: inline-block;
         &.show {

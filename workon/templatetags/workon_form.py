@@ -65,7 +65,7 @@ def lazy_register(register):
         field.classes = widget_classes
         field.error_classes = "field-error"
         field.help_classes = "field-help"
-        field.label_classes = "active" if field.real_value else ""
+        field.label_classes = "field-label"
         template_name = f'workon/forms/fields/_{field.field.widget.__class__.__name__.lower()}.html'
         try:
             field.template = get_template(template_name)
