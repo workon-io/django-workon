@@ -28,6 +28,14 @@ def lazy_register(register):
         return render_form(form, **kwargs)
 
     def add_input_classes(field, **kwargs):
+
+        label = kwargs.get('label', field.label)
+        if label == False:
+            label = None
+        placeholder = kwargs.pop('placeholder', None)
+        if placeholder == True:
+            placeholder = field.label
+
         widget_classes = f"field field_{field.name} {kwargs.pop('classes', '')}"
 
         if not is_checkbox(field) and not is_multiple_checkbox(field) and not is_radio(field) \
@@ -49,11 +57,10 @@ def lazy_register(register):
 
         if is_select(field):
             field.field.widget.attrs['data-select'] = '-'
-        field.label = kwargs.get('label', field.label)
 
-        placeholder = kwargs.pop('placeholder', None)
-        if placeholder and not field.label:
+        if placeholder and not label:
             field.field.widget.attrs['placeholder'] = placeholder
+            field.field.widget.attrs['data-tooltip'] = placeholder
         for name, value in kwargs.items():
             field.field.widget.attrs[name] = value
 
@@ -62,6 +69,7 @@ def lazy_register(register):
         if field.errors:
             widget_classes += ' error'
 
+        field.label = label
         field.classes = widget_classes
         field.error_classes = "field-error"
         field.help_classes = "field-help"
@@ -69,9 +77,11 @@ def lazy_register(register):
         template_name = f'workon/forms/fields/_{field.field.widget.__class__.__name__.lower()}.html'
         try:
             field.template = get_template(template_name)
-            # print(f" {template_name} form widget template")
+            if settings.DEBUG:
+                print(f"WO FIELD TPL for {field.name}: {template_name}")
         except:
-            print(f"Unknow {template_name} form widget template")
+            if settings.DEBUG:
+                print(f"WO FIELD TPL for {field.name}: {template_name}")
             field.template = get_template('workon/forms/fields/_unknow.html')
 
 

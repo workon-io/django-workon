@@ -11,10 +11,14 @@
 
 @mixin lg($n...) {
   background: -webkit-linear-gradient($n);
+  background: -moz-linear-gradient($n);
+  background: -o-linear-gradient($n);
   background: linear-gradient($n);
 }
 @mixin lgi($n...) {
   background: -webkit-linear-gradient($n) !important;
+  background: -moz-linear-gradient($n) !important;
+  background: -o-linear-gradient($n) !important;
   background: linear-gradient($n) !important;
 }
 // @mixin lg__old($direction, $color-stops...) {
@@ -24,7 +28,10 @@
 // }
 @mixin bs($n...) {
     box-shadow: $n;
-    -webkit-box-shadow: $n; // iOS <4.3 & Android <4.1
+    -webkit-box-shadow: $n;
+    -moz-box-shadow: $n;
+    -o-box-shadow: $n;
+    -ms-box-shadow: $n;
 }
 @mixin bs1() {
     @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));
@@ -46,6 +53,11 @@
     -ms-filter: blur($n);
     -webkit-filter: blur($n);
     filter: blur($n);
+}
+@mixin truncate($n:'...') {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: $n;
 }
 @mixin tr($n...) {
     -ms-transition: $n;
