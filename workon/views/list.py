@@ -381,19 +381,22 @@ class List(generic.FormView):
 
     def form_valid(self, form):
         self.data = self.F = form.cleaned_data
-        qs = self.get_queryset()
+        self.queryset = self.get_queryset()
         action = self.request.GET.get('_action')
         if action and hasattr(self, f'action_{action}'):
-            response = getattr(self, f'action_{action}')(qs)
+            response = getattr(self, f'action_{action}')(self.queryset)
             if not response:
-                qs = self.get_queryset()
+                self.queryset = self.get_queryset()
             else:
                 return response
+        return self.render_valid(form)
+
+    def render_valid(self, form):
         # try:
-        self.queryset = workon.utils.DiggPaginator(qs, 50, body=6, padding=2).get_queryset_for_page(self.data.get('page'))
+        self.queryset = workon.utils.DiggPaginator(self.queryset, 50, body=6, padding=2).get_queryset_for_page(self.data.get('page'))
         # except:
         #     self.queryset = qs
-        return render(self.request, self.get_template_names(), self.get_context_data())
+        return render(self.request, self.get_template_names(), self.get_context_data())        
 
     def form_invalid(self, form):
         return self.form_valid(form)

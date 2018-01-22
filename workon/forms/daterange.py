@@ -29,7 +29,7 @@ class DateRangeInput(forms.DateInput):
                 'cancelLabel': "Annuler",
                 'fromLabel': "De",
                 'toLabel': "Jusqu'a",
-                'customRangeLabel': "Manuel",
+                'customRangeLabel': "Choisir une période >",
                 'monthNames': [
                     "Janvier",
                     "Février",
@@ -69,10 +69,15 @@ class DateRangeInput(forms.DateInput):
 
         if isinstance(values, list):
             # localize_input() returns str on Python 2.
-            st = force_text(formats.localize_input(values[0], self.format or formats.get_format(self.format_key)[0]))
-            et = force_text(formats.localize_input(values[1], self.format or formats.get_format(self.format_key)[0]))
-            print(values, f'{st} - {et}', self.format or formats.get_format(self.format_key)[0])
-            return f'{st} - {et}'
+            try:
+                st = force_text(formats.localize_input(values[0], self.format or formats.get_format(self.format_key)[0]))
+                et = force_text(formats.localize_input(values[1], self.format or formats.get_format(self.format_key)[0]))
+                # print(values, f'{st} - {et}', self.format or formats.get_format(self.format_key)[0])
+                return f'{st} - {et}'
+            except:
+                pass
+        return f''
+
 
 
 class DateRangeField(forms.DateField):

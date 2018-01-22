@@ -121,9 +121,10 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     width: $daterangepicker-width;
     padding: $daterangepicker-padding;
     margin-top: $daterangepicker-border-size;
+    @include bs3();
 
     // TODO: Should these be parameterized??
-    top: 100px;
+    top: -99999px;
     left: 20px;
 
     $arrow-prefix-size: $arrow-size;
@@ -249,7 +250,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
             // TODO: Should this actually be hard-coded?
             min-width: 32px;
-            padding: 5px;
+            padding: 2px;
         }
     }
 
@@ -387,6 +388,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
         
         > input {
             padding-left: 35px;
+            width: auto;
         }
     }
 

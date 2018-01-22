@@ -1,8 +1,8 @@
 
 
-isArray = function(obj) {
+function isArray(obj) {
     return typeof(obj) == "object" && Object.prototype.toString.call( obj ) === '[object Array]'
 }
-isDict = function(obj) {
+function isDict(obj) {
     return typeof(obj) == "object" && Object.prototype.toString.call( obj ) !== '[object Array]'
 }
