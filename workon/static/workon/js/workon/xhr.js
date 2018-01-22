@@ -1,13 +1,6 @@
-
 (function ($, formSelector, isDict, isArray)
 {
-    isArray = function(obj) {
-        return typeof(obj) == "object" && Object.prototype.toString.call( obj ) === '[object Array]'
-    }
-    isDict = function(obj) {
-        return typeof(obj) == "object" && Object.prototype.toString.call( obj ) !== '[object Array]'
-    }
-    
+        
     formSelector = '[data-form]';  
     
     $(document).on('click', '[data-load]', function(e, trigger)
@@ -153,16 +146,6 @@
                             {
                                 box.append($(data.appendTo[id]));
                             }
-                        }
-                    }
-                }
-                if(data.chart)
-                {
-                    if(isDict(data.chart))
-                    {
-                        for(var id in data.chart)
-                        {
-                            $('#'+id).chart(data.chart[id]);
                         }
                     }
                 }

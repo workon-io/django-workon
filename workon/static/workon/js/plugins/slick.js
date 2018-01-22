@@ -3017,10 +3017,7 @@ $(document).ready(function()
 {
     $(document).on('mouseenter', '[data-slick]', function(self)
     {
-        if(this.workon_slick === true || !$.fn.slick )
-        {
-            return
-        }
+        if(this.workon_slick === true || !$.fn.slick ) { return; }
         this.workon_slick = true;
         self = $(this);
         if(window.workon_packages_loading )

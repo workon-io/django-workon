@@ -612,12 +612,28 @@ function make_chart(elm, data, appendForm) {
         else {
             chart = Highcharts.chart(elm[0], data);
         }
-    }
-  
+    }  
 }
 
-$.fn.chart = function(data) 
-{
-    make_chart(this, data);
+$(document).on('xhr.response', function(e, data) {
+    if(typeof(data) == "object")
+    {
+		if(data.chart)
+        {
+            if(isDict(data.chart))
+            {
+                for(var id in data.chart)
+                {
+                    $('#'+id).highchart(data.chart[id]);
+                }
+            }
+        }
+    }
+});
 
+$.fn.highchart = function(data) 
+{	
+    if(this.workon_highchart === true ) { return; }
+    this.workon_highchart = true;
+    make_chart(this, data);
 }

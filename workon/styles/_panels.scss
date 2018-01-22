@@ -16,8 +16,13 @@
             font-size: 18px;
         }
     }
-
-    .field {
+    &.panel-warning {
+        background: lighten(orange, 40%);
+        color: black;
+    }
+    &.panel-error {
+        background: lighten($red-color, 45%);
+        color: $red-color;
     }
 }
     

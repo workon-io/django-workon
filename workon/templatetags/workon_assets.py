@@ -42,6 +42,9 @@ def lazy_register(register):
             elif name == 'slick':               
                 paths.append(f'{STATIC_JS_NAME}/plugins/slick.js')
 
+            elif name == 'highcharts':               
+                paths.append(f'{STATIC_JS_NAME}/plugins/highcharts.js')
+
             elif name == 'json':               
                 paths.append(f'{STATIC_JS_NAME}/plugins/json.js')
 

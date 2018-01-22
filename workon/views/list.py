@@ -196,14 +196,20 @@ class List(generic.FormView):
             fi = self.make_filter_instance(fi[0], label=fi[-1])
 
         elif isinstance(fi, six.string_types):
-            ftype_name = fi.split(':', 1)
-            ftype = ftype_name[0]
-            kwargs['label'] = name = ftype_name[-1]
-            if len(ftype_name) == 2:
+            name_ftype = fi.split('::', 1)
+            ftype = name_ftype[-1]
+            kwargs['label'] = name = name_ftype[0]
+            if len(name_ftype) == 2:
                 if ftype == "int":
                     kwargs['field_class'] = forms.IntegerField
-                elif ftype == "bool":
+                elif ftype in ["bool", "boolean"]:
                     kwargs['field_class'] = forms.BooleanField
+                elif ftype in ["date"]:
+                    kwargs['field_class'] = workon.forms.DateField
+                elif ftype in ["datetime"]:
+                    kwargs['field_class'] = workon.forms.DateTimeField
+                elif ftype in ["time"]:
+                    kwargs['field_class'] = workon.forms.TimeField
             fi = ListFilter(name, **kwargs)
         return fi
 
@@ -332,7 +338,7 @@ class List(generic.FormView):
 
     def get_queryset(self):
         qs = []
-        if hasattr(self, 'model'):
+        if getattr(self, 'model', None):
             qs = self.model.objects.all()
         return self.filter(qs, self.F)
 
@@ -387,7 +393,6 @@ class List(generic.FormView):
         self.queryset = workon.utils.DiggPaginator(qs, 50, body=6, padding=2).get_queryset_for_page(self.data.get('page'))
         # except:
         #     self.queryset = qs
-        print(self.kwargs)
         return render(self.request, self.get_template_names(), self.get_context_data())
 
     def form_invalid(self, form):
