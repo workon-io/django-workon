@@ -51,7 +51,7 @@
     border: $button-border;
     border-radius: $button-radius;
     display: inline-block;
-    height: $button-height;
+    min-height: $button-height;
     line-height: $button-height;
     padding: $button-padding;
     text-transform: uppercase;

@@ -24,7 +24,7 @@
 @if variable-exists('error-color') { } @else { $error-color: $red-color !default !global; }
 @if variable-exists('success-color') { } @else { $success-color: $green-color !default !global; }
 
-@if variable-exists('highlight-color') { } @else { $highlight-color: opacify($primary-color, 30%) !default !global; }
+@if variable-exists('highlight-color') { } @else { $highlight-color: opacify($primary-color, 0.3) !default !global; }
 
 
 @if variable-exists('input-height') { } @else { $input-height: 3rem !default !global; }
