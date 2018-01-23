@@ -94,6 +94,8 @@ class ListFilter():
         field_kwargs = field_kwargs if field_kwargs else {}
         field_kwargs['required'] = False
         field_kwargs['initial'] = default
+        if label:
+            label = mark_safe(label)
         field_kwargs['label'] = label
         if not field_class:
             if choices is not None:
@@ -198,7 +200,9 @@ class List(generic.FormView):
         elif isinstance(fi, six.string_types):
             name_ftype = fi.split('::', 1)
             ftype = name_ftype[-1]
-            kwargs['label'] = name = name_ftype[0]
+            name = name_ftype[0]
+            if not 'label' in kwargs:
+                kwargs['label'] = name
             if len(name_ftype) == 2:
                 if ftype == "int":
                     kwargs['field_class'] = forms.IntegerField

@@ -1,4 +1,4 @@
-(function ($, formSelector, isDict, isArray)
+(function ($, formSelector)
 {
         
     formSelector = '[data-form]';  
@@ -132,6 +132,20 @@
                         if($elm.attr('id'))
                         {
                             $('#'+$elm.attr('id')).html($elm.html());
+                        }
+                    }
+                }
+                if(data.replaceHTML)
+                {
+                    if(isDict(data.replaceHTML))
+                    {
+                        for(var id in data.replaceHTML)
+                        {
+                            var old = $('#'+id);
+                            if(old.length)
+                            {
+                                old.html(data.replaceHTML[id]);
+                            }
                         }
                     }
                 }
