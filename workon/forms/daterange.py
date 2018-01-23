@@ -21,7 +21,7 @@ class DateRangeInput(forms.DateInput):
         self.options.update({
             'locale': {
                 'format': 'DD/MM/YYYY',
-                'daysOfWeek': [ "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim", ],
+                'daysOfWeek': [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"  ],
                 'autoApply': True,
                 'autoUpdateInput': False,
                 'alwaysShowCalendars': True,
