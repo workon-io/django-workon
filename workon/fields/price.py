@@ -4,6 +4,9 @@ from django.utils.text import capfirst
 from workon.forms import PriceField as PriceFormField, PriceInput
 
 
+__all__ = ['PriceField']
+
+
 class PriceField(models.DecimalField):
     """
     A text field made to accept hexadecimal color value (#FFFFFF)
