@@ -42,7 +42,7 @@
         // $.fn.modalDefaults.closeOnClick = false;
         body = $('body');
         if(!wrapper) { createModalWrapper(); }
-        wrapper.addClass('active loading');
+        wrapper.addClass('active loading').removeClass('error500');
         closer.addClass('active');
         body.addClass('has-modal');
         var target_lower = target.toLowerCase();
