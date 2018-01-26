@@ -14,6 +14,7 @@ __all__ = ['Save', 'ModalSave', 'JsonSave', 'SaveField']
 class SaveField():
     def __init__(self, name, label=None, col=12):
         self.name = name
+        self.label = label
         self.meta = {
             'class': f'col s12 m{col}',
             'label': label or name,
@@ -89,6 +90,7 @@ class Save(generic.UpdateView):
         for field in self.fields:
             if isinstance(field, SaveField):
                 if self.form.fields.get(field.name):
+                    self.form.fields[field.name].label = (field.label or self.form.fields[field.name].label).capitalize()
                     self.form.fields[field.name].meta.update(field.meta)
 
         return self.form
