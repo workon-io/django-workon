@@ -1,0 +1,16 @@
+<form class="modal delete" data-form="modal" method="POST" action="{{ object.delete_url }}">
+    {% load workon %}
+    {% csrf_token %}
+    <div class="modal-head">
+        <i class="icon red">warning</i> Confirmez-vous la suppression de {{ object }} ?
+    </div>
+    <div class="modal-body">
+
+        <p>Attention, cette opération est irréversible.</p><br/><br/>
+
+        <div class="clear">
+            <a class="button button-default" data-modal-close>Annuler</a>
+            <button type="submit" class="button red right">Confirmer la suppression définitive</button>
+        </div>
+    </div>
+</form>

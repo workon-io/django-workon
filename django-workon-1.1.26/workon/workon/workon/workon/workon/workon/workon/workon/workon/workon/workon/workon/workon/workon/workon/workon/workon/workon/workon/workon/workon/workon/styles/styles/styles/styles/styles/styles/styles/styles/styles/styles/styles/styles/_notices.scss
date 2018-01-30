@@ -1,0 +1,109 @@
+@keyframes noticeIn {
+    0% {
+        opacity:0; top:70px;
+        overflow: hidden;
+        border-radius: 100% 100% 0px 0px;
+        visibility: hidden;
+    }
+    100% {
+        overflow: visible;
+        border-radius: 2px;
+        opacity:1; top:0px;
+        visibility: visible;
+    }
+}
+@keyframes noticeOut {
+  0%    { opacity:1; @include tf(translateX(0)); visibility: visible; }
+  100%  { opacity: 0; @include tf(translateX(0%)); visibility: hidden; }
+}
+
+$notice-background-color: #ffae4c;
+
+.notice-wrapper {
+    position: fixed;
+    z-index: 111004;
+    height: 0px;
+    top: 10px;
+
+    &.round {
+        border-radius: 24px;
+    }
+
+    @media #{$small-and-down} {
+        width: 90%;
+        // bottom: 1%;
+        // top: auto;
+    }
+    @media #{$medium-only} {
+        left: 3%;
+        bottom: 3%;
+        max-width: 90%;
+    }
+    @media #{$large-and-up} {
+        top: 10px;
+        right: 10px;
+        max-width: 86%;
+    }    
+}
+.notice {
+    @include bs(0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3));;
+    float: right;
+    visibility: visible;
+    border-radius: 2px;
+    overflow: visible;
+    width: auto;
+    display: table;
+    clear: both;
+    margin-bottom: 10px;
+    position: relative;
+    max-width:100%;
+    height: auto;
+    line-height: 1.5em;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    font-weight: 300;
+    animation: noticeIn 0.25s ease-out;
+    will-change: top opacity;
+    cursor: pointer;
+    background: lighten($notice-background-color, 50%);
+
+    @include tablet-and-down {
+        width:100%;
+        border-radius: 0;
+    }
+    @include tablet {
+        float: left;
+    }
+    @include desktop-and-up {
+        float: right;
+    }
+
+    &.off {
+        animation: noticeOut 0.25s ease-in;
+        opacity: 0;
+        z-index: -1;
+        visibility: hidden;
+        @include tf(translateX(0%));
+    }
+    .loader {
+
+    }
+    &.error {
+        background: lighten($error-color, 10%);
+        color: white;
+    }
+    &.success {
+        background: lighten($success-color, 10%);
+    }
+    &.warning {
+        background: lighten(orange, 10%);
+    }
+    &.blue {
+        color: white;
+        background: lighten($teal-color, 10%);
+        font-weight: bold;
+    }
+    .icon {
+        vertical-align: middle;
+    }
+}

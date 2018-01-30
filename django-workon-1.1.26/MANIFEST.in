@@ -1,0 +1,14 @@
+global-exclude __pycache__
+global-exclude *pyc
+global-exclude .project
+global-exclude .pydevproject
+include README.rst
+include AUTHORS.txt
+include LICENSE.txt
+include autocommit.py
+include manage.py
+include Makefile
+recursive-include docs *
+recursive-include workon *
+recursive-include workon/static *
+recursive-include workon/templates *

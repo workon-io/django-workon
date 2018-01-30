@@ -1,0 +1,148 @@
+<div class="{{ field.classes }} field-html _{{ classes.label }}">
+
+    <label>{{ field.label }}</label>
+    {{ field }}
+    <script>
+        (function ($, config, apply_tinymce)
+        {
+            var $input = $('#id_{{ field.name }}');
+            $input[0].workon_load_html_input_loaded = true;
+            config = $input.data('html_input');
+            apply_tinymce = function(id)
+            {
+                if(!config.apply_format)
+                {
+                    config.apply_format = 'html'
+                }
+                if(config.type == "tinymce")
+                {
+                    var tinymce_config = config['settings'];
+                    id = tinymce_config['elements'];
+                    if(id.match(/__prefix__/i)) {
+                        id = $input.attr('id');
+                        tinymce_config['elements'] = id
+                    }
+
+                    if (tinymce.editors[id])
+                    {
+                        tinymce.editors[id].destroy()
+                    }
+                    if (!tinymce.editors[id])
+                    {
+                        tinymce_config.setup = function(editor)
+                        {
+                            editor.on('change', function(e)
+                            {
+                                if(config.placeholder && !config.settings.placeholder_disabled)
+                                {
+                                    var content = editor.getContent({ format : config.apply_format });
+                                    var content_text = $.trim(editor.getContent({ format : 'text' }).replace(/^\s+|\s+$/g, ''));
+                                    if(config.apply_format == "text")
+                                    {
+                                        content = $.trim(content.replace('&nbsp;', ''))
+                                    }
+
+                                    // if(config.inline)
+                                    // {
+                                        placeholder = editor.getElement().getAttribute("placeholder");
+                                        if (typeof placeholder !== 'undefined' && placeholder !== false && content_text == placeholder)
+                                        {
+                                            return;
+                                        }
+                                        $input.html(content).change();
+                                    // }
+                                }
+                            });
+                            editor.on('change', function (e) {
+                                editor.save();
+                            });
+                            // editor.on('submit', function(e)
+                            // {
+                            //     var content = editor.getContent({ format : config.apply_format });
+                            //     var content_text = $.trim(editor.getContent({ format : 'text' }).replace(/^\s+|\s+$/g, ''));
+                            //     if(config.apply_format == "text")
+                            //     {
+                            //         content = $.trim(content.replace('&nbsp;', ''))
+                            //     }
+                            //     placeholder = editor.getElement().getAttribute("placeholder");
+                            //     if (typeof placeholder !== 'undefined' && placeholder !== false && content_text == placeholder)
+                            //     {
+                            //         return;
+                            //     }
+                            //     $input.html(content).change();
+                            // });
+                            editor.on('init', function(e, placeholder)
+                            {
+                                var textarea = editor.getElement();
+                                $(editor.editorContainer).before(textarea);
+                                textarea.style.display = "";
+                                if(config.placeholder && !config.settings.placeholder_disabled)
+                                {
+                                    placeholder = textarea.getAttribute("placeholder");
+                                    if (typeof placeholder !== 'undefined' && placeholder !== false)
+                                    {
+                                        //var label = new Label;
+                                        function onFocus()
+                                        {
+                                            var content = editor.getContent({ format : 'text' }).replace(/^\s+|\s+$/g, '');
+                                            if(content == '' || content == placeholder)
+                                            {
+                                                editor.focus();
+                                                editor.setContent('');
+                                                tinymce.setActive(editor);
+                                                editor.focus();
+                                                editor.execCommand('mceFocus', false, id);
+                                                $(editor.getElement()).click();
+                                            }
+                                        }
+
+                                        function onBlur()
+                                        {
+                                            var content = editor.getContent({ format : 'text' }).replace(/^\s+|\s+$/g, '');
+                                            if(content == '')
+                                            {
+                                                var placeholder_html = '<span style="font-style:italic;color:grey;" class="workon-html_input-placeholder">'+placeholder+'</span>'
+                                                editor.setContent(placeholder_html);
+                                                editor.getElement().innerHTML = placeholder_html
+                                            }
+                                        }
+                                        //tinymce.DOM.bind(label.el, 'click', onFocus);
+                                        editor.on('focus', onFocus);
+                                        editor.on('blur', onBlur);
+                                        onBlur();
+                                    }
+                                }
+
+                            });
+                        }
+                        var instance = tinymce.init(tinymce_config);
+                    }
+                }
+            }
+            function loadScript(url, callback)
+            {
+                // Adding the script tag to the head as suggested before
+                var head = document.getElementsByTagName('head')[0];
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = url;
+
+                // Then bind the event to the callback function.
+                // There are several events for cross browser compatibility.
+                script.onreadystatechange = callback;
+                script.onload = callback;
+
+                // Fire the loading
+                head.appendChild(script);
+            }
+            try {
+                apply_tinymce();
+            }
+            catch(e) {
+                loadScript(config.settings.tinymce_url, function() {
+                    apply_tinymce();
+                });
+            }
+        }(jQuery));
+    </script>
+</div>

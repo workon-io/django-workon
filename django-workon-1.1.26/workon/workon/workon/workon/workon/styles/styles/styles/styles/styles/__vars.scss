@@ -1,0 +1,132 @@
+
+@if variable-exists('black-color') { } @else { $black-color: #131313 !global; }
+@if variable-exists('teal-color') { } @else { $teal-color: #c4e5ff !global; }
+@if variable-exists('green-color') { } @else { $green-color: #00FF7F !global; }
+@if variable-exists('yellow-color') { } @else { $yellow-color: #ffae4c !global; }
+@if variable-exists('cyan-color') { } @else { $cyan-color: #2cbae3 !global; }
+@if variable-exists('blue-color') { } @else { $blue-color: #032b60 !global; }
+@if variable-exists('red-color') { } @else { $red-color: #ff5200 !global; }
+
+@if variable-exists('primary-color') { } @else { $primary-color: $blue-color !default !global; }
+@if variable-exists('primary-color-light') { } @else { $primary-color-light: lighten($primary-color, 15%) !default !global; }
+@if variable-exists('primary-color-dark') { } @else { $primary-color-dark: darken($primary-color, 15%) !default !global; }
+
+
+@if variable-exists('secondary-color') { } @else { $secondary-color: $teal-color !default !global; }
+@if variable-exists('secondary-color-light') { } @else { $secondary-color-light: lighten($secondary-color, 15%) !default !global; }
+@if variable-exists('secondary-color-dark') { } @else { $secondary-color-dark: darken($secondary-color, 15%) !default !global; }
+
+
+@if variable-exists('secondary-color') { } @else { $secondary-color: $blue-color !default !global; }
+
+
+@if variable-exists('text-color') { } @else { $text-color: #232323 !global; }
+@if variable-exists('error-color') { } @else { $error-color: $red-color !default !global; }
+@if variable-exists('success-color') { } @else { $success-color: $green-color !default !global; }
+
+@if variable-exists('highlight-color') { } @else { $highlight-color: opacify($primary-color, 0.3) !default !global; }
+
+
+@if variable-exists('input-height') { } @else { $input-height: 3rem !default !global; }
+@if variable-exists('input-border-color') { } @else { $input-border-color: #9e9e9e !default !global; }
+@if variable-exists('input-border') { } @else { $input-border: 1px solid $input-border-color !default !global; }
+@if variable-exists('input-background') { } @else { $input-background: #fff !default !global; }
+@if variable-exists('input-error-color') { } @else { $input-error-color: $error-color !default !global; }
+@if variable-exists('input-success-color') { } @else { $input-success-color: $success-color !default !global; }
+@if variable-exists('input-focus-color') { } @else { $input-focus-color: $secondary-color !default !global; }
+@if variable-exists('input-font-size') { } @else { $input-font-size: 1rem !default !global; }
+@if variable-exists('input-margin-bottom') { } @else { $input-margin-bottom: 20px !default !global; }
+@if variable-exists('input-margin') { } @else { $input-margin: 0 0 $input-margin-bottom 0 !default !global; }
+@if variable-exists('input-padding') { } @else { $input-padding: 0 !default !global; }
+@if variable-exists('input-transition') { } @else { $input-transition: all .3s !default !global; }
+@if variable-exists('label-font-size') { } @else { $label-font-size: .8rem !default !global; }
+@if variable-exists('input-disabled-color') { } @else { $input-disabled-color: rgba(0,0,0, .26) !default !global; }
+@if variable-exists('input-disabled-solid-color') { } @else { $input-disabled-solid-color: #BDBDBD !default !global; }
+@if variable-exists('input-disabled-border') { } @else { $input-disabled-border: 1px dotted $input-disabled-color !default !global; }
+@if variable-exists('input-invalid-border') { } @else { $input-invalid-border: 1px solid $input-error-color !default !global; }
+@if variable-exists('placeholder-text-color') { } @else { $placeholder-text-color: lighten($text-color, 50%) !default !global; }
+
+// Radio Buttons
+@if variable-exists('radio-fill-color') { } @else { $radio-fill-color: $secondary-color !default !global; }
+@if variable-exists('radio-empty-color') { } @else { $radio-empty-color: #5a5a5a !default !global; }
+@if variable-exists('radio-border') { } @else { $radio-border: 2px solid $radio-fill-color !default !global; }
+
+
+
+
+
+// Media Query Ranges
+@if variable-exists('small-screen-up') { } @else { $small-screen-up: 601px !default !global; }
+@if variable-exists('medium-screen-up') { } @else { $medium-screen-up: 993px !default !global; }
+@if variable-exists('large-screen-up') { } @else { $large-screen-up: 1201px !default !global; }
+@if variable-exists('small-screen') { } @else { $small-screen: 600px !default !global; }
+@if variable-exists('medium-screen') { } @else { $medium-screen: 992px !default !global; }
+@if variable-exists('large-screen') { } @else { $large-screen: 1200px !default !global; }
+
+@if variable-exists('medium-and-up') { } @else { $medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default !global; }
+@if variable-exists('large-and-up') { } @else { $large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default !global; }
+@if variable-exists('extra-large-and-up') { } @else { $extra-large-and-up: "only screen and (min-width : #{$large-screen-up})" !default !global; }
+@if variable-exists('small-and-down') { } @else { $small-and-down: "only screen and (max-width : #{$small-screen})" !default !global; }
+@if variable-exists('large-and-down') { } @else { $large-and-down: "only screen and (max-width : #{$large-screen})" !default !global; }
+@if variable-exists('medium-and-down') { } @else { $medium-and-down: "only screen and (max-width : #{$medium-screen})" !default !global; }
+@if variable-exists('medium-only') { } @else { $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default !global; }
+
+
+@if variable-exists('tablet-width') { } @else { $tablet-width: 768px !default !global; }
+@if variable-exists('desktop-width') { } @else { $desktop-width: 1024px !default !global; }
+
+@mixin phone {
+  @media (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet-and-down {
+  @media (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+@mixin tablet-and-up {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+@mixin desktop-and-up {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
+
+@if variable-exists('tabs-underline-color') { } @else { $tabs-underline-color: $primary-color-light !default !global; }
+@if variable-exists('tabs-text-color') { }  @else { $tabs-text-color: $primary-color !default !global; }
+@if variable-exists('tabs-bg-color') { } @else { $tabs-bg-color: #fff !default !global; }
+
+
+// 18. Tables
+// ==========================================================================
+
+@if variable-exists('table-border-color') { } @else { $table-border-color: #d0d0d0 !default !global; }
+@if variable-exists('table-striped-color') { } @else { $table-striped-color: #f2f2f2 !default !global; }
+
+
+
+// 20. Typography
+// ==========================================================================
+
+@if variable-exists('off-black') { } @else { $off-black: rgba(0, 0, 0, 0.87) !default !global; }
+// Header Styles
+@if variable-exists('h1-fontsize') { } @else { $h1-fontsize: 4.2rem !default !global; }
+@if variable-exists('h2-fontsize') { } @else { $h2-fontsize: 3.56rem !default !global; }
+@if variable-exists('h3-fontsize') { } @else { $h3-fontsize: 2.92rem !default !global; }
+@if variable-exists('h4-fontsize') { } @else { $h4-fontsize: 2.28rem !default !global; }
+@if variable-exists('h5-fontsize') { } @else { $h5-fontsize: 1.64rem !default !global; }
+@if variable-exists('h6-fontsize') { } @else { $h6-fontsize: 1rem !default !global; }

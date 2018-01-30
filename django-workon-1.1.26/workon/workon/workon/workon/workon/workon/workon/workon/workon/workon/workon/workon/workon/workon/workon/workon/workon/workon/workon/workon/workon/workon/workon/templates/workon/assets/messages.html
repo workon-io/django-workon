@@ -1,0 +1,17 @@
+{% if messages %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% for message in messages %}
+                $.fn.notice({
+                    content: '{{message|escapejs}}',
+                    {% if 'permanotice' in message.tags %}
+                    delay: null,
+                    {% else %}
+                    delay: 3000,
+                    {% endif %}
+                    classes: "{{message.tags}}"
+                });
+            {% endfor %}
+        });
+    </script>
+{% endif %}

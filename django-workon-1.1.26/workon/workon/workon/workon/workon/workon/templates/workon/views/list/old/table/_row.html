@@ -1,0 +1,12 @@
+<tr class="list-row  {{ row.class }}" id="{{ row.id }}" style="{{ row.style }}" {{ row.attrs|safe }}>
+    {% for field in row.fields %}
+        <td class="{{ field.class }} actions-box"  {{ field.attrs|safe }} >
+        	{{ field.value|safe }}
+        	{% if forloop.last %}
+        		{% include "workon/views/list/_floating_actions.html" with object=row.object update_method=row.update_method view_method=row.view_method  delete_method=row.delete_method extra_actions=row.extra_actions %}
+        	{% endif %}
+        </td>
+    {% endfor %}
+
+    
+</tr>

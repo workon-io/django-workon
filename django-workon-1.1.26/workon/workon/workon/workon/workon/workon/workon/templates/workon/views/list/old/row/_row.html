@@ -1,0 +1,10 @@
+<div class="list-row actions-box {{ row.class }}" id="{{ row.id }}" style="{{ row.style }}" {{ row.attrs|safe }}>
+    {% load workon %}
+    <{{ row.tag|safe }} class="row row0 row{{ row_nums }}" >
+        {% for field in row.fields %}
+            <span class="{{ field.class }}"  {{ field.attrs|safe }} >{{ field.value|safe }}</span>
+        {% endfor %}
+    </{{ row.endtag }}>
+
+    {% include "workon/views/list/_floating_actions.html" with object=row.object update_method=row.update_method view_method=row.view_method  delete_method=row.delete_method extra_actions=row.extra_actions %}
+</div>

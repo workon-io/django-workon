@@ -1,0 +1,59 @@
+.loading {
+
+    &:after {
+    }
+}
+.loading {
+    position: relative;
+    min-height: 150px;
+
+    > .loading-text {
+        //ab(); l(50%); t(50%); mt(10); ts(translateX(-50%));
+    }
+    &:after {
+        content: " ";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -50px;
+        z-index: 10000002;
+        width: 100px;
+        height: 100px;
+        animation: fadeIn 0.75s linear, spin 0.8s infinite linear;
+
+        
+        border: 6px double $primary-color;
+        border-left-width: 6px !important;
+        border-top-width: 6px !important;
+        border-radius: 50% 50% 50% 50%;
+        border-left: 6px solid $secondary-color;
+    }
+
+    &:before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        top:  0;
+        bottom: 0;
+        right: 0;
+        z-index: 10000001;
+        background: rgba(white, 0.5);
+        display: inline-block;
+        animation: fadeIn 0.25s linear;
+        // @include bs(0px 0px 80px 50px white inset);
+    }
+}
+
+
+body.loading {
+    &:after, &:before {
+        position: fixed;
+    }
+    &:before {
+    }
+    &.has-modal {
+        &:after {
+            z-index: 111002;
+        }
+    }
+}

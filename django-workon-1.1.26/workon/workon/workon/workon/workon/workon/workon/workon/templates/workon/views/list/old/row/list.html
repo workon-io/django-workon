@@ -1,0 +1,53 @@
+{% extends layout_template|default:"workon/save/layout.html" %}
+
+{% load workon %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% for label, url in breadcrumbs %}
+        <a href="{{ url }}">{{ label }}</a>
+    {% endfor %}
+    <a>Liste</a>
+{% endblock %}
+
+{% block main %}
+    <form   class="form list-form" 
+            action="." method="POST"
+        data-form='{
+            "submitOnChanges": true,
+            "submitOnLoads": true,
+            "queryHistory": true
+        }'> 
+        {% csrf_token %}
+        <div id="list-filters">
+            <div class="row row{{ row_nums }}">
+                {% for field in form %}
+                    <span class="{{ field.field.meta.class }}" {{ field.field.meta.attrs }}>{% field field %}</span>
+                {% endfor %}
+            </div>
+        </div> 
+        <hr class="small" />
+        {% if actions %}
+        <div id="list-actions">
+            <div class="row row{{ row_nums }}">
+                {% for action in actions %}
+                    <span class="{{ action.meta.class }} right" {{ field.field.meta.attrs }}>
+                        <button type="submit" data-unform name="_action" class="button" value="{{ action.name }}" data-tooltip="{{ action.meta.label }}" >{{ action.meta.label }}</button>
+                    </span>
+                {% endfor %}
+            </div>
+        </div> 
+        <hr class="small" />
+        {% endif %}
+        {% include list_results_template %}
+         <div class="fixed-actions-box">
+            {% if create_url %}
+            <a class="button round large hoverable z-depth-2 right"
+                data-tooltip="Nouveau"
+                {{ create_method|default:'data-modal' }}="{{ create_url }}" >
+                <i class="icon">add</i>
+            </a>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,195 @@
+@mixin cl() {
+    zoom: 1;
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin lg($n...) {
+  background: -webkit-linear-gradient($n);
+  background: -moz-linear-gradient($n);
+  background: -o-linear-gradient($n);
+  background: linear-gradient($n);
+}
+@mixin lgi($n...) {
+  background: -webkit-linear-gradient($n) !important;
+  background: -moz-linear-gradient($n) !important;
+  background: -o-linear-gradient($n) !important;
+  background: linear-gradient($n) !important;
+}
+// @mixin lg__old($direction, $color-stops...) {
+//   background: nth(nth($color-stops, 1), 1);
+//   background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+//   background: linear-gradient($direction, $color-stops);
+// }
+@mixin bs($n...) {
+    box-shadow: $n;
+    -webkit-box-shadow: $n;
+    -moz-box-shadow: $n;
+    -o-box-shadow: $n;
+    -ms-box-shadow: $n;
+}
+@mixin bs1() {
+    @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));
+}
+@mixin bs2() {
+    @include bs(0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3));
+}
+@mixin bs3() {
+    @include bs(0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3));
+}
+@mixin tf($n) {
+    -ms-transform: $n; /* Internet Explorer */
+    -moz-transform: $n; /* Firefox */
+    -webkit-transform: $n; /* Safari et Chrome */
+    -o-transform: $n; /* Opera */
+    transform: $n; /* Opera */
+}
+@mixin blur($n:5px) {
+    -ms-filter: blur($n);
+    -webkit-filter: blur($n);
+    filter: blur($n);
+}
+@mixin truncate($n:'...') {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display:block;
+}
+@mixin tr($n...) {
+    -ms-transition: $n;
+    -moz-transition: $n;
+    -webkit-transition: $n;
+    -o-transition: $n;
+    transition: $n;
+}
+
+// Mixins to eliminate code repitition
+@mixin reset-offset {
+  margin-left: auto;
+  left: auto;
+  right: auto;
+}
+@mixin grid-classes($size, $i, $perc) {
+  &.offset-#{$size}#{$i} {
+    margin-left: $perc;
+  }
+  &.pull-#{$size}#{$i} {
+    right: $perc;
+  }
+  &.push-#{$size}#{$i} {
+    left: $perc;
+  }
+}
+
+@keyframes placeholder {
+    from { top:-8px; left:-8px; }
+    50% { top:-10px; left:-10px; }
+    to { top:-8px; left:-8px; }
+}
+
+/***** LOADINGS *****/
+@keyframes spin {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.hidden { display: none !important; }
+.left { float: left !important; }
+.right { float: right !important; }
+
+// .dn {
+//   display: none !important;
+// }
+// .bs0 {
+//   box-shadow: none !important;
+// }
+// .bs1 {
+//   
+// }
+// .bs1-half {
+//   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+// }
+// .bs2 {
+//   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+// }
+// .bs3 {
+//   @include bs(0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3));
+// }
+// .bs4 {
+//   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+// }
+// .bs5 {
+//   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+// }
+// .w100 { width: 100%; }
+// .h100 { height:100%; }
+// .trunc {
+//     display: block;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+// }
+// .elli {
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+//     overflow: hidden;
+// }
+// .ovr {
+//     position: fixed;
+//     top: 0px;
+//     right: 0px;
+//     left: 0px;
+//     bottom: 0px;
+// }
+// .fix {
+//     position: fixed;
+//     &.top { top: 15px; }
+//     &.right { right: 15px; }
+//     &.left { left: 15px; }
+//     &.bottom { bottom: 15px; }
+// }
+// .fl { float: left !important; }
+// .fr { float: right !important; }
+// .tac { text-align: center; }
+// .tal { text-align: left; }
+// .tar { text-align: right; }
+// .vam { vertical-align: middle  !important; }
+// .vat { vertical-align: top  !important; }
+// .vab { vertical-align: bottom !important; }
+// .cen {
+//     position: absolute;
+//     top: 50%; left: 50%;
+//     @include tf(translateY(-50%) translateX(-50%));
+// }
+// .cir, .rnd {
+//     border-radius: 50%;
+// }
+// .fac {
+//     display: flex;
+//     align-items: center;
+// }
+// .nop { padding: 0 !important; }
+// .r90 { @include tf(rotate(90deg)); }
+// .t50 { @include tr(all 0.05s ease-out); }
+// .t100 { @include tr(all 0.10s ease-out); }
+// .t150 { @include tr(all 0.15s ease-out); }
+// .t200 { @include tr(all 0.20s ease-out); }
+// .t250 { @include tr(all 0.25s ease-out); }
+// .t300 { @include tr(all 0.30s ease-out); }
+// .t500 { @include tr(all 0.50s ease-out); }
+// .cl { @include cl(); }
+// .clb { clear: both; }
+
+// .hov {
+//   @include tr(box-shadow .25s);
+//   @include bs(0);
+//   &:hover {
+//     @include bs(0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
+//   }
+// }

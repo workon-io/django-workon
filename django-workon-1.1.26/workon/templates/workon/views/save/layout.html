@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load workon  %}
+
+{% block layout %}
+    <div id="layout" class="main-layout {% block layout-class %}{% endblock %} ">
+        {% block header %}
+        {% endblock %}
+
+        {% block pre-layout %}{% endblock %}
+        <main>
+            {% block pre-main %}{% endblock %}
+            {% block main %}{% endblock %}
+            {% block post-main %}{% endblock %}
+        </main>
+        {% block post-layout %}{% endblock %}
+        
+        {% block footer %}
+            {% include "_footer.html" %}
+        {% endblock footer %}
+    </div>
+    {% include 'manager/_sidenav.html' %}
+{% endblock %}

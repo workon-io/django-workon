@@ -1,0 +1,66 @@
+.actions-box {
+    position: relative;
+    > .on-hover {
+        opacity: 0;
+        @include tr(all 0.25s ease-out);;
+        visibility: hidden;        
+    }
+    > .actions, .__field-action {
+        opacity: 0;
+        @include tr(all 0.25s ease-out);;
+        visibility: hidden;
+        display: inline-block;
+        &.show {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+    > .actions {
+
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        right: 15px;
+        display: block;
+        @include tf(translateY(-50%));
+        &.top { top: 15px; bottom:auto; @include tf(translateY(0%)); }
+        &.top0 { top: 0px; bottom:auto; @include tf(translateY(0%)); }
+        &.right { right: 15px; left:auto; @include tf(translateY(0%)); }
+        &.right0 { right: 0px; left:auto; @include tf(translateY(0%)); }
+        &.left { left: 15px; right:auto; @include tf(translateY(0%)); }
+        &.bottom { top:auto; bottom: 15px; @include tf(translateY(0%)); }
+        &.bottom0 { top:auto; bottom: 0px; @include tf(translateY(0%)); }
+        &.center {
+            top: 50%;
+            right: 50%;
+            @include tf(transformX(-50%) transformY(-50%));
+        }
+    }
+    &:hover {
+        > .actions, .__field-action, 
+        > .on-hover {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.modal {
+    .fixed-actions-box {
+        position: absolute;
+    }
+}
+
+// Fixed Action Button
+.fixed-actions-box {
+
+    position: fixed;
+    right: 23px;
+    bottom: 23px;
+    padding-top: 15px;
+    margin-bottom: 0;
+    z-index: 998;
+    &.bottom0 { bottom: -1px;  }
+   
+}

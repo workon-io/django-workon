@@ -1,0 +1,66 @@
+.field-file {
+    position: relative;
+
+    .preview {
+        img {
+            width: 100%;
+        }
+    }
+
+    .button {
+        // height: $input-height;
+        // line-height: $input-height;
+        > div {
+            float: left;
+        }
+        a {
+            display: none;
+        }
+        label {
+            color: $text-color;
+            background: rgba(255,255,255,0.7);
+            padding: 5px 10px 5px 40px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            z-index: 1;
+            line-height: 1;
+            &:before, &:after {
+                left: 10px;
+                top: 2px;
+            }
+
+        }
+    }
+
+    // .file-path-wrapper {
+    //     overflow: hidden;
+    //     padding-left: 10px;
+    // }
+
+    // input.file-path { width: 100%; }
+
+
+    // .button-clear {
+
+    // }
+
+    span {
+        cursor: pointer;
+    }
+
+    input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}

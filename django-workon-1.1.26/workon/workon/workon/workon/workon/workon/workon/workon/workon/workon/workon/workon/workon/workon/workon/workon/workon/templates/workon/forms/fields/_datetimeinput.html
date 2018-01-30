@@ -1,0 +1,12 @@
+<div class="{{ field.classes }} {{ classes.label }}">
+    {% include "workon/forms/fields/__label.html" %}
+    <input type="text" id="{{ field.auto_id }}" name="{{ field.name }}" class="datepicker" value="{{ field.real_value|date:'d/m/Y H\:i' }}"
+        data-datetime-widget='{
+            "lang": "fr",
+            "timepicker": true,
+            "datepicker": true,
+            "mask": false,
+            "format": "d/m/Y H:i"
+        }'>
+    {% include "workon/forms/fields/__help_and_errors.html" %}
+</div>

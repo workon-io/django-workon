@@ -1,0 +1,253 @@
+// 3. Buttons
+// ==========================================================================
+
+// Shared styles
+@if variable-exists('button-border') { } @else { $button-border: none !default !global; }
+@if variable-exists('button-background-focus') { } @else { $button-background-focus: lighten($secondary-color, 4%) !default !global; }
+@if variable-exists('button-font-size') { } @else { $button-font-size: 1rem !default !global; }
+@if variable-exists('button-icon-font-size') { } @else { $button-icon-font-size: 1.3rem !default !global; }
+@if variable-exists('button-height') { } @else { $button-height: 36px !default !global; }
+@if variable-exists('button-padding') { } @else { $button-padding: 0 2rem !default !global; }
+@if variable-exists('button-radius') { } @else { $button-radius: 2px !default !global; }
+
+// Disabled styles
+@if variable-exists('button-disabled-background') { } @else { $button-disabled-background: #DFDFDF !default !global; }
+@if variable-exists('button-disabled-color') { } @else { $button-disabled-color: #9F9F9F !default !global; }
+
+// Raised buttons
+@if variable-exists('button-raised-background') { } @else { $button-raised-background: $secondary-color !default !global; }
+@if variable-exists('button-raised-background-hover') { } @else { $button-raised-background-hover: lighten($button-raised-background, 5%) !default !global; }
+@if variable-exists('button-raised-color') { } @else { $button-raised-color: #fff !default !global; }
+
+// Large buttons
+@if variable-exists('button-large-icon-font-size') { } @else { $button-large-icon-font-size: 1.6rem !default !global; }
+@if variable-exists('button-large-height') { } @else { $button-large-height: $button-height * 1.5 !default !global; }
+
+// Flat buttons
+@if variable-exists('button-flat-color') { } @else { $button-flat-color: #343434 !default !global; }
+@if variable-exists('button-flat-disabled-color') { } @else { $button-flat-disabled-color: lighten(#999, 10%) !default !global; }
+
+// Floating buttons
+@if variable-exists('button-floating-background') { } @else { $button-floating-background: $secondary-color !default !global; }
+@if variable-exists('button-floating-background-hover') { } @else { $button-floating-background-hover: $button-floating-background !default !global; }
+@if variable-exists('button-floating-color') { } @else { $button-floating-color: #fff !default !global; }
+@if variable-exists('button-floating-size') { } @else { $button-floating-size: 40px !default !global; }
+@if variable-exists('button-floating-large-size') { } @else { $button-floating-large-size: 56px !default !global; }
+@if variable-exists('button-floating-radius') { } @else { $button-floating-radius: 50% !default !global; }
+
+
+
+
+.button {
+    font-size: $button-font-size;
+    outline: 0;
+    text-decoration: none;
+    color: $button-raised-color;
+    background-color: $primary-color;
+    text-align: center;
+    @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));
+    @include tr(.2s ease-out);
+    cursor: pointer;
+    border: $button-border;
+    border-radius: $button-radius;
+    display: inline-block;
+    min-height: $button-height;
+    line-height: $button-height;
+    padding: $button-padding;
+    text-transform: uppercase;
+    vertical-align: middle;
+    // Gets rid of tap active state
+    -webkit-tap-highlight-color: transparent;
+
+    i {
+        font-size: $button-icon-font-size;
+        line-height: inherit;
+        float: left;
+        margin-right: 10px;
+    }
+
+    &:hover {
+        color: white;
+        background-color: $button-raised-background-hover;
+        @include bs(0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2));
+    }
+    &.off,
+    :disabled,
+    [disabled] {
+        pointer-events: none;
+        background-color: $button-disabled-background !important;
+        box-shadow: none;
+        color: $button-disabled-color !important;
+        cursor: default;
+
+        &:hover {
+            background-color: $button-disabled-background !important;
+            color: $button-disabled-color !important;
+        }
+    }
+
+    // Block button
+    &.block {
+        width: 100%;
+        display: block;
+    }
+    &.round {
+        display: inline-block;
+        color: $button-floating-color;
+        //position: relative;
+        overflow: hidden;
+        z-index: 1;
+        width: $button-floating-size;
+        height: $button-floating-size;
+        line-height: $button-floating-size;
+        padding: 0;
+        border-radius: $button-floating-radius;
+        transition: .3s;
+        cursor: pointer;
+        vertical-align: middle;
+
+        i {
+            width: inherit;
+            display: inline-block;
+            text-align: center;
+            color: $button-floating-color;
+            font-size: $button-large-icon-font-size;
+            line-height: $button-floating-size;
+        }
+        &:focus {
+            background-color: darken($button-raised-background, 10%);
+        }
+        &:hover {
+            background-color: $button-floating-background-hover;
+        }
+
+        &:before {
+            border-radius: 0;
+        }
+        &.small {
+            width: 34px;
+            padding: 0px;
+            i {
+                font-size: 25px;
+                line-height: 34px
+            }
+        }
+        &.xsmall {
+            width: 24px;
+            padding: 0px;
+            i {
+                font-size: 20px;
+                line-height: 24px
+            }
+        }
+        &.large {
+            &.halfway-fab {
+                bottom: -$button-floating-large-size / 2;
+            }
+
+            width: $button-floating-large-size;
+            height: $button-floating-large-size;
+            i {
+                line-height: $button-floating-large-size;
+            }
+        }
+    }
+
+    
+    &.green {
+        background-color: #4CAF50 !important;
+    }
+    &.black {
+        background-color: $black-color !important;
+    }
+    &.blue {
+        background-color: $blue-color !important;
+    }
+    &.red {
+        background-color: $red-color !important;
+        &:hover {
+            color: white;
+        }
+    }
+    &.orange {
+        background-color: orange !important;
+    }
+    &.white {
+        background-color: white !important;
+        color: initial;
+    }
+    &.tyellow {
+        color: $yellow-color !important;
+    }
+    &.iblack, &.ired, &.iblue, &.iyellow {
+        background-color: white;
+        border: 2px solid black;
+        //line-height: 36px;
+        &.active {
+            color: white !important;
+        }
+    }
+    &.iblack {
+        border: 2px solid $black-color;
+        color: $black-color;
+        &.active {
+            background: $black-color;
+        }
+    }
+    &.iblue {
+        border: 2px solid $blue-color;
+        color: $blue-color;
+        &.active {
+            background: $blue-color;
+        }
+    }
+    &.ired {
+        border: 2px solid $red-color;
+        color: $red-color;
+        &.active {
+            background: $red-color;
+        }
+    }
+    &.iyellow {
+        border: 2px solid #FFD151;
+        color: #FFD151;
+        &.active {
+            background: #FFD151;
+        }
+    }
+    
+    &.xsmall {
+        height: $button-large-height - 30;
+        line-height: $button-large-height - 30;
+        padding: 0 1rem;
+
+        i {
+            font-size: $button-large-icon-font-size - 30;
+        }
+    }
+    &.small {
+        height: $button-large-height - 20;
+        line-height: $button-large-height - 20;
+
+        i {
+            font-size: $button-large-icon-font-size - 20;
+        }
+    }
+    &.large {
+        height: $button-large-height;
+        line-height: $button-large-height;
+
+        i {
+            font-size: $button-large-icon-font-size;
+        }
+    }
+
+    &[disabled] {
+        pointer-events: none;
+        background-color: #DFDFDF !important;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: #9F9F9F !important;
+        cursor: default;
+    }
+}

@@ -1,0 +1,47 @@
+{% load app staticfiles %}
+<div dir="ltr" style=" padding:20px 10px;">
+    {% block brand %}
+        <div style="border-bottom: 10px solid #00355e;  padding:10px 15px;" >
+            <i>
+                <b>
+                    <font face="verdana, sans-serif" size="4">
+                        <img src="{% absolute_static 'img/logo.png' %}" style="margin-left:15px; height:120px; margin-bottom:-4px;"/>
+                        <br />
+                        <small style="color:#00355e;">Valdys Manager Backend.</small>
+                    </font>
+                </b>
+            </i>
+        </div>
+    {% endblock %}
+    {% block header %}
+        <div style="text-align:left; border-bottom: 4px solid #00355e;  padding:10px 15px;" >
+            <i>
+                <b>
+                    <font face="verdana, sans-serif" size="4">
+                        <p style="text-transform:uppercase;color:rgb(0, 0, 0);font-size:15px;line-height:14px;">
+                            {% block title %}{% endblock title %}
+                        </p>
+                    </font>
+                </b>
+            </i>
+        </div>
+    {% endblock %}
+    <div style="text-align:justify;padding:15px 0px;">
+        <font face="verdana, sans-serif" size="4">
+            <p style="color:rgb(104, 104, 104);font-size:13px;line-height:14px;text-align:left;">
+                {% block body %}{% endblock %}
+            </p>
+        </font>
+    </div>
+    <div style="text-align:left;">
+        <font face="verdana, sans-serif">
+            <p style="color: rgb(104, 104, 104);font-size: 14px;line-height:14px;text-align:left;">
+                {% block footer %}
+                    Groupe Valdys | {% now 'Y' %} | tous droits réservés.
+                {% endblock %}
+            </p>
+        </font>
+    </div>
+</div>
+<div dir="ltr" style=" padding:0px 0px;">
+</div>

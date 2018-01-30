@@ -1,0 +1,113 @@
+ul {
+    padding-left: 0;
+    list-style-type: none;
+    li {
+        list-style-type: none;
+    }
+}
+
+.list-form {
+    position: relative;
+
+    &.loading {
+        &:after {
+            top: 150px;
+        }
+    }
+}
+.list-table {
+    width: 100%;
+}
+.list-filters {
+    background: white;
+    z-index: 1;
+    label {
+        display: block;
+    }
+    td, th { 
+        padding: 0px 3px;
+    }
+}
+
+
+.list-head-cell, .list-cell {
+    padding: 3px;
+    &.list-head-cell {
+        text-align: left;
+    }
+    &.nowrap {
+        white-space: nowrap;
+    }
+
+    &.green {
+        color: $success-color;
+    }
+    &.red {
+        color: $error-color;
+    }
+    .icon {
+        vertical-align: sub;
+        font-size: inherit;
+    }
+}
+
+.list-head {
+    @extend .list-row;
+    // position: sticky !important;
+    // top: 64px;
+    background: white;
+    z-index: 1;
+   
+    .pagination {
+        margin:0px;
+        padding:5px 0px;
+    }
+    .field {
+        bottom: -4px;
+        top: auto;
+    }
+}
+
+.list-row {
+    border-bottom: 1px solid #e8e8e8;
+    background: white;
+    position: relative;
+    font-size: 13px;
+    cursor: pointer;
+    @include tr(box-shadow .25s);
+    @include bs(0);
+    &:hover {
+        @include bs(0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
+    }
+
+    > td.actions-box > .actions {
+        white-space: nowrap;
+    }
+    &:hover {
+        background: $highlight-color;
+        border-bottom-color: $highlight-color;
+        > td.actions-box > .actions {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    > .actions {
+        top: 16px;
+        top: 13px;
+    }
+}
+
+.list-results {
+    // min-height: 500px;
+    .pagination {
+        @include bs1();
+        position: fixed;
+        z-index: 10;
+        bottom: 0px;
+        right: 0px;
+        background: white;
+        margin: 0px;
+        padding: 5px;
+    }
+}

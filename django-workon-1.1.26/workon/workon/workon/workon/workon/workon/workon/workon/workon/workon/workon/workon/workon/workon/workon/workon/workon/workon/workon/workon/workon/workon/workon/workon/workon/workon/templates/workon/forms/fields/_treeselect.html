@@ -1,0 +1,7 @@
+<div class="{{ field.classes }} {{ classes.label }}">
+    {% if icon %}
+        <i class="icon prefix">{{ icon }}</i>
+    {% endif %}
+    {% include "workon/forms/fields/__label.html" %}
+    {{ field }}
+</div>

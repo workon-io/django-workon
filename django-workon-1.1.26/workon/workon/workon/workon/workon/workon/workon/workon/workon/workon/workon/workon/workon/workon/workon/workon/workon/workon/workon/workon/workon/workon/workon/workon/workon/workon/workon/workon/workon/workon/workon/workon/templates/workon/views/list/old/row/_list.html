@@ -1,0 +1,15 @@
+<div class="list-results {{ list_class }}" id="{{ list_id }}">
+	<div class="list-head">
+        <a class="row row0 row{{ row_nums }}">
+            {% for field in fields %}
+                {% if field.meta.label != False %}
+                <span class="col s12 {{ field.meta.class }}" {{ field.meta.attrs }}>{{ field.meta.label }}</span>
+                {% endif %}
+            {% endfor %}
+        </a> 
+    </div>
+    {% for row in rows %}
+        {% include list_row_template %}
+    {% endfor %}
+    {% include "workon/views/list/_pagination.html" with objects=queryset object_counter=True %}
+</div>

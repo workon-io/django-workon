@@ -1,0 +1,12 @@
+<form   class="modal {% block modal-classes %}{% endblock %}"
+        {% block modal-attrs %}{% endblock %}
+>
+{% block modal-content %}
+    {% block modal-pre %}{% endblock %}
+    {% block modal-closer %}<a class="modal-closer" data-modal-close><i class="icon">close</i></a>{% endblock %}
+    <div class="modal-head">{% block modal-head %}}{{ form.instance|safe }}{% endblock %}</div>
+    <div class="modal-body">{% block modal-body %}{% endblock %}</div>
+    <div class="modal-foot">{% block modal-foot %}{% endblock %}</div> 
+    {% block modal-post %}{% endblock %}
+{% endblock %}
+</form>

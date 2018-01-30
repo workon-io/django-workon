@@ -1,0 +1,12 @@
+<div class="{{ field.classes }} {{ classes.label }}" >
+    {% load workon %}
+    {% include "workon/forms/fields/__label.html" %}
+    {{ field }}
+    {% include "workon/forms/fields/__help_and_errors.html" %}
+    <script>
+        $('#{{ field.auto_id }}').daterangepicker({{ field.field.widget.options|jsonify|safe }});
+        $('#{{ field.auto_id }}').on('cancel.daterangepicker', function(ev, picker) {
+              $(this).val('').change();
+          });
+    </script>
+</div>

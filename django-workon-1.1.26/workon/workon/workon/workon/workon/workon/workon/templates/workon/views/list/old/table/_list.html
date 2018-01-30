@@ -1,0 +1,21 @@
+<table class="list-results {{ list_class }}" id="{{ list_id }}">
+	<thead class="list-head">
+        <tr class="">
+            {% for field in fields %}
+                <th class="{{ field.meta.class }}" {{ field.meta.attrs }}>
+                    {% if field.meta.label != False %}
+                        {{ field.meta.label }}
+                    {% endif %}
+                </th>
+            {% endfor %}
+        </tr> 
+    </thead>
+	<tbody class="list-body">
+	    {% for row in rows %}
+	        {% include list_row_template %}
+	    {% endfor %}
+	</tbody>
+    <tbody>
+        <tr><td>{% include "workon/views/list/_pagination.html" with objects=queryset object_counter=True %}</td></tr>
+    </tbody>
+</table>

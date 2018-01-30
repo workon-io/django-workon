@@ -1,0 +1,7 @@
+<!-- <input type="hidden" name="{{ widget.name }}" value=""/>
+ -->
+<ul class="tree" data-tree='{}'>
+    {% for item in tree %}
+        {% include "workon/forms/widgets/_treeselect_item.html" %}
+    {% endfor %}
+</ul>

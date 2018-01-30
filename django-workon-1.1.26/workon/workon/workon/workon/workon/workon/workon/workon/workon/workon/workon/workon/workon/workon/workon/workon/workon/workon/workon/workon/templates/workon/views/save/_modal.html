@@ -1,0 +1,31 @@
+{% extends 'workon/views/modal/_modal_form.html' %}
+
+{% load workon %}
+
+{% block modal-classes %}{{ modal_classes }}{% endblock %}
+{% block modal-attrs %}
+    action="{{ save_url }}"
+    method="POST"
+    enctype="multipart/form-data"
+    novalidate
+    data-form="modal"
+    id="{{ form_id }}"
+{% endblock %}
+
+{% block modal-pre %}
+    {% csrf_token %}
+{% endblock %}
+{% block modal-head %}{{ title|safe }}{% endblock %}
+{% block modal-body %}
+    <div class="row">
+        {% for field in form %}
+            <span class="{{ field.field.meta.class }}" {{ field.field.meta.attrs }}>{% field field %}</span>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block modal-foot %}
+        {% include 'workon/views/save/_modal_actions.html' %}
+{% endblock %}
+{% block modal-post %}
+    <script>{{ extra_script|safe }}</script>
+{% endblock %}

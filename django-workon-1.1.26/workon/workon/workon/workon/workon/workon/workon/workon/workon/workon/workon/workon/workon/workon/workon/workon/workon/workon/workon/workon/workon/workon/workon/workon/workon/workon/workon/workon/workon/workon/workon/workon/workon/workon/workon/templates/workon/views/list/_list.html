@@ -1,0 +1,20 @@
+<table class="list-table list-results {{ list_class }}" id="{{ list_id }}">
+	<thead class="list-head">
+        <tr class="list-head-row">
+            {% for column in columns %}
+                <th class="list-head-cell {{ column.classes }}" {{ column.attrs }}>
+                    {{ column|safe }}
+                </th>
+            {% endfor %}
+            <th style="width:0px;"></th>
+        </tr> 
+    </thead>
+	<tbody class="list-body">
+	    {% for row in rows %}
+	        {% include list_row_template %}
+	    {% endfor %}
+	</tbody>
+    <tfoot class="list-foot">
+        <tr><td>{% include "workon/views/list/_pagination.html" with objects=queryset object_counter=True %}</td></tr>
+    </tfoot>
+</table>

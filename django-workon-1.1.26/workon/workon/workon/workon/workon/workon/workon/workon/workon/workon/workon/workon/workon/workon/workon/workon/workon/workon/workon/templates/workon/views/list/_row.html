@@ -1,0 +1,8 @@
+<tr class="list-row {{ row.class }} actions-box" id="{{ row.id }}" style="{{ row.style }}" {{ row.attrs|safe }}>
+    {% for cell in row.cells %}
+        <td class="list-cell {{ cell.column.classes }} {{ cell.classes }}" {{ cell.column.attrs|safe }} {{ cell.attrs|safe }} >
+        	{{ cell.value|safe }}
+        </td>
+    {% endfor %}
+    {% include "workon/views/list/_floating_actions.html" with object=row.object update_method=row.update_method view_method=row.view_method  delete_method=row.delete_method extra_actions=row.extra_actions %}
+</tr>

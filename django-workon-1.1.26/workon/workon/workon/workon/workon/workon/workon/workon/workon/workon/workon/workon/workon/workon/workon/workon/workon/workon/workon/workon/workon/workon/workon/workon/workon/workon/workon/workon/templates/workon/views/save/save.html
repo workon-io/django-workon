@@ -1,0 +1,38 @@
+{% extends layout_template|default:"workon/save/layout.html" %}
+
+{% load workon %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% for label, url in breadcrumbs %}
+        <a href="{{ url }}">{{ label }}</a>
+    {% endfor %}
+    <a>Liste</a>
+{% endblock %}
+
+{% block main %}
+<form   class="{{ form_classes }}"
+        action="{{ save_url }}"
+        method="POST"
+        enctype="multipart/form-data"
+        novalidate
+        data-form=""
+        id="{{ form_id }}"
+>
+	<h1>{{ title|safe }}</h1>
+    {% csrf_token %}
+	<div class="row">
+	    {% for field in form %}
+	        <span class="{{ field.field.meta.class }}" {{ field.field.meta.attrs }}>{% field field %}</span>
+	    {% endfor %}
+	</div>
+	<div class="buttons-group clear">
+	    <div class="buttons fixed-buttons">
+	        <a data-modal-close class="button left">Annuler</a>
+	        <button data-tooltip="Enregistrer et quitter" type="submit" name="_save" value="1" class="button green right" style="margin-left:5px;"><i class="fa fa-save"></i> {{ save_label|default:"Enregistrer" }}</button>
+	        <button data-tooltip="Enregistrer et continuer les modification"  type="submit" name="_save_and_continue" value="1" class="button green right"><i class="fa fa-save"></i> {{ save_label|default:"Enregistrer et continuer" }}</button>
+	        
+	    </div>
+	</div>
+</form>
+{% endblock %}

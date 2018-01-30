@@ -1,0 +1,40 @@
+{% load workon %}
+{% if objects and objects.page_range|length > 1 or object_counter == True %}
+    <ul class="pagination">
+        {% if objects.page_range|length > 1 %}            
+            <li class="navigation previous {% if not objects.has_previous %}disabled{% endif %}">
+                <a {% if objects.has_previous %}
+                    data-page="{{ objects.previous_page_number }}"
+                    href="{% url_replace_param request.build_absolute_uri page_param|default:'page' objects.previous_page_number %}">
+                    {% endif %}
+                    <i class="icon">chevron_left</i>
+                </a>
+            </li>
+            {% for page in objects.page_range %}
+                {% if not page %} ...  {# literally output dots #}
+                {% else %}
+                <li class="{% if page == objects.number %}active{% else %}waves-effect{% endif %}">
+                    <a
+                        data-page="{{ page }}"
+                        href="{% url_replace_param request.build_absolute_uri page_param|default:'page' page %}">
+                        {{ page }}
+                    </a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            <li class="navigation next {% if not objects.has_next %}disabled{% endif %}">
+                <a {% if objects.has_next %}
+                    data-page="{{ objects.next_page_number }}"
+                    href="{% url_replace_param request.build_absolute_uri page_param|default:'page' objects.next_page_number %}">
+                    {% endif %}
+                    <i class="icon">chevron_right</i>
+                </a>
+            </li>
+        {% endif %}
+        {% if object_counter == True %}
+        <li class="pagination-total">
+            {{ objects|length }} / {{ objects.paginator.count }} {% if objects.paginator.count > 1 %}{{ name_plural }}{% else %}{{ name }}{% endif %}
+        </li>
+        {% endif %}
+    </ul>
+{% endif %}

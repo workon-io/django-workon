@@ -1,0 +1,18 @@
+<div id="page505">
+    <div class="row">
+        <div class="col m12">
+            <h1>Oups, une erreur serveur est survenue !</h1>
+            <hr>
+        </div>
+        <div class="col m12">
+            Nos équipes ont été alerté et sont sur le coup pour réparer ça au plus vite. <br>
+            Merci pour votre patience, vous pouvez retourner à la <a href="/" title="accueil">page d'accueil</a> en attendant !
+        </div>
+        {% if message and html %}
+        <div style="padding:25px;">
+            <pre>{{ message }}</pre>
+            {{ html|safe }}
+        </div>
+        {% endif %}
+    </div>
+</div>

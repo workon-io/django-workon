@@ -1,0 +1,62 @@
+{% extends layout_template|default:"workon/save/layout.html" %}
+
+{% load workon %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% for label, url in breadcrumbs %}
+        <a href="{{ url }}">{{ label }}</a>
+    {% endfor %}
+    <a>Liste</a>
+{% endblock %}
+
+{% block main %}
+    <form   class="form list-form" 
+            action="{{ request.path }}" method="POST"
+        data-form='{
+            "submitOnChanges": true,
+            "submitOnLoads": true,
+            "queryHistory": true
+        }'> 
+        {% block pre-form %}{% endblock %}
+        {% csrf_token %}
+        {% if form.fields|length %}
+        <div style="display:none">
+            {% for field in form %}{% if field.is_hidden %}
+                {% field field %}
+            {% endif %}{% endfor %}
+        </div>
+        <table id="list-filters" class="list-filters list-table">
+            <tr class="">
+                {% for field in form %}{% if not field.is_hidden %}
+                    <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>
+                {% endif %}{% endfor %}
+            </tr>
+        </table> 
+        <hr class="small" />
+        {% endif %}
+        {% if actions %}
+        <table id="list-actions" class="list-table">
+            <tr class="">
+                {% for action in actions %}
+                    <td class="{{ action.meta.class }} right" {{ field.field.meta.attrs }}>
+                        <button type="submit" data-unform name="_action" class="button" value="{{ action.name }}" data-tooltip="{{ action.meta.label }}" >{{ action.meta.label }}</button>
+                    </td>
+                {% endfor %}
+            </tr>
+        </table> 
+        <hr class="small" />
+        {% endif %}
+        {% include list_results_template %}
+         <div class="fixed-actions-box">
+            {% if create_url %}
+            <a class="button round large hoverable z-depth-2 right"
+                data-tooltip="Nouveau"
+                {{ create_method|default:'data-modal' }}="{{ create_url }}" >
+                <i class="icon">add</i>
+            </a>
+            {% endif %}
+        </div>
+        {% block post-form %}{% endblock %}
+    </form>
+{% endblock %}

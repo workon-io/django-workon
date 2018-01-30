@@ -1,0 +1,23 @@
+<td style="width:0px;" class=" actions-box ">
+    <div class="actions {{ classes }}">
+        {% if object.view_url and not view_method == False %}
+        <a {{ view_method|default:'data-modal' }}="{{ object.view_url }}" class="button {{ button_classes }} round waves-effect hoverable green"
+            data-tooltip="Voir">
+            <i class="icon">pageview</i>
+        </a>
+        {% endif %}
+        {% if object.update_url and not update_method == False  %}
+        <a {{ update_method|default:'data-modal' }}="{{ object.update_url }}" class="button {{ button_classes }} round waves-effect hoverable blue"
+            data-tooltip="Éditer">
+            <i class="icon">mode_edit</i>
+        </a>
+        {% endif %}
+        {% if object.delete_url and not delete_method == False  %}
+        <a {{ delete_method|default:'data-modal' }}="{{ object.delete_url }}" class="button {{ button_classes }} round waves-effect hoverable red"
+            data-tooltip="Supprimer">
+            <i class="icon">delete</i>
+        </a>
+        {% endif %}
+        {{ extra_actions|safe }}
+    </div>
+</td>

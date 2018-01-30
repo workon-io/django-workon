@@ -1,0 +1,13 @@
+<div class="{{ field.classes }} field-widget-checkbox">
+    <div class="{{ classes.single_value }}">
+        <div class="checkbox">          
+            {{ field }}
+            {% if field.auto_id %}
+                <label for="{{ field.id_for_label }}" {% if field.field.required and form.required_css_class %}class="{{ form.required_css_class }}"{% endif %}>
+                    <span>{{ field.label }}</span>
+                </label>
+            {% endif %}  
+            {% include "workon/forms/fields/__help_and_errors.html" %}
+        </div>
+    </div>
+</div>
