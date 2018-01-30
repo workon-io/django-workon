@@ -162,8 +162,11 @@ class Save(generic.UpdateView):
         return JsonResponse(self.get_valid_json(obj, **kwargs))
 
     def form_valid(self, *args, **kwargs):
-        obj = self.form.save()
+        self.save()
         return self.render_valid(obj)
+
+    def save(self, *args, **kwargs):
+        obj = self.form.save()
 
     def render_modal_title(self):
         return str(self.object)

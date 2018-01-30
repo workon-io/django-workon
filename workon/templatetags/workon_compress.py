@@ -12,6 +12,9 @@ def lazy_register(register):
 	        from compressor.templatetags.compress import compress
 	        return compress(parser, token)
 	else:
-	    @register.to_end_tag
-	    def compress(parsed, context, token):
-	        return parsed
+		try:
+		    @register.to_end_tag
+		    def compress(parsed, context, token):
+		        return parsed
+		except:
+			pass

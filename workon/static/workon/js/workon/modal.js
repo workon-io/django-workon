@@ -1,12 +1,27 @@
-(function($, modal, open, wrapper, closer, content, oldContainer, addClose, blocker, createModalWrapper)
+(function($, modal, dblclickTO, open, wrapper, closer, content, oldContainer, addClose, blocker, createModalWrapper)
 {
     blocker = false;
 
     $(document).ready(function() { createModalWrapper(); });
 
-    $(document).on('click', '[data-modal]', function(e) { $(this).modal('open'); });
-    $(document).on('click', '[data-modal-close]', function(e) { $(this).modal('close'); });
-    $(document).on('dblclick', '[data-dblclick-modal]', function(e) { $(this).modal('open'); });
+    $(document).on('click', '[data-modal]', function(e, self) { 
+        self = $(this);
+        // if(!self.data('dblclick-modal')) {
+        self.modal('open'); 
+        // }
+        // else {
+        //     dblclickTO = setTimeout(function() {
+        //         self.modal('open');
+        //     }, 300);
+        // }        
+    });
+    $(document).on('dblclick', '[data-dblclick-modal]', function(e) { 
+        clearTimeout(dblclickTO);
+        $(this).modal('open');
+    });
+    $(document).on('click', '[data-modal-close]', function(e) { 
+        $(this).modal('close'); 
+    });
 
     $.fn.modal = function(options, trigger, target, body)
     {

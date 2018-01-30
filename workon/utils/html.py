@@ -20,9 +20,15 @@ def sanitize(html):
         return bleach.clean(html)
 
 def html2text(html):
-    from bs4 import BeautifulSoup
-    soup = BeautifulSoup(html, "lxml")
-    return soup.get_text()
+    try:
+        from bs4 import BeautifulSoup
+    except:
+        raise ImportError('Beautiful Soup is missing to get html2text. Please pip install "beautifulsoup4>=4.6.0"')
+    if html:
+        soup = BeautifulSoup(html, "lxml")
+        return soup.get_text()
+    else:
+        return ''
 
 # def strip_tags(value):
 #     "Returns the given HTML with all tags stripped"
