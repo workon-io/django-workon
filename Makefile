@@ -21,4 +21,5 @@ push_tags:
 	git push --tags
 
 pypi:
-	python setup.py sdist upload -r pypi || echo 'Workon is up-to-date'
+	#python setup.py sdist upload -r pypi || echo 'Workon is up-to-date'
+	echo 'Ignoring'
