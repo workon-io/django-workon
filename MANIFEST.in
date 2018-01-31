@@ -1,6 +1,4 @@
-global-exclude *.py[cod] __pycache__ *.so
-global-exclude .project
-global-exclude .pydevproject
+global-exclude *.py[cod] __pycache__ *.so .project .pydevproject
 include README.rst
 include AUTHORS.txt
 include LICENSE.txt
