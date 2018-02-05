@@ -87,3 +87,6 @@ $(document).on('xhr.response', function(e) {
 $(document).on('modal.ready', function(e) {
     $('textarea').autoGrow();
 });
+$(document).on('tabs.changed', function(e) {
+    $('textarea').autoGrow();
+});

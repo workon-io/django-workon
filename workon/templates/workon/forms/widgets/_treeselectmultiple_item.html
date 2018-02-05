@@ -1,0 +1,11 @@
+<li  data-value="{{ item.value }}">
+    <input {% if item.is_selected %}checked="checked"{% endif %} type="checkbox" name="{{ name }}" value="{{ item.value }}" id="id_{{ name }}_tree_item_{{ item.value }}">
+    <label for="id_{{ name }}_tree_item_{{ item.value }}">{{ item.label }} </label>
+    {% if item.items %}
+    <ul>
+        {% for item in item.items %}
+            {% include "workon/forms/widgets/_treeselectmultiple_item.html" %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</li>

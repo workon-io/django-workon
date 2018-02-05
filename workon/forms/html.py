@@ -27,7 +27,7 @@ DEFAULT_CONFIG = {
     'plugins': [
         "advlist autolink lists link image charmap print preview anchor \
         searchreplace visualblocks code fullscreen textcolor \
-        insertdatetime media table  paste imagetools placeholder"
+        insertdatetime media table  paste imagetools "
     ],
     'force_br_newlines': False,
     'force_p_newlines': False,

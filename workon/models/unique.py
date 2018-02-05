@@ -25,4 +25,7 @@ class Unique(models.Model):
         super().save(*args, **kwargs)
         self._meta.model._cache = self
 
-class Singleton(Unique): pass
+class Singleton(Unique): 
+
+    class Meta:
+        abstract = True

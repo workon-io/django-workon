@@ -637,3 +637,13 @@ $.fn.highchart = function(data)
     this.workon_highchart = true;
     make_chart(this, data);
 }
+
+
+$(document).ready(function() 
+{
+    $('[data-chart]').each(function() 
+    {
+        make_chart(this, $(this).data('chart'));
+    });
+
+});

@@ -1,6 +1,7 @@
 from functools import partial
+from django.core.cache import cache
 
-__all__ = ["memoize"]
+__all__ = ["memoize", "cache_get_or_set"]
 
 class memoize(object):
     """Decorator that caches a function's return value each time it is called.
@@ -31,3 +32,7 @@ class memoize(object):
         return fn
     def _reset(self):
         self.cache = {}
+
+
+def cache_get_or_set(key, value, ttl):
+    return cache.get_or_set(key, value, ttl)

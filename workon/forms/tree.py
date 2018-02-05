@@ -48,9 +48,17 @@ class TreeSelect(forms.SelectMultiple):
             'attrs': self.build_attrs(self.attrs, attrs),
             'template_name': self.template_name,
         }
+        print(context['name'])
         return context
 
+class TreeSelectMultiple(TreeSelect, forms.SelectMultiple):
+
+    template_name = "workon/forms/widgets/_treeselectmultiple.html"
 
 class TreeModelChoiceField(forms.ModelMultipleChoiceField):
     widget = TreeSelect
+    iterator = TreeModelChoiceIterator
+
+class TreeModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    widget = TreeSelectMultiple
     iterator = TreeModelChoiceIterator

@@ -21,7 +21,7 @@ tinymce.PluginManager.add('placeholder', function(editor) {
                 var content = editor.getContent({ format : 'text' }).replace(/^\s+|\s+$/g, '');
                 if(content == '')
                 {
-                    editor.setContent(placeholder);
+                    if(placeholder) editor.setContent(placeholder);
                 }
             }
             //tinymce.DOM.bind(label.el, 'click', onFocus);

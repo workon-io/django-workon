@@ -11,6 +11,7 @@ from workon.utils.memoize import *
 from workon.utils.models import *
 from workon.utils.price import *
 from workon.utils.pagination import *
+from workon.utils.request import *
 from workon.utils.route import *
 from workon.utils.security import *
 from workon.utils.string import *
