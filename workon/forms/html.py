@@ -18,12 +18,12 @@ from django.templatetags.static import static
 
 
 
-
-DEFAULT_TINYMCE_URL = getattr(settings, 'TINYMCE_URL', "workon/js/tinymce/tinymce.min.js")
+TINYMCE_BASE_PATH = 'workon/js/vendors/tinymce/'
+DEFAULT_TINYMCE_URL = getattr(settings, 'TINYMCE_URL', f"{TINYMCE_BASE_PATH}tinymce.min.js")
 DEFAULT_CONFIG = {
 
-    'base': '/workon/js/tinymce/',
-    'document_base_url': '/workon/js/tinymce/',
+    'base': f'/{TINYMCE_BASE_PATH}',
+    'document_base_url': TINYMCE_BASE_PATH,
     'plugins': [
         "advlist autolink lists link image charmap print preview anchor \
         searchreplace visualblocks code fullscreen textcolor \
@@ -35,9 +35,9 @@ DEFAULT_CONFIG = {
     "fontsize_formats": "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
     "external_plugins": {
         #"nanospell": STATIC_URL + "js/tinymce/plugins/nanospell/plugins.js",
-        "comments": "workon/js/tinymce/contrib/plugins/comments/plugins.js",
-        "base64img": "workon/js/tinymce/contrib/plugins/base64img/plugins.js",
-        "placeholder": "workon/js/tinymce/contrib/plugins/placeholder/plugins.js",
+        "comments": f"{TINYMCE_BASE_PATH}contrib/plugins/comments/plugins.js",
+        "base64img": f"{TINYMCE_BASE_PATH}contrib/plugins/base64img/plugins.js",
+        "placeholder": f"{TINYMCE_BASE_PATH}contrib/plugins/placeholder/plugins.js",
     },
     'content_css' : ",".join([
         #"https://fonts.googleapis.com/css?family=Rubik:300,400",
@@ -170,7 +170,7 @@ class HtmlInput(forms.Textarea):
 
 
         config['language'] = None
-        config['language_url'] = settings.STATIC_URL + 'workon/js/tinymce/langs/fr_FR.js'
+        config['language_url'] = settings.STATIC_URL + f'{TINYMCE_BASE_PATH}/langs/fr_FR.js'
 
         if self.inline:
             config['inline'] = True
@@ -219,7 +219,7 @@ class HtmlInput(forms.Textarea):
             'name' : name,
             'settings' : self.get_tinymce_config(name, attrs)
         }
-        flatattrs['data-html_input'] = self.get_config_json(config)
+        flatattrs['data-form-widget-html'] = self.get_config_json(config)
 
 
         if self.inline:

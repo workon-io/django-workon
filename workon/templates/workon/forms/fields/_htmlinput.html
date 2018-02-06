@@ -7,7 +7,7 @@
         {
             var $input = $('#id_{{ field.name }}');
             $input[0].workon_load_html_input_loaded = true;
-            config = $input.data('html_input');
+            config = $input.data('form-widget-html');
             apply_tinymce = function(id)
             {
                 if(!config.apply_format)

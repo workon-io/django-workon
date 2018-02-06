@@ -168,6 +168,11 @@ class List(generic.FormView):
     form_class = None
     model = None
 
+    update_method = workon.conf.LIST_ROW_UPDATE_METHOD
+    view_method = workon.conf.LIST_ROW_VIEW_METHOD
+    delete_method = workon.conf.LIST_ROW_DELETE_METHOD
+    update_on_double_click_method = workon.conf.LIST_ROW_UPDATE_ON_DOUBLE_CLICK_METHOD
+
     def make_column_instance(self, col, **kwargs):
         if isinstance(col, ListCol):
             col = col
@@ -316,22 +321,22 @@ class List(generic.FormView):
         return None
 
     def get_row_view_method(self, obj):
-        return workon.conf.LIST_ROW_VIEW_METHOD
+        return self.view_method
 
     def get_row_view_url(self, obj):
         return getattr(obj, 'view_url', lambda: None)()
 
     def get_row_update_method(self, obj):
-        return workon.conf.LIST_ROW_UPDATE_METHOD
+        return self.update_method
 
     def get_row_update_url(self, obj):
         return getattr(obj, 'update_url', lambda: None)()
 
     def get_row_update_on_double_click_method(self, obj):
-        return workon.conf.LIST_ROW_UPDATE_ON_DOUBLE_CLICK_METHOD
+        return self.update_on_double_click_method
 
     def get_row_delete_method(self, obj):
-        return workon.conf.LIST_ROW_DELETE_METHOD
+        return self.delete_method
 
     def get_row_delete_url(self, obj):
         return getattr(obj, 'delete_url', lambda: None)()
@@ -349,11 +354,7 @@ class List(generic.FormView):
     def filter(self, qs, filters=None):
         if hasattr(self, 'model'):
             pass
-        return qs 
-
-    def get_row_update_method(self, obj):
-        return ""
-
+        return qs
 
     def get_rows(self):
         self.rows = []

@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.views import generic
 from django.forms import models as model_forms
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 import workon.utils
 
@@ -21,6 +21,29 @@ class SaveField():
         }
 
 
+def form_save_instance(self, commit=True, **kwargs):
+    """
+    Save this form's self.instance object if commit=True. Otherwise, add
+    a save_m2m() method to the form which can be called after the instance
+    is saved manually at a later time. Return the model instance.
+    """
+    if self.errors:
+        raise ValueError(
+            "The %s could not be %s because the data didn't validate." % (
+                self.instance._meta.object_name,
+                'created' if self.instance._state.adding else 'changed',
+            )
+        )
+    if commit:
+        # If committing, save the instance and the m2m data immediately.
+        self.instance.save( **kwargs)
+        self._save_m2m()
+    else:
+        # If not committing, add a method to the form to allow deferred
+        # saving of m2m data.
+        self.save_m2m = self._save_m2m
+    return self.instance
+
 class Save(generic.UpdateView):
 
     layout_template_name = "workon/save/layout.html"
@@ -29,6 +52,22 @@ class Save(generic.UpdateView):
     fields = None
     form_classes = ''
     modal_classes = ''
+
+    
+    def get_template_names(self):
+        if self.request.is_ajax():
+            return getattr(self, 'ajax_template_name', 
+                        getattr(self, 'template_name_ajax', 
+                            getattr(self, 'xhr_template_name', 
+                                getattr(self, 'template_name_xhr', 
+                                    getattr(self, 'template_name')
+                                )
+                            )
+
+                        )
+                    )
+        else:
+            return self.template_name
 
     def get_form_id(self):
         return uuid.uuid1()
@@ -67,7 +106,11 @@ class Save(generic.UpdateView):
                     fields.append(field.name)
                 else:
                     fields.append(field)
-            return model_forms.modelform_factory(model, fields=fields)
+            form = model_forms.modelform_factory(model, fields=fields)
+            form.save = form_save_instance
+
+            return form
+
 
 
     def form_initialize(self, form):
@@ -131,42 +174,14 @@ class Save(generic.UpdateView):
     def get_success_message(self, obj):
         return f'{obj} enregistré'
 
-    def get_valid_json(self, obj, **kwargs):
-        success_message = self.get_success_message(obj)
-        json = {
-            'notice': {
-                'content': success_message,
-                'classes': 'success'
-            }
-        }
-        if self.save_and_continue:
-            form = self.get_form()
-            form.instance = obj
-            json['replace'] = self.render_form(**kwargs)
-        else:
-            messages.success(self.request, success_message)
-            json['redirect'] = self.request.META['HTTP_REFERER']
-
-        json.update(kwargs)
-        return json
-        # [
-        #     workon.utils.render_content(self.request, self.result_template_name, {
-        #         'row': {
-        #             'object': obj,
-        #             'id': obj
-        #         }
-        #     }),
-        # ]
-
-    def render_valid(self, obj, **kwargs):
-        return JsonResponse(self.get_valid_json(obj, **kwargs))
-
     def form_valid(self, *args, **kwargs):
-        self.save()
-        return self.render_valid(obj)
+        obj = self.save()
+        success_message = self.get_success_message(obj)
+        messages.success(self.request, success_message)
+        return HttpResponseRedirect(self.get_success_url())
 
     def save(self, *args, **kwargs):
-        obj = self.form.save()
+        return self.form.save()
 
     def render_modal_title(self):
         return str(self.object)
@@ -188,6 +203,12 @@ class Save(generic.UpdateView):
 
 class JsonSave(Save):
 
+    def get_success_url(self):
+        return self.request.META['HTTP_REFERER']
+
+    def get_success_continue_url(self):
+        return None
+
     def get_valid_json(self, obj, **kwargs):
         success_message = self.get_success_message(obj)
         json = {
@@ -199,10 +220,15 @@ class JsonSave(Save):
         if self.save_and_continue:
             form = self.get_form()
             form.instance = obj
-            json['replace'] = self.render_form(**kwargs)
+            success_continue_url = self.get_success_continue_url()
+            if success_continue_url:
+                messages.success(self.request, success_message)
+                json['redirect'] = success_continue_url
+            else:
+                json['replace'] = self.render_form(**kwargs)
         else:
             messages.success(self.request, success_message)
-            json['redirect'] = self.request.META['HTTP_REFERER']
+            json['redirect'] = self.get_success_url()
 
         json.update(kwargs)
         return json
