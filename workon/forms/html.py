@@ -19,11 +19,11 @@ from django.templatetags.static import static
 
 
 TINYMCE_BASE_PATH = 'workon/js/vendors/tinymce/'
-DEFAULT_TINYMCE_URL = getattr(settings, 'TINYMCE_URL', f"{TINYMCE_BASE_PATH}tinymce.min.js")
+DEFAULT_TINYMCE_URL = getattr(settings, 'TINYMCE_URL', f"https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.6/tinymce.min.js")
 DEFAULT_CONFIG = {
 
-    'base': f'/{TINYMCE_BASE_PATH}',
-    'document_base_url': TINYMCE_BASE_PATH,
+    # 'base': f'/{TINYMCE_BASE_PATH}',
+    # 'document_base_url': TINYMCE_BASE_PATH,
     'plugins': [
         "advlist autolink lists link image charmap print preview anchor \
         searchreplace visualblocks code fullscreen textcolor \
@@ -160,7 +160,7 @@ class HtmlInput(forms.Textarea):
         config.update(self.tinymce)
         # if mce_config['mode'] == 'exact':
         #
-        config['tinymce_url'] = static(DEFAULT_TINYMCE_URL)
+        config['tinymce_url'] = static(DEFAULT_TINYMCE_URL) if not DEFAULT_TINYMCE_URL.startswith('http') else DEFAULT_TINYMCE_URL
         config['mode'] = 'exact'
         config['elements'] = attrs['id']
         if not config.get('placeholder_disabled') == True:
@@ -170,7 +170,7 @@ class HtmlInput(forms.Textarea):
 
 
         config['language'] = None
-        config['language_url'] = settings.STATIC_URL + f'{TINYMCE_BASE_PATH}/langs/fr_FR.js'
+        config['language_url'] = static(f'{TINYMCE_BASE_PATH}/langs/fr_FR.js')
 
         if self.inline:
             config['inline'] = True
