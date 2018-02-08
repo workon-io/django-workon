@@ -10,6 +10,25 @@ __all__ = (
     'QuerySetDiggPaginator',
 )
 
+class ExPage(Page):
+
+    def page_to_json(self):
+        return {
+            'paginator': {
+                'count': self.paginator.count,
+                'num_pages': self.paginator.num_pages,
+            },
+            'page_range': self.page_range,
+            'has_next': self.has_next(),
+            'has_previous': self.has_previous(),
+            'has_other_pages': self.has_other_pages(),
+            'next_page_number': self.next_page_number() if self.has_next() else None,
+            'previous_page_number': self.previous_page_number() if self.has_previous() else None,
+            'start_index': self.start_index(),
+            'end_index': self.end_index(),
+        }
+
+
 class ExPaginator(Paginator):
     """Adds a ``softlimit`` option to ``page()``. If True, querying a
     page number larger than max. will not fail, but instead return the
@@ -40,6 +59,10 @@ class ExPaginator(Paginator):
         except ValueError:
             raise e
 
+
+    def _get_page(self, *args, **kwargs):
+        return ExPage(*args, **kwargs)
+
     def page(self, number, softlimit=False):
         try:
             return super(ExPaginator, self).page(number)
@@ -49,6 +72,7 @@ class ExPaginator(Paginator):
                 return self.page(self.num_pages, softlimit=False)
             else:
                 raise e
+
 
 class DiggPaginator(ExPaginator):
     """
@@ -187,7 +211,7 @@ class DiggPaginator(ExPaginator):
         self.padding = kwargs.pop('padding', min(4, max_padding))
         if self.padding > max_padding:
             raise ValueError('padding too large for body (max %d)'%max_padding)
-        super(DiggPaginator, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_queryset_for_page(self, page=1):
         if page is None:
@@ -210,7 +234,7 @@ class DiggPaginator(ExPaginator):
         page ranges attached.
         """
 
-        page = super(DiggPaginator, self).page(number, *args, **kwargs)
+        page = super().page(number, *args, **kwargs)
         number = int(number) # we know this will work
 
         # easier access
@@ -281,7 +305,7 @@ class DiggPaginator(ExPaginator):
         page.__class__ = DiggPage
         return page
 
-class DiggPage(Page):
+class DiggPage(ExPage):
     def __str__(self):
         return " ... ".join(filter(None, [
                             " ".join(map(str, self.leading_range)),
