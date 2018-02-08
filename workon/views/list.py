@@ -168,6 +168,8 @@ class List(generic.FormView):
     form_class = None
     model = None
 
+    create_url = None
+    create_method = workon.conf.LIST_ROW_CREATE_METHOD
     update_method = workon.conf.LIST_ROW_UPDATE_METHOD
     view_method = workon.conf.LIST_ROW_VIEW_METHOD
     delete_method = workon.conf.LIST_ROW_DELETE_METHOD
@@ -317,8 +319,11 @@ class List(generic.FormView):
                             }}' '''
         return ''
 
-    def get_row_create_url(self, obj):
-        return None
+    def get_create_url(self):
+        return self.create_url
+
+    def get_create_method(self):
+        return self.create_method
 
     def get_row_view_method(self, obj):
         return self.view_method
@@ -409,10 +414,8 @@ class List(generic.FormView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        create_method = getattr(self, 'get_create_method', None)
-        ctx['create_method'] = create_method() if create_method else None
-        create_url = getattr(self, 'get_create_url', None)
-        ctx['create_url'] = create_url() if create_url else None 
+        ctx['create_method'] = self.get_create_method()
+        ctx['create_url'] = self.get_create_url()
 
         ctx['breadcrumbs'] = self.get_breadbrumbs()
         ctx['columns'] = self.columns_instances
