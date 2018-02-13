@@ -103,7 +103,7 @@
                              formSelector+' textarea', function(e, form)
     {
         if($(this.form).data('form')['submitOnChanges'] == true) { 
-            clearTimeout(form.submit_timeout);
+            clearTimeout(this.form.submit_timeout);
             $(this.form).submit(); 
         }
     });
