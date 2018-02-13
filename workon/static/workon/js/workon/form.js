@@ -103,18 +103,22 @@
                              formSelector+' textarea', function(e, form)
     {
         if($(this.form).data('form')['submitOnChanges'] == true) { 
+            clearTimeout(form.submit_timeout);
             $(this.form).submit(); 
         }
     });
-    $(document).on('keyup', '[data-form] input[type="text"]', function(form)
+    $(document).on('keyup', '[data-form] input[type="text"]', function(e, form)
     {
-        if($(this.form).data('form')['submitOnChanges'] == true) { 
-          
-            form = this.form
+        var soc = $(this.form).data('form')['submitOnChanges'];
+        if(soc) {   
+            form = this.form;
             clearTimeout(form.submit_timeout);
-            form.submit_timeout = setTimeout(function() { 
-                $(form).submit(); 
-            }, 1000);
+            var code = e.keyCode || e.which;  
+            if(code != 13) { //Enter keycode
+                form.submit_timeout = setTimeout(function() { 
+                    $(form).submit(); 
+                }, soc==true?1000:soc);
+            }     
         }
     });
     $(document).on('click', '[data-form] [type="submit"]', function(e, self)

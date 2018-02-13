@@ -26,6 +26,7 @@ class ExPage(Page):
             'previous_page_number': self.previous_page_number() if self.has_previous() else None,
             'start_index': self.start_index(),
             'end_index': self.end_index(),
+            'number': self.number,
         }
 
 
