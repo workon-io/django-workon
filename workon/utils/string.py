@@ -1,6 +1,6 @@
 import unicodedata, re, json
 from django.utils.encoding import force_str, force_text
-from django.utils.text import slugify as django_slugify
+from django.utils.text import slugify as django_slugify, mark_safe
 from django.utils.encoding import force_text
 from django.utils import six
 
