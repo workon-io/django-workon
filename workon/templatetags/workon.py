@@ -28,6 +28,13 @@ def divide_by(value, arg):
 def range_filter(x):
     return range(x)
     
+@register.filter(name='int')
+def intval(value):
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
 @register.filter
 def get(object, name, default=None):
     return object.get(name, default)
