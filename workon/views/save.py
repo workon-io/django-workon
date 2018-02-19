@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 import workon.utils
+import workon.conf
 
 
 __all__ = ['Save', 'ModalSave', 'JsonSave', 'SaveField']
@@ -49,6 +50,7 @@ class Save(generic.UpdateView):
     layout_template_name = "workon/save/layout.html"
     template_name = "workon/views/save/save.html"
     result_template_name = "workon/views/list/_row.html"
+    modal_actions_template_name = workon.conf.SAVE_MODAL_ACTIONS_TEMPLATE
     fields = None
     form_classes = ''
     modal_classes = ''
@@ -196,6 +198,7 @@ class Save(generic.UpdateView):
         ctx['modal_classes'] = self.modal_classes
         ctx['extra_script'] = self.render_script() 
         ctx['layout_template'] = self.layout_template_name
+        ctx['modal_actions_template_name'] = self.modal_actions_template_name
         ctx['form_id'] = self.form_id
         ctx['title'] = self.render_modal_title()
         return ctx
