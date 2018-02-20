@@ -157,6 +157,7 @@ class List(generic.FormView):
     results_template_name = workon.conf.LIST_RESULTS_TEMPLATE
     row_template_name = workon.conf.LIST_ROW_TEMPLATE
     layout_template_name = workon.conf.LIST_LAYOUT_TEMPLATE
+    floating_actions_template_name = workon.conf.LIST_FLOATING_ACTIONS_TEMPLATE
 
     list_id = 'filtered_list'
     list_class = ''
@@ -423,6 +424,7 @@ class List(generic.FormView):
         ctx['rows'] = self.get_rows()
         ctx['list_results_template'] = self.results_template_name
         ctx['list_row_template'] = self.row_template_name
+        ctx['floating_actions_template'] = self.floating_actions_template_name
         ctx['layout_template'] = self.layout_template_name
         ctx['list_id'] = self.list_id
         ctx['list_class'] = self.list_class

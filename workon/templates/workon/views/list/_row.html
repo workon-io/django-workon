@@ -4,5 +4,7 @@
         	{{ cell.value|safe }}
         </td>
     {% endfor %}
-    {% include "workon/views/list/_floating_actions.html" with object=row.object update_method=row.update_method view_method=row.view_method  delete_method=row.delete_method extra_actions=row.extra_actions %}
+    {% if floating_actions_template %}
+    {% include floating_actions_template with object=row.object update_method=row.update_method view_method=row.view_method  delete_method=row.delete_method extra_actions=row.extra_actions %}
+    {% endif %}
 </tr>
