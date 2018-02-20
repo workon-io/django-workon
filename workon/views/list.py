@@ -225,6 +225,14 @@ class List(generic.FormView):
             fi = ListFilter(name, **kwargs)
         return fi
 
+
+    def get_col_value(self, obj, name):
+        value_method = getattr(self, f'get_col_{name}_value', None)
+        if value_method:
+            return value_method(obj)
+        else:
+            return getattr(obj, name, None)
+
     def render_cell(self, column_instance, obj):
         data = dict(
             attrs='',
@@ -232,13 +240,9 @@ class List(generic.FormView):
             column=column_instance
         )
         name = column_instance.name 
-        value_method = getattr(self, f'get_col_{name}_value', None)
-        if value_method:
-            value = value_method(obj)
-        else:
-            value = getattr(obj, name, None)
-            if column_instance.ellipsis:
-                data['attrs'] += f'data-tooltip="{value}"'
+        value = self.get_col_value(obj, name)
+            # if column_instance.ellipsis:
+            #     data['attrs'] += f'data-tooltip="{value}"'
         if value is None or value is "":
             value = f'''<i class="icon disabled">block</i>'''
         elif isinstance(value, bool):
@@ -404,10 +408,13 @@ class List(generic.FormView):
 
     def render_valid(self, form):
         # try:
-        self.queryset = workon.utils.DiggPaginator(self.queryset, 50, body=6, padding=2).get_queryset_for_page(self.data.get('page'))
+        self.paginate()
         # except:
         #     self.queryset = qs
-        return render(self.request, self.get_template_names(), self.get_context_data())        
+        return render(self.request, self.get_template_names(), self.get_context_data())   
+
+    def paginate(self):
+        self.queryset = workon.utils.DiggPaginator(self.queryset, 50, body=6, padding=2).get_queryset_for_page(self.data.get('page'))     
 
     def form_invalid(self, form):
         return self.form_valid(form)
