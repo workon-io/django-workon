@@ -1,6 +1,8 @@
 from django.db import models
 
+
 __all__ = ['Unique', 'Singleton']
+
 
 class Unique(models.Model):
 
