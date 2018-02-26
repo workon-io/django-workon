@@ -1,4 +1,6 @@
 import datetime
+import workon.utils
+import workon.conf
 from django import forms
 from django.db import models
 from django.views import generic
@@ -8,8 +10,6 @@ from django.utils import six
 from django.utils.text import slugify
 from django.forms.fields import CallableChoiceIterator
 from django.core.exceptions import FieldDoesNotExist
-import workon.utils
-import workon.conf
 
 
 __all__ = ['ListColumn', 'ListCol', 'ListFilter', 'ListAction', 'List', 'TableList']
@@ -176,6 +176,52 @@ class List(generic.FormView):
     delete_method = workon.conf.LIST_ROW_DELETE_METHOD
     update_on_double_click_method = workon.conf.LIST_ROW_UPDATE_ON_DOUBLE_CLICK_METHOD
 
+    row_class = ''
+    row_style = ''
+    row_id = lambda self, obj: f'{obj}_{obj.pk}' if hasattr(obj, 'pk') else str(obj)
+
+    def __get_vomr(self, name):        
+        value = getattr(self, f'get_{name}', getattr(self, name, None))
+        if workon.utils.is_lambda(value):
+            return value()
+        elif workon.utils.is_method(value):
+            return value()
+        else:
+            return getattr(self, name, None)
+
+    def __get_vomr_obj(self, name, obj):        
+        value = getattr(self, f'get_{name}', getattr(self, name, None))
+
+        ## COMPAT
+        if value is None:
+            value = getattr(self, f'get_col_{name}', None)
+        ## END_COMPAT
+
+        if workon.utils.is_lambda(value):
+            return value(obj)
+        elif workon.utils.is_method(value):
+            return value(obj)
+        else:
+            return getattr(obj, name, None)
+
+    def __get_vomr_obj_value(self, name, obj):        
+        value = getattr(self, f'get_{name}_value', getattr(self, f'{name}_value', None))
+
+        ## COMPAT
+        if value is None:
+            value = getattr(self, f'get_col_{name}_value', None)
+        ## END_COMPAT
+
+        if value is None:
+            value = getattr(obj, name, None)
+
+        if workon.utils.is_lambda(value):
+            return value(obj)
+        elif workon.utils.is_method(value):
+            return value(obj)
+        else:
+            return getattr(obj, name, None)
+
     def make_column_instance(self, col, **kwargs):
         if isinstance(col, ListCol):
             col = col
@@ -226,43 +272,6 @@ class List(generic.FormView):
         return fi
 
 
-    def get_col_value(self, obj, name):
-        value_method = getattr(self, f'get_col_{name}_value', None)
-        if value_method:
-            return value_method(obj)
-        else:
-            return getattr(obj, name, None)
-
-    def render_cell(self, column_instance, obj):
-        data = dict(
-            attrs='',
-            classes='',
-            column=column_instance
-        )
-        name = column_instance.name 
-        value = self.get_col_value(obj, name)
-            # if column_instance.ellipsis:
-            #     data['attrs'] += f'data-tooltip="{value}"'
-        if value is None or value is "":
-            value = f'''<i class="icon disabled">block</i>'''
-        elif isinstance(value, bool):
-            value = f'''<i class="icon {'success' if value else 'error'}">{'check' if value else 'close'}</i>'''
-        elif isinstance(value, datetime.date):
-            value = value.strftime("%d %b <sup>%Y</sup> <sub>à %H:%M</sub>").replace('<sub>à 00:00</sub>', '')
-        elif isinstance(value, six.string_types):
-            value = value
-        data['value'] = value 
-
-        class_method = getattr(self, f'get_col_{name}_class', None)
-        if class_method:
-            data['classes'] += class_method(obj)
-
-        attrs_method = getattr(self, f'get_col_{name}_attrs', None)
-        if attrs_method:
-            data['attrs'] += attrs_method(obj)
-
-        # data['attrs'] = " ".join([f'{name}="{value}"' for name, value in data['attrs'].items()]) 
-        return data
 
 
     def get_form(self):
@@ -300,57 +309,24 @@ class List(generic.FormView):
     def get_extra_actions(self, obj):
         return ''
 
-    def get_row_id(self, obj):
-        if hasattr(obj, 'pk'):
-            return f'{obj}_{obj.pk}'
-        else:
-            return str(obj)
+    # def get_row_id(self, obj):
+    #     if hasattr(obj, 'pk'):
+    #         return f'{obj}_{obj.pk}'
+    #     else:
+    #         return str(obj)
 
-    def get_row_class(self, obj):
-        return ''
-        
-    def get_row_style(self, obj):
-        return ''
 
-    def get_row_attrs(self, obj):
-        if workon.conf.LIST_ROW_UPDATE_ON_DOUBLE_CLICK:
-            update_url = self.get_row_update_url(obj)
-            if update_url:
-                return f'''\
-                            {self.get_row_update_on_double_click_method(obj)}="{update_url}" \
-                            data-tooltip='{{ 
-                                "content": "Double-clic pour éditer" ,
-                                "position": "left" 
-                            }}' '''
-        return ''
-
-    def get_create_url(self):
-        return self.create_url
-
-    def get_create_method(self):
-        return self.create_method
-
-    def get_row_view_method(self, obj):
-        return self.view_method
-
-    def get_row_view_url(self, obj):
-        return getattr(obj, 'view_url', lambda: None)()
-
-    def get_row_update_method(self, obj):
-        return self.update_method
-
-    def get_row_update_url(self, obj):
-        return getattr(obj, 'update_url', lambda: None)()
-
-    def get_row_update_on_double_click_method(self, obj):
-        return self.update_on_double_click_method
-
-    def get_row_delete_method(self, obj):
-        return self.delete_method
-
-    def get_row_delete_url(self, obj):
-        return getattr(obj, 'delete_url', lambda: None)()
-
+    # def get_row_attrs(self, obj):
+    #     if workon.conf.LIST_ROW_UPDATE_ON_DOUBLE_CLICK:
+    #         update_url = self.get_row_update_url(obj)
+    #         if update_url:
+    #             return f'''\
+    #                         {self.get_row_update_on_double_click_method(obj)}="{update_url}" \
+    #                         data-tooltip='{{ 
+    #                             "content": "Double-clic pour éditer" ,
+    #                             "position": "left" 
+    #                         }}' '''
+    #     return ''
 
     def get_template_names(self):
         return self.results_template_name if self.request.is_ajax() else self.template_name
@@ -375,20 +351,51 @@ class List(generic.FormView):
             for column_instance in self.columns_instances:
                 cells.append(self.render_cell(column_instance, obj))
 
+
             row = {
                 'object': obj,
-                'id': self.get_row_id(obj),
-                'attrs': self.get_row_attrs(obj),
-                'class': self.get_row_class(obj),
-                'style': self.get_row_style(obj),
+                'id': self.__get_vomr_obj('row_id', obj),
+                'attrs': self.__get_vomr_obj('row_attrs', obj),
+                'class': self.__get_vomr_obj('row_class', obj),
+                'style': self.__get_vomr_obj('row_style', obj),
                 'cells': cells,
-                'update_method': self.get_row_update_method(obj),
-                'delete_method': self.get_row_delete_method(obj),
-                'view_method': self.get_row_view_method(obj),
+                'update_method': self.__get_vomr_obj('row_update_method', obj),
+                'delete_method': self.__get_vomr_obj('row_delete_method', obj),
+                'view_method': self.__get_vomr_obj('row_view_method', obj),
                 'extra_actions': self.get_extra_actions(obj),
             }
             self.rows.append(row)
         return self.rows
+
+    def render_cell(self, column_instance, obj):
+        data = dict(
+            attrs='',
+            classes='',
+            column=column_instance
+        )
+        name = column_instance.name 
+        value = self.__get_vomr_obj_value(name, obj)
+
+        if value is None or value is "":
+            value = f'''<i class="icon disabled">block</i>'''
+        elif isinstance(value, bool):
+            value = f'''<i class="icon {'success' if value else 'error'}">{'check' if value else 'close'}</i>'''
+        elif isinstance(value, datetime.date):
+            value = value.strftime("%d %b <sup>%Y</sup> <sub>à %H:%M</sub>").replace('<sub>à 00:00</sub>', '')
+        elif isinstance(value, six.string_types):
+            value = value
+        data['value'] = value 
+
+        classes = self.__get_vomr_obj(f'{name}_class', obj)#getattr(self, f'get_col_{name}_class', None)
+        if classes:
+            data['classes'] += classes
+
+        attrs = self.__get_vomr_obj(f'{name}_attrs', obj)
+        if attrs:
+            data['attrs'] += attrs
+
+        # data['attrs'] = " ".join([f'{name}="{value}"' for name, value in data['attrs'].items()]) 
+        return data
 
     def get_breadbrumbs(self):
         return []
@@ -422,19 +429,19 @@ class List(generic.FormView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        ctx['create_method'] = self.get_create_method()
-        ctx['create_url'] = self.get_create_url()
 
         ctx['breadcrumbs'] = self.get_breadbrumbs()
         ctx['columns'] = self.columns_instances
         ctx['actions'] = self.actions
         ctx['rows'] = self.get_rows()
-        ctx['list_results_template'] = self.results_template_name
-        ctx['list_row_template'] = self.row_template_name
-        ctx['floating_actions_template'] = self.floating_actions_template_name
-        ctx['layout_template'] = self.layout_template_name
-        ctx['list_id'] = self.list_id
-        ctx['list_class'] = self.list_class
+        ctx['create_method'] = self.__get_vomr('create_method')
+        ctx['create_url'] = self.__get_vomr('create_url')
+        ctx['list_results_template'] = self.__get_vomr('results_template_name')
+        ctx['list_row_template'] = self.__get_vomr('row_template_name')
+        ctx['floating_actions_template'] = self.__get_vomr('floating_actions_template_name')
+        ctx['layout_template'] = self.__get_vomr('layout_template_name')
+        ctx['list_id'] = self.__get_vomr('list_id')
+        ctx['list_class'] = self.__get_vomr('list_class')
         ctx['queryset'] = getattr(self, 'queryset', [])
 
         return ctx

@@ -18,3 +18,4 @@ from workon.utils.security import *
 from workon.utils.string import *
 from workon.utils.url import *
 from workon.utils.user import *
+from workon.utils.types import *
