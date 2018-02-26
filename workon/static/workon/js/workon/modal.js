@@ -13,7 +13,8 @@
         //     dblclickTO = setTimeout(function() {
         //         self.modal('open');
         //     }, 300);
-        // }        
+        // }    
+        e.stopPropagation();    
     });
     $(document).on('dblclick', '[data-dblclick-modal]', function(e) { 
         clearTimeout(dblclickTO);
