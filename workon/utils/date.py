@@ -105,26 +105,79 @@ def next_month(date=None, index=1):
 
 class DateRange():
     def __init__(self, start, stop):
-        self.start = start
-        self.stop = stop
+
+        self.start = datetime.combine(start, datetime.min.time())
+        self.stop = datetime.combine(stop, datetime.max.time())
+        self.week_start = Week(start)
+        self.week_stop = Week(stop)
+
+    def __contains__(self, date):
+        return date >= self.start and date <= self.stop
+
+    def __lt__(self, date):
+        return date < self.start
+
+    def __gt__(self, date):
+        return date > self.stop
+
+    @property
+    def is_past():
+        return datetime.now() > self
+
+    @property
+    def is_future():
+        return datetime.now() < self
+
+    @property
+    def is_now():
+        return datetime.now() in self
+
+    def move_year(self, index):
+        return self.__class__(
+            self.start.replace(year=self.start.year+index), 
+            self.stop.replace(year=self.stop.year+index)
+        )
+
+    @property
+    def next_year(self):
+        return self.move_year(+1)
+
+    @property
+    def prev_year(self):
+        return self.move_year(-1)
 
 
+    @property
+    def weeks(self):
+        if self.week_start != self.week_stop:
+            return [self.week_start, self.week_stop]
+        else:
+            return [self.week_start]
     
+    def weeks_range_repr(self, prefix="S"):
+        return ' - '.join([ f'{prefix}{w}' for w in self.weeks])
+
+
 
 class Week(DateRange):
     def __init__(self, current=None):
+
         if not current:
             current = datetime.now().date()
         self.current = current        
-        self.start = self.current - timedelta(days = self.current.weekday())
-        self.stop = self.start + timedelta(days = 6)
+        self.start = datetime.combine(self.current - timedelta(days = self.current.weekday()), datetime.min.time())
+        self.stop = datetime.combine(self.start + timedelta(days = 6), datetime.max.time())
         self.year = self.stop.year if self.number == 1 else self.start.year
 
     def __str__(self):
-        return f'W{self.number_zero_filled} ({self.year})'
+        return f'{self.number_zero_filled} ({self.year})'
 
     def __repr__(self):
-        return f'W{self.number_zero_filled} ({self.year})'
+        return f'{self.number_zero_filled} ({self.year})'
+
+    def __eq__(self, other):
+        print(self.start, other.start, self.stop, other.stop)
+        return self.start == other.start and self.stop == other.stop
 
     @property
     def next(self):
@@ -156,7 +209,16 @@ class Week(DateRange):
         while week.year == year:
             yield week
             week = week.next
-            
+
+
+
+
+
+
+
+
+
+
 
 def get_week_number(date=None, zfill=None, prefix=None):
     if not date:
