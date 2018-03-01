@@ -116,9 +116,9 @@ class Week(DateRange):
         if not current:
             current = datetime.now().date()
         self.current = current        
-        self.start = self.current + timedelta(days = 6 - self.current.weekday())
-        self.stop = self.start + timedelta(days = 7)
-        self.year = self.start.year
+        self.start = self.current - timedelta(days = self.current.weekday())
+        self.stop = self.start + timedelta(days = 6)
+        self.year = self.stop.year if self.number == 1 else self.start.year
 
     def __str__(self):
         return f'W{self.number_zero_filled} ({self.year})'
@@ -128,11 +128,11 @@ class Week(DateRange):
 
     @property
     def next(self):
-        return self.__class__(self.start + timedelta(days = 7))
+        return self.__class__(self.stop + timedelta(days = 1))
 
     @property
     def prev(self):
-        return self.__class__(self.start - timedelta(days = 7))
+        return self.__class__(self.start - timedelta(days = 1))
 
     @property
     def number(self):
@@ -146,14 +146,17 @@ class Week(DateRange):
     def all_of_year(cls, year=None):
         if not year:
             year = datetime.now().year
+        # print(year, f'{odate(year, 1, 1):%a %d %B %Y}')
         week = cls(odate(year, 1, 1))
+
+        # print(week, week.number, week.start.isocalendar(), f'{week.start:%a %d %B %Y}', f'{week.stop:%a %d %B %Y}')
         if week.number != 1:
             week = week.next
         
         while week.year == year:
             yield week
             week = week.next
-
+            
 
 def get_week_number(date=None, zfill=None, prefix=None):
     if not date:
@@ -167,7 +170,7 @@ def get_weeks_of_year(year=None):
     if not year:
         year = datetime.now().year
 
-    start = date(year, 1, 1)                    # January 1st
+    start = date(year, 1, 1)     # January 1st
     while start.year == year:
         stop += timedelta(days = 6 - start.weekday())  # First Sunday
         yield start, stop
