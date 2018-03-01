@@ -115,21 +115,21 @@ class DateRange():
         return date >= self.start and date <= self.stop
 
     def __lt__(self, date):
-        return date < self.start
+        return date > self.stop 
 
     def __gt__(self, date):
-        return date > self.stop
+        return date < self.start
 
     @property
-    def is_past():
+    def is_past(self):
         return datetime.now() > self
 
     @property
-    def is_future():
+    def is_future(self):
         return datetime.now() < self
 
     @property
-    def is_now():
+    def is_now(self):
         return datetime.now() in self
 
     def move_year(self, index):
