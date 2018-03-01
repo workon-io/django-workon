@@ -121,6 +121,10 @@ class DateRange():
         return date < self.start
 
     @property
+    def range(self):
+        return self.start, self.stop
+
+    @property
     def is_past(self):
         return datetime.now() > self
 
