@@ -6,6 +6,7 @@ from workon.utils.email import *
 from workon.utils.file import *
 from workon.utils.hashtag import *
 from workon.utils.html import *
+from workon.utils.ical import *
 from workon.utils.image import *
 from workon.utils.ip_address import *
 from workon.utils.memoize import *

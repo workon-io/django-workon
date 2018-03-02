@@ -52,7 +52,8 @@ def extract_urls(text):
         return []
 
 def urls_to_html(urls, reverse=True, target="_blank", hide_protocol=True, classname=None, divider="<br />"):
-
+    if not urls:
+        return urls
     urls = [
         u'<a %shref="%s" %s/>%s</a>' % (
             ('target="%s" ' % target) if target else "",
@@ -71,7 +72,8 @@ def extract_urls_to_html(text, **kwargs):
 
 
 def replace_urls_to_href(text, target="_blank", hide_protocol=True):
-
+    if not text:
+        return text
     text = _url_regex_multiline.sub(r'<a href="http://\1" %s rel="nofollow">\1</a>' % (
         ('target="%s" ' % target) if target else ""
     ), text)
