@@ -1,6 +1,7 @@
 import re
 from django import template
 from django.conf import settings
+import workon
 
 
 __all__ = ['lazy_register']
@@ -30,7 +31,7 @@ def lazy_register(register):
                         options.update(value)
                     else:
                         options[key] = value
-                thumbnail = workon.utils.thumbnail_static(file_, geometry, **options)
+                thumbnail = workon.thumbnail_static(file_, geometry, **options)
 
 
                 if not thumbnail or (isinstance(thumbnail, DummyImageFile) and self.nodelist_empty):
@@ -55,12 +56,13 @@ def lazy_register(register):
 
         @register.tag
         def thumbnail_static(parser, token):
+            print(parser)
             return StaticThumbnailNode(parser, token)
     else:
-        @register.to_end_tag
+        @register.tag
         def thumbnail(parser, token):
             return parsed
 
-        @register.to_end_tag
+        @register.tag
         def thumbnail_static(parsed, context, token):
             return parsed
