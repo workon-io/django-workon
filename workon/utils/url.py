@@ -15,6 +15,7 @@ _url_regex = re.compile(_url_composite)
 _url_regex_multiline = re.compile(_url_composite, re.MULTILINE|re.UNICODE)
 
 __all__ = [
+    'urlify',
     'append_protocol',
     'extract_urls',
     'urls_to_html',
@@ -33,6 +34,29 @@ __all__ = [
 ]
 
 
+_urlfinderregex = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+def urlify(text, reverse=True, target="_blank", hide_protocol=True, classname=None, divider="<br />"):
+    if not text:
+        return text
+
+    def replacewithlink(matchobj):
+        url = matchobj.group(0)
+        sin = matchobj.start()
+        bef2 = text[sin-2:sin]
+        if bef2 != '="' and bef2 != "='":
+            postfix = ''
+            url_postfix = url.split('&nbsp;')
+            if len(url_postfix) > 1:
+                url = url_postfix[0]
+                postfix = f'&nbsp;{url_postfix[-1]}'
+            return f'<a href="{url.strip()}" target="_blank" rel="nofollow">{url}</a>{postfix}'
+        else:
+            return url
+
+    if text != None and text != '':
+        return _urlfinderregex.sub(replacewithlink, text)
+    else:
+        return ''
 
 def append_protocol(url):
     if url:

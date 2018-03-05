@@ -56,7 +56,6 @@ def lazy_register(register):
 
         @register.tag
         def thumbnail_static(parser, token):
-            print(parser)
             return StaticThumbnailNode(parser, token)
     else:
         @register.tag
