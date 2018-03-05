@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-_urlfinderregex = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+# _urlfinderregex = re.compile(r'''http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+^"']|[!*\(\),^"']|(?:%[0-9a-fA-F][0-9a-fA-F]))+''', re.MULTILINE|re.UNICODE)
 def urlify(text, reverse=True, target="_blank", hide_protocol=True, classname=None, divider="<br />"):
     if not text:
         return text
@@ -45,16 +45,16 @@ def urlify(text, reverse=True, target="_blank", hide_protocol=True, classname=No
         bef2 = text[sin-2:sin]
         if bef2 != '="' and bef2 != "='":
             postfix = ''
-            url_postfix = url.split('&nbsp;')
+            url_postfix = url.split('&nbsp')
             if len(url_postfix) > 1:
                 url = url_postfix[0]
-                postfix = f'&nbsp;{url_postfix[-1]}'
+                postfix = f'&nbsp{url_postfix[-1]}'
             return f'<a href="{url.strip()}" target="_blank" rel="nofollow">{url}</a>{postfix}'
         else:
             return url
 
     if text != None and text != '':
-        return _urlfinderregex.sub(replacewithlink, text)
+        return _url_regex_multiline.sub(replacewithlink, text)
     else:
         return ''
 
