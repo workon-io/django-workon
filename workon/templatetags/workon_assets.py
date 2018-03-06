@@ -57,6 +57,9 @@ def lazy_register(register):
             elif name == 'code':               
                 paths.append(f'{STATIC_JS_NAME}/plugins/code.js')
 
+            elif name == 'isotope':               
+                paths.append(f'{STATIC_JS_NAME}/plugins/isotope.js')
+
             else:
                 paths.append(name)
 
