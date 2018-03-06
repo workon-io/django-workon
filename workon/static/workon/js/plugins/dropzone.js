@@ -2,31 +2,44 @@
 }else if(d===e)return!0;return!1},"undefined"!=typeof jQuery&&null!==jQuery&&(jQuery.fn.dropzone=function(b){return this.each(function(){return new a(this,b)})}),"undefined"!=typeof module&&null!==module?module.exports=a:window.Dropzone=a,a.ADDED="added",a.QUEUED="queued",a.ACCEPTED=a.QUEUED,a.UPLOADING="uploading",a.PROCESSING=a.UPLOADING,a.CANCELED="canceled",a.ERROR="error",a.SUCCESS="success",e=function(a){var b,c,d,e,f,g,h,i,j,k;for(h=a.naturalWidth,g=a.naturalHeight,c=document.createElement("canvas"),c.width=1,c.height=g,d=c.getContext("2d"),d.drawImage(a,0,0),e=d.getImageData(0,0,1,g).data,k=0,f=g,i=g;i>k;)b=e[4*(i-1)+3],0===b?f=i:k=i,i=f+k>>1;return j=i/g,0===j?1:j},f=function(a,b,c,d,f,g,h,i,j,k){var l;return l=e(b),a.drawImage(b,c,d,f,g,h,i,j,k/l)},d=function(a,b){var c,d,e,f,g,h,i,j,k;if(e=!1,k=!0,d=a.document,j=d.documentElement,c=d.addEventListener?"addEventListener":"attachEvent",i=d.addEventListener?"removeEventListener":"detachEvent",h=d.addEventListener?"":"on",f=function(c){return"readystatechange"!==c.type||"complete"===d.readyState?(("load"===c.type?a:d)[i](h+c.type,f,!1),!e&&(e=!0)?b.call(a,c.type||c):void 0):void 0},g=function(){var a;try{j.doScroll("left")}catch(b){return a=b,void setTimeout(g,50)}return f("poll")},"complete"!==d.readyState){if(d.createEventObject&&j.doScroll){try{k=!a.frameElement}catch(l){}k&&g()}return d[c](h+"DOMContentLoaded",f,!1),d[c](h+"readystatechange",f,!1),a[c](h+"load",f,!1)}},a._autoDiscoverFunction=function(){return a.autoDiscover?a.discover():void 0},d(window,a._autoDiscoverFunction)}).call(this);
 
 var dropzone_defaults = {
-    url: opt.url
+    url: '.'
     , clickable: true
     , uploadMultiple: false
     , sending: function(file, xhr, formData)
     {
-        notice = $.fn.notice(
+        this.notice = $.fn.notice(
         {
-            content: 'Envoi de votre image<br/>\
+            content: 'Envoi en cours<br/>\
                 <div class="progress" data-name="'+file.name+'">\
                     <div class="determinate" style="width: 0"></div>\
                 </div>',
             delay: null,
         });
-        formData.append("field", opt.field);
+        // formData.append("field", 'file');
     }
     , uploadprogress: function(file, progress)
     {
-        notice.find("div.determinate").width(progress + "%")//.attr("aria-valuenow", progress).find("span").html(progress + "%");
+        this.notice.find("div.determinate").width(progress + "%");
     }
     , success: function(file, data)
     {
-        notice.click();
-        upload_data(data, opt, loader);
+        this.notice.click();
+        $.fn.ajaxResponse(data);
     }
-}
+    , error: function(file, data)
+    {
+        this.notice.click();
+        this.notice = $.fn.notice(
+        {
+            content: 'Un problème est suvenu lorsde l\'envoi<br/>\
+                <div class="progress" data-name="'+file.name+'">\
+                    <div class="determinate" style="width: 0"></div>\
+                </div>',
+            delay: null,
+        });
+        $.fn.ajaxResponse(data);
+    }
+};
 
 (function ($) {
     apply = function(e, options, data)
@@ -34,17 +47,18 @@ var dropzone_defaults = {
         if(this.workon_dropzone === true) { return }
         this.workon_dropzone = true;
         data = $(this).data('dropzone');
+        options = $.extend(dropzone_defaults, {});
         if(typeof data == "object")
         {
-            options = $.extend(dropzone_defaults, data);
+            options = $.extend(options, data);
         }
         else if(typeof data == "string")
         {
-            options = $.extend(dropzone_defaults, {
+            options = $.extend(options, {
                 url: options
             });
         }
         $(this).dropzone(options);
     }
     $(document).on('mouseover', '[data-dropzone]', apply);
-}(jQuery));
+})(jQuery);

@@ -12,17 +12,25 @@ class File(models.Model):
     file = models.FileField("Fichier", upload_to=workon.unique_filename('file/file/%Y/%m/'))
     file_size = models.FloatField("Taille du fichier", null=True, blank=True)
     file_name = models.CharField("Nom original", max_length=254, null=True, blank=True)
+    file_field_name = models.CharField("Nom original champ", max_length=254, null=True, blank=True)
+    file_charset = models.CharField("Charset", max_length=254, null=True, blank=True)
     file_content_type = models.CharField("Content Type", max_length=254, null=True, blank=True)
+    file_content_type_extra = workon.JSONField("Content Type Extra", max_length=254, null=True, blank=True)
 
     class Meta:
         abstract = True
 
+    # {'file': <_io.BytesIO object at 0x7fc2febced00>, '_name': 'fitneo.png', '_size': 5122, 'content_type': 'image/png', 'charset': None, 'content_type_extra': {}, 'field_name': 'file'}
 
     def save(self, *args, **kwargs):
-        if isinstance(self.file, File):
-            self.file_size = self.file.size
-            self.file_name = self.file.name
-            self.file_content_type = self.file.content_type
+        _file = getattr(self.file, '_file', None)
+        if _file:            
+            self.file_size = getattr(_file, '_size', self.file_size)
+            self.file_name = getattr(_file, '_name', self.file_name)
+            self.file_charset = getattr(_file, 'charset', self.file_charset)
+            self.file_field_name = getattr(_file, 'field_name', self.file_field_name)
+            self.file_content_type = getattr(_file, 'content_type', self.file_content_type)
+            self.file_content_type_extra = getattr(_file, 'content_type_extra', self.file_content_type_extra)
         super().save(*args, **kwargs)
 
 

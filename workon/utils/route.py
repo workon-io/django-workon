@@ -3,6 +3,8 @@ from django.conf.urls import url, re_path
 from django.contrib.auth.decorators import login_required as login_required_statement, user_passes_test
 from django.http.request import HttpRequest
 from django.urls import reverse, exceptions
+from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.csrf import csrf_exempt
 
 staff_required_statement = user_passes_test(lambda u: u.is_staff)
 superuser_required_statement = user_passes_test(lambda u: u.is_superuser)
@@ -25,7 +27,8 @@ def route(
     login_required=False,
     staff_required=False,
     superuser_required=False,
-    custom_required=None
+    custom_required=None,
+    csrf_exempt=None,
 ):
     global _previous_route_url
 
@@ -102,6 +105,9 @@ def route(
                 view = user_passes_test(custom_required)(view)
 
             for module in modules:
+                # if csrf_exempt:
+                #     module.urlpatterns += [ re_path(pattern, csrf_exempt(view), name=url_name ) ]
+                # else:
                 module.urlpatterns += [ re_path(pattern, view, name=url_name ) ]
 
             # print('PATTERNS', module, module.__dict__.get('urlpatterns'))
