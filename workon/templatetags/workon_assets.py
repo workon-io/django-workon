@@ -51,6 +51,9 @@ def lazy_register(register):
             # elif name == 'tinymce':               
             #     paths.append(f'{STATIC_JS_NAME}/vendors/tinymce/tinymce.min.js')
 
+            elif name == 'dropzone':               
+                paths.append(f'{STATIC_JS_NAME}/plugins/dropzone.js')
+
             elif name == 'code':               
                 paths.append(f'{STATIC_JS_NAME}/plugins/code.js')
 

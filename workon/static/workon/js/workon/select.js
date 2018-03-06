@@ -78,4 +78,4 @@
     	$('select').djangoSelect2();
 	});
 
-}(this.jQuery));
+}(jQuery));
