@@ -47,8 +47,8 @@ def form_save_instance(self, commit=True, **kwargs):
 
 class Save(generic.UpdateView):
 
-    layout_template_name = "workon/save/layout.html"
-    template_name = "workon/views/save/save.html"
+    layout_template_name = workon.conf.SAVE_LAYOUT_TEMPLATE
+    template_name = workon.conf.SAVE_TEMPLATE
     result_template_name = "workon/views/list/_row.html"
     modal_actions_template_name = workon.conf.SAVE_MODAL_ACTIONS_TEMPLATE
     fields = None
