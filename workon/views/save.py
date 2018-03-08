@@ -240,7 +240,7 @@ class JsonSave(Save):
         return JsonResponse(self.get_valid_json(obj, **kwargs))
 
     def form_valid(self, *args, **kwargs):
-        obj = self.form.save()
+        obj = self.save()
         return self.render_valid(obj)
 
 class ModalSave(JsonSave):
