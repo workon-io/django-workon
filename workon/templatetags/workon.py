@@ -35,6 +35,10 @@ def intval(value):
     except ValueError:
         return None
 
+@register.filter(name='numbers')
+def numbers(value):
+    return re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', value)
+
 @register.filter
 def get(object, name, default=None):
     return object.get(name, default)
