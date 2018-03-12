@@ -39,6 +39,19 @@ def intval(value):
 def numbers(value):
     return re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', value)
 
+@register.filter(name='percent')
+def percent(value, decimal=2):
+    if value is not None:
+        value = round(float(value)*100, decimal)
+        if value > 0:
+            return f'+{value}'
+        elif value < 0:
+            return f'{value}'
+        else:
+            return f'~{value}'
+    else:
+        return 0
+
 @register.filter
 def get(object, name, default=None):
     return object.get(name, default)
