@@ -41,7 +41,7 @@ def numbers(value):
 
 @register.filter(name='percent')
 def percent(value, decimal=2):
-    if value is not None:
+    try:
         value = round(float(value)*100, decimal)
         if value > 0:
             return f'+{value}'
@@ -49,7 +49,7 @@ def percent(value, decimal=2):
             return f'{value}'
         else:
             return f'~{value}'
-    else:
+    except:
         return 0
 
 @register.filter
