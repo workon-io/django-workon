@@ -143,12 +143,31 @@ class DateRange():
         )
 
     @property
+    def days(self):
+        return (self.stop - self.start).days
+
+    @property
     def next_year(self):
         return self.move_year(+1)
 
     @property
     def prev_year(self):
         return self.move_year(-1)
+
+    @property
+    def next(self):
+        days_delta = abs(self.days)
+        start = datetime.combine(self.stop + timedelta(days = 1), datetime.min.time())
+        stop = datetime.combine(start + timedelta(days = days_delta), datetime.max.time())
+        return self.__class__(start, stop)
+
+    @property
+    def prev(self):
+        days_delta = abs(self.days)
+        stop = datetime.combine(self.start - timedelta(days = 1), datetime.max.time())
+        start = datetime.combine(stop - timedelta(days = days_delta), datetime.min.time())
+        return self.__class__(start, stop)
+
 
 
     @property
