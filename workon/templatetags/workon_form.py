@@ -60,7 +60,7 @@ def lazy_register(register):
 
         if placeholder and not label:
             field.field.widget.attrs['placeholder'] = placeholder
-            field.field.widget.attrs['data-tooltip'] = placeholder
+            # field.field.widget.attrs['data-tooltip'] = placeholder
 
         for name, value in kwargs.items():
             field.field.widget.attrs[name] = value
