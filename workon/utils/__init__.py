@@ -9,6 +9,7 @@ from workon.utils.html import *
 from workon.utils.ical import *
 from workon.utils.image import *
 from workon.utils.ip_address import *
+from workon.utils.number import *
 from workon.utils.memoize import *
 from workon.utils.models import *
 from workon.utils.price import *

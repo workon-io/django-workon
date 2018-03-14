@@ -37,20 +37,15 @@ def intval(value):
 
 @register.filter(name='numbers')
 def numbers(value):
-    return re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', value)
-
+    return workon.numbers(value)
+    
 @register.filter(name='percent')
 def percent(value, decimal=2):
-    try:
-        value = round(float(value)*100, decimal)
-        if value > 0:
-            return f'+{value}'
-        elif value < 0:
-            return f'{value}'
-        else:
-            return f'~{value}'
-    except:
-        return 0
+    return workon.percent(value, decimal=decimal)
+
+@register.simple_tag(name='delta_percent')
+def delta_percent(value, old_value, decimal=2):
+    return percent(((value - old_value)  /  old_value) if old_value else None, decimal)
 
 @register.filter
 def get(object, name, default=None):

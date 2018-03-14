@@ -2,5 +2,5 @@
 	{% if icon %}
         <i class="icon prefix">{{ icon }}</i>
     {% endif %}
-    <label class="{{ field.label_classes }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label }}</label>
+    <label class="{{ field.label_classes }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label|safe }}</label>
 {% endif %}
