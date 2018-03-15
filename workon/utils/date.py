@@ -108,8 +108,6 @@ class DateRange():
 
         self.start = datetime.combine(start, datetime.min.time())
         self.stop = datetime.combine(stop, datetime.max.time())
-        self.week_start = Week(start)
-        self.week_stop = Week(stop)
 
     def __contains__(self, date):
         return date >= self.start and date <= self.stop
@@ -136,23 +134,40 @@ class DateRange():
     def is_now(self):
         return datetime.now() in self
 
-    def move_year(self, index):
-        return self.__class__(
-            self.start.replace(year=self.start.year+index), 
-            self.stop.replace(year=self.stop.year+index)
-        )
 
     @property
     def days(self):
-        return (self.stop - self.start).days
+        return (self.stop - self.start).days + 1
 
     @property
     def next_year(self):
         return self.move_year(+1)
 
     @property
+    def is_week(self):
+        return self.start.weekday() == 0 and self.days == 7
+
+    @property
+    def week(self):
+        return self.week_start
+
+    @property
+    def week_start(self):
+        return Week(self.start)
+
+    @property
+    def week_stop(self):
+        return Week(self.stop)
+
+    @property
     def prev_year(self):
         return self.move_year(-1)
+
+    def move_year(self, index):
+        return self.__class__(
+            self.start.replace(year=self.start.year+index), 
+            self.stop.replace(year=self.stop.year+index)
+        )
 
     @property
     def next(self):
@@ -167,8 +182,6 @@ class DateRange():
         stop = datetime.combine(self.start - timedelta(days = 1), datetime.max.time())
         start = datetime.combine(stop - timedelta(days = days_delta), datetime.min.time())
         return self.__class__(start, stop)
-
-
 
     @property
     def weeks(self):
@@ -199,8 +212,27 @@ class Week(DateRange):
         return f'{self.number_zero_filled} ({self.year})'
 
     def __eq__(self, other):
-        print(self.start, other.start, self.stop, other.stop)
         return self.start == other.start and self.stop == other.stop
+
+    @property
+    def date_range(self):
+        return DateRange(self.start, self.stop)
+
+    @property
+    def next_year(self):
+        return self.move_year(+1)
+
+    @property
+    def prev_year(self):
+        return self.move_year(-1)
+
+    def move_year(self, index):
+        week = self.__class__(self.start.replace(year=self.year+index))
+        if week.number < self.number:
+            week = week.next
+        if week.number > self.number:
+            week = week.prev
+        return week
 
     @property
     def next(self):

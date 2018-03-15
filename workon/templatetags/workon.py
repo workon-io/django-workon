@@ -41,11 +41,12 @@ def numbers(value):
     
 @register.filter(name='percent')
 def percent(value, decimal=2):
+    print(value, workon.percent)
     return workon.percent(value, decimal=decimal)
 
-@register.simple_tag(name='delta_percent')
-def delta_percent(value, old_value, decimal=2):
-    return percent(((value - old_value)  /  old_value) if old_value else None, decimal)
+# @register.simple_tag(name='delta_percent')
+# def delta_percent(value, old_value, decimal=2):
+#     return percent(((value - old_value)  /  old_value) if old_value else None, decimal)
 
 @register.filter
 def get(object, name, default=None):

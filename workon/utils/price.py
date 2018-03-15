@@ -1,6 +1,8 @@
 import locale
 
+
 __all__ = ['currency']
+
 
 def currency(value, strip_zero=True):
     price = locale.currency(float(value), grouping=True)

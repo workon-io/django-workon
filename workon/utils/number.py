@@ -1,7 +1,7 @@
 import re
 
 
-__all__ = ["numbers", "percent", "to_int", "str_to_float", "is_float"]
+__all__ = ["numbers", "percent", "to_int", "to_float", "str_to_float", "is_float"]
 
 
 def numbers(value):
@@ -31,9 +31,9 @@ def to_int(value):
             number += c
     return int(number)
 
-def to_float(str, default=None):
+def to_float(value, default=None):
     try:
-        return float(str.replace(',', '.').replace(' ', '').strip())
+        return float(value.replace(',', '.').replace(' ', ''))
     except:
         return default
     
