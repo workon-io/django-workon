@@ -1,7 +1,7 @@
 import re
 
 
-__all__ = ["numbers", "percent", "to_int", "to_float", "str_to_float", "is_float"]
+__all__ = ["numbers", "rate_repr", "to_int", "to_float", "str_to_float", "is_float"]
 
 
 def numbers(value):
@@ -11,9 +11,9 @@ def numbers(value):
             value = re.sub(r"^(-?\d+)(\d{3})", r'\g<1> \g<2>', value)
     return value
 
-def percent(value, decimal=2):
+def rate_repr(value, decimal=2):
     try:
-        value = round(float(value)*100, decimal)
+        value = round(float(value), decimal)
         if value > 0:
             return f'+{value}'
         elif value < 0:
