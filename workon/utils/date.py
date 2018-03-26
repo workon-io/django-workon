@@ -108,6 +108,7 @@ class DateRange():
 
         self.start = datetime.combine(start, datetime.min.time())
         self.stop = datetime.combine(stop, datetime.max.time())
+        self.year = self.start.year
 
     def __contains__(self, date):
         return date >= self.start and date <= self.stop
