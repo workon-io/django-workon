@@ -61,8 +61,8 @@ def currency(value):
     return workon.currency(value if value else 0)
 
 @register.filter()
-def pluralize(value):
-    return "s" if value else ""
+def pluralize(value, suffix="s"):
+    return suffix if value else ""
 
 @register.filter()
 def typeof(obj):
