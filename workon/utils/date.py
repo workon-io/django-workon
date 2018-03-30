@@ -61,14 +61,14 @@ def month_range(date=None, index=0):
     if not date:
         date = datetime.now().date()
 
+    first_day = first_day_of_month(date)
     if index != 0:
-        delta = date.month+index
+        delta = first_day.month+index
         if delta < 1:
             delta = 12
         elif delta > 12:
             delta = 1
-        date = date.replace(month=delta)
-    first_day = first_day_of_month(date)
+        first_day = first_day.replace(month=delta)
     last_day = last_day_of_month(first_day)
     return first_day, last_day
 
