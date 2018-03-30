@@ -99,7 +99,7 @@ def lazy_register(register):
         html = ''
         for field in form:
             html += render_field(field)
-        return html
+        return mark_safe(html)
 
     def form_as_app(self):
         return render_form(self)
