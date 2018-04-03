@@ -55,3 +55,6 @@ class File(models.Model):
 
     def is_zip(self, **kwargs):
         return self.file_content_type in ['application/zip']
+
+    def is_video(self, **kwargs):
+        return self.file_content_type in ['video/webm']
