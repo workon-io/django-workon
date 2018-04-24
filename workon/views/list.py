@@ -349,25 +349,35 @@ class List(generic.FormView):
         self.queryset = getattr(self, 'queryset', [])
         # data = getattr(self.form, 'cleaned_data', { f.name: '' for f in self.filters_instances })
         for obj in self.queryset:
-            cells = []
-            for column_instance in self.columns_instances:
-                cells.append(self.render_cell(column_instance, obj))
-
-
-            row = {
-                'object': obj,
-                'id': self.__get_vomr_obj('row_id', obj),
-                'attrs': self.__get_vomr_obj('row_attrs', obj),
-                'class': self.__get_vomr_obj('row_class', obj),
-                'style': self.__get_vomr_obj('row_style', obj),
-                'cells': cells,
-                'update_method': self.__get_vomr_obj('row_update_method', obj),
-                'delete_method': self.__get_vomr_obj('row_delete_method', obj),
-                'view_method': self.__get_vomr_obj('row_view_method', obj),
-                'extra_actions': self.get_extra_actions(obj),
-            }
+            row = self.get_row(obj)
             self.rows.append(row)
         return self.rows
+
+    def get_row(self, obj):
+        cells = []
+        for column_instance in self.columns_instances:
+            cells.append(self.render_cell(column_instance, obj))
+        return {
+            'object': obj,
+            'id': self.__get_vomr_obj('row_id', obj),
+            'attrs': self.__get_vomr_obj('row_attrs', obj),
+            'class': self.__get_vomr_obj('row_class', obj),
+            'style': self.__get_vomr_obj('row_style', obj),
+            'cells': cells,
+            'update_method': self.__get_vomr_obj('row_update_method', obj),
+            'delete_method': self.__get_vomr_obj('row_delete_method', obj),
+            'view_method': self.__get_vomr_obj('row_view_method', obj),
+            'extra_actions': self.get_extra_actions(obj),
+        }
+
+    @classmethod
+    def render_row(cls, request, obj):
+        self = cls()
+        self.request = request
+        self.get_form()
+        return workon.render_content(request, self.__get_vomr('row_template_name'), {
+            'row': self.get_row(obj)
+        })
 
     def render_cell(self, column_instance, obj):
         data = dict(
