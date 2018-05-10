@@ -3,10 +3,9 @@ import re
 import os
 import workon
 from django.conf import settings
-from workon import template
 
 
-register = template.Library()
+register = workon.TemplateLibrary()
 
 
 @register.simple_tag

@@ -1,18 +1,10 @@
-import uuid
-from django.core.exceptions import ImproperlyConfigured
 from django.views import generic
-from django.forms import models as model_forms
-from django.contrib import messages
-from django.http import JsonResponse
-from django.shortcuts import redirect, render
-import workon.views
-import workon.utils
 
 
-__all__ = ['View', 'ModalView']
+__all__ = ['Template']
 
 
-class View(generic.DetailView):
+class Template(generic.TemplateView):
     
     def get_template_names(self):
         if self.request.is_ajax():
@@ -28,7 +20,3 @@ class View(generic.DetailView):
                     )
         else:
             return self.template_name
-
-
-class ModalView(View):
-    pass
