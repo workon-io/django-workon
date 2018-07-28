@@ -1,0 +1,65 @@
+html {
+ box-sizing: border-box;
+}
+*, *:before, *:after {
+ box-sizing: inherit;
+}
+
+body, html {
+    height: 100%;
+    font-family: Lato;
+    background: white;
+    color: $text-color;
+    background: #e6e6e6;
+
+    &.test-mode {
+        .navbar {
+            .breadcrumbs {
+                > a:first-child {
+
+                    &:before {
+                        background: $orange-color;
+                        content: 'TEST-MODE > ';
+                        font-weight: bold;
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+#layout {
+    @extend .tr-250;
+    max-width: 100%;
+    padding-bottom: 25px;
+    padding-top: 50px;
+    @include bs(none);
+
+    &.collapsed {
+        main {
+            padding: 0px;
+        }
+    }
+}
+main {
+    padding: 25px;
+    @extend .tr-250;
+    margin-left: 250px;
+    @include tablet-and-down {
+        
+        margin-left: 0px;
+        overflow: hidden;
+        padding: 10px;
+        >.row {
+            margin: 0px 0px 15px 0px;
+        }
+    }
+}
+h1 {
+    margin-top: 0px;
+}
+h1, h2 {
+    font-weight: normal;
+}
+// Fixed sideNav hide on smaller
+

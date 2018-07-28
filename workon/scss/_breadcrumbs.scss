@@ -1,0 +1,45 @@
+// Breadcrumbs
+.breadcrumbs {
+    position: absolute;
+    top: 0px;
+    left: 270px;
+    right: 0px;
+    display: block;
+    white-space: nowrap;
+    > a {
+        @extend .tr-250;
+        color: white;
+        display: inline-block;
+        position: relative;
+        font-size: 20px;
+        line-height: 50px;
+        &:after {
+            margin: 0 3px 0 3px;
+            font-size: 10px;
+            line-height: 30px;
+        }
+        &:after {
+            @extend .icon;
+            content: '\E5CC';
+            vertical-align: middle;
+        font-size: 20px;
+            line-height: 50px;
+            margin: 0 5px 0 3px;
+        }
+
+        &:last-child:after {
+            display: none;
+        }
+
+        &:last-child {
+            font-weight: bold;
+        }
+        &:hover {
+            color: $red-color;
+        }
+    }
+    .name {
+        display: block;
+        padding-top: 8px;
+    }
+}

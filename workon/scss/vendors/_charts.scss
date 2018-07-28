@@ -1,0 +1,5 @@
+.chart {
+    min-height: 100px !important;
+    @extend .panel;
+    @extend .panel-body;
+}

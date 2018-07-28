@@ -1,0 +1,8 @@
+iframe {
+    width: 100%;
+    border: 0px;
+
+    &.error500 {
+        min-height: 1000px;
+    }
+}

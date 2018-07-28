@@ -1,0 +1,13 @@
+hr {
+    margin: 55px auto;
+    border: 0px;
+    border-bottom: 1px solid #e8e8e8;
+    width: 85%;
+    display: block;
+    clear: both;
+    &.small {
+        margin: 0px auto 10px auto;
+        padding-top: 10px;
+        width: 100%;
+    }
+}

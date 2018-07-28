@@ -1,0 +1,39 @@
+ul.weeks {
+    li {
+        margin-bottom: 5px;
+        a {
+            overflow: visible;
+            position: relative;
+            &.current {
+                // background: $primary-color;
+                // color: white;
+                &:before {
+                    content: ' ';
+                    position: absolute;
+                    top: -1px;
+                    right: -1px;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 0 12px 12px 0;
+                    border-color: transparent $green-color transparent transparent;
+                }
+            }
+            &.past {
+                background: #d0d0d0;
+                color: white;
+            }
+            &.selected {
+                background: $primary-color; 
+                border-radius: 4px;
+                padding: 0px 10px;
+                &:after, &:before {
+                    content: '  ';
+                }
+                // color: $text-color;
+                color: white;
+                font-weight: bold;
+            }
+        }
+    }
+}

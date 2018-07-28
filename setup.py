@@ -49,7 +49,7 @@ setup(
     ],
     # test_suite='runtests.runtests',
     install_requires=[
-        'django>=2.0.0,<=2.0.1',
-        'premailer==3.1.1',
+        'django>=2.0.0,<3.0.0',
+        'premailer>=3.1.1,<4.0.0',
     ],
 )

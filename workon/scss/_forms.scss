@@ -1,0 +1,28 @@
+.form {
+    .form-title {
+        color: $primary-color;
+        margin-bottom: 0px;
+    }
+    .form-body {
+      padding: 15px;
+      @extend .clear;
+    }
+
+
+}
+
+main > form {
+
+    .field-label { 
+        
+        display: inline-block;
+        background: #e6e6e6;
+        border-radius: 5px 5px 10px 0px;
+        // padding: 3px 10px 3px 0px;
+        padding-right: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        white-space: nowrap;
+        color: #616161;
+    }
+}

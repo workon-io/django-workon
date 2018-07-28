@@ -1,0 +1,12 @@
+span {
+    
+  &.green {
+    color: $green-color;
+  }
+  &.red {
+    color: $red-color;
+  }
+  &.yellow {
+    color: $yellow-color;
+  }
+}

@@ -1,0 +1,351 @@
+
+$sidenav-font-size: 14px !default;
+$sidenav-font-color: rgba(0,0,0,.87) !default;
+$sidenav-bg-color: #fff !default;
+$sidenav-padding: 16px !default;
+$sidenav-item-height: 48px !default;
+$sidenav-line-height: $sidenav-item-height !default;
+
+.sidenav-back {
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+
+    height: 120vh;
+    background-color: rgba(0,0,0,.5);
+    z-index: 10001;
+    @include tr(all .3s);
+
+    will-change: opacity;
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+.sidenav {
+    @include bs1();
+    position: fixed;
+    width: 250px;
+    left: 0;
+    top: 50px;
+    padding-top: 38px;
+    margin: 0;
+    height: 100%;
+    height: calc(100% + 60px);
+    height: -moz-calc(100%); //Temporary Firefox Fix
+    padding-bottom: 130px;
+    background-color: #f5f5f5;
+    z-index: 10002;
+    overflow-y: auto;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateX(0%);
+    @include tr(all .3s);
+
+    &.active {
+        transform: translateX(0%);
+    }
+
+    li {
+        float: none;
+        line-height: 48px;
+        position: relative;
+
+        &.active { background-color: rgba(0,0,0,.05); }
+        &.forbidden, &.disabled { 
+            background: white;
+            a {
+                opacity: 0.5; 
+                -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                filter: grayscale(100%);
+                .icon.sub {
+                    display: none;
+                }
+
+            }
+        }
+        &.admin {
+            line-height: 30px;
+            > a {
+                background: #fdc28e;
+                line-height: 30px;
+                padding: 0 15px 0 15px;
+
+                & > i.icon {
+                    height: 30px;
+                    line-height: 30px;
+                }
+            }
+        }
+        &.hightlight {
+            &:after {
+                
+            }
+        }
+        &.foot {
+            // position: absolute;
+            // bottom: 100px;
+            z-index: 1;    
+            left: 0px;
+            right: 0px;
+            text-align: center;
+            display: block;
+
+        }
+        &.forbidden { 
+            &:before {
+                @extend .icon;
+                content: 'lock_outline';
+                color: $red-color;
+                position: absolute;
+                right: 15px;
+                top: 11px;
+                line-height: 22px;
+                font-size: 22px;
+                font-weight: bold;
+                z-index: 2;
+            }
+        }
+        > ul {
+            background: $primary-color;
+            padding-left: 15px;
+        }
+        > a {
+            color: $sidenav-font-color;
+            display: block;
+            font-size: $sidenav-font-size;
+            font-weight: 500;
+            // height: $sidenav-item-height;
+            line-height: 48px;
+            padding: 0 15px 0 15px;
+            background-color: #f5f5f5;
+
+            > small {
+                display: block;
+                line-height: 1;
+                font-size: 10px;
+                position: relative;
+                top: -15px;
+            }
+
+            &:hover { background-color: $grey-color; }
+            &.active {
+                background-color: $grey-color;
+                color: $primary-color;
+                font-weight: bold;
+                & > i.icon {
+                    color:  $primary-color;
+                    &.sub {
+                        @include tf(rotate(90deg));
+                    }
+                }
+                // @extend .pulse1;
+            }
+
+            svg, img {
+                height: 20px;
+                width: 20px;
+                vertical-align: middle;
+                margin-right: 5px;
+                color: $primary-color;
+                path {
+                    fill: $primary-color;
+
+                }
+            }
+
+            & > i.icon {
+                float: left;
+                height: 48px;
+                line-height: 48px;
+                margin: 0 5px 0 0;
+                width: $sidenav-item-height / 2;
+                color: rgba(0,0,0,.54);
+                @extend .tr-250;
+                &.sub {
+                    float: right;
+                }
+            }
+
+            .counter {
+                position: absolute;
+                top: 9px;
+                right: 15px;
+                z-index: 1;
+                text-align: center;
+                display: block;
+                padding: 3px;
+                border-radius: 7px;
+
+                border-radius: 3px;
+                display: block;
+                min-width: 30px; 
+                height: 30px;
+                text-align: center;
+                line-height: 22px;
+                font-size: 15px;
+                font-weight: bold;
+                color: white !important;
+                background: $primary-color;
+                .icon { vertical-align: bottom; }
+                &.danger {
+                    background: $red-color;
+                }
+                &.quiet {
+                    color: $primary-color !important;
+                    background: $teal-color;
+                }
+                &.yellow {
+                    background: $yellow-color;//#fdeb79;
+                }
+                &.small {    
+                    top: 14px;
+                    font-size: 12px;
+                    line-height: 16px;
+                    min-width: 20px; 
+                    height: 20px;
+                }
+                &.xsmall {
+                    top: 14px;
+                    font-size: 9px;
+                    line-height: 13px;
+                    min-width: 17px; 
+                    height: 17px;
+                }
+            }
+             i.icon.sub ~.counter {
+                right: 50px;
+            }
+
+            &:not(.active) + ul {
+                height: 0px;
+                overflow: hidden;
+            }
+        }
+    }
+
+
+    .divider {
+        margin: 8px 0 8px 0;
+    }
+
+    .subheader {
+        border-bottom: 1px solid grey;
+        &:hover {
+            background-color: transparent;
+        }
+
+    }
+    .subheader, .subheader > a {
+        text-align: left;
+        cursor: initial;
+        pointer-events: none;
+        color: $primary-color;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 25px;
+        padding-left: 20px;
+
+    }
+
+    .brand {
+        position: relative;
+        height: 100px;
+        margin-bottom: $sidenav-padding / 2;
+        background: $teal-color url("/static/img/valdys.png") center center no-repeat;
+        background-size: contain;
+        // img {
+        //     @extend .circle;
+        //     @include bs1();
+        //     margin-left: 32px;
+        //     height: 64px;
+        //     width: 64px;
+        //     display: block;
+        // }
+    }
+    .name {
+        display: block;
+        padding: 16px;
+        background: rgba(255,255,255,0.5);
+        font-size: 13px;
+        line-height: 16px;
+        text-overflow: ellipsis;
+    }
+    @include tablet-and-down{
+        top: 0px;
+        transform: translateX(-105%);
+        a {
+            padding: 0 $sidenav-padding;
+        }
+
+        .userView {
+            padding: $sidenav-padding $sidenav-padding 0;
+        }
+    }
+}
+body.has-sidenav {
+    #layout {
+        @include blur();
+    }
+}
+// body.body-thalasso .sidenav .brand { background-image: url("/static/img/thalasso.png"); }
+// body.body-spa .sidenav .brand { background-image: url("/static/img/spa.png"); }
+// body.body-hotellerie .sidenav .brand { background-image: url("/static/img/hotellerie.png"); }
+// body.body-fitneo .sidenav .brand { background-image: url("/static/img/fitneo.png"); }
+// body.body-shop .sidenav .brand { background-image: url("/static/img/boutique.png"); }
+// body.body-dataraxys .sidenav .brand { background-image: url("/static/img/dataraxys.png"); }
+
+
+// Fixed sideNav hide on smaller
+
+
+
+
+// $n:6;
+// $w:20px;//dot size
+// $e:4;//dot margin factor
+// $hsl:160;//start color
+// $bg:#333;
+
+ 
+
+// #c{
+//     position: absolute;
+//     top:50%;
+//     left:50%;   
+//     margin-left: -(($n - 1)*($w + $w*$e))/2 - ($w/2);
+// }
+
+// @mixin shadow($b,$s,$sm,$c){
+//     box-shadow:
+//         0 0 8px 6px $c,
+//         0 0 $b $s $bg,
+//         0 0 $b ($s + $sm) $c;
+// }
+
+// .pulse1 {
+//     width: $w;
+//     height: $w;
+//     border-radius: 50%;
+//     cursor:pointer;
+//     float: left;
+//     @include tf(all .2s);  
+//     background: lighten($primary-color, 5%); 
+//     animation: pulse1 2s 0s ease-out  infinite;         
+//     // &:hover{
+//     //     background: lighten($al-color, 5%);      
+//     //     animation: r2+$i .5s .4s  ease-out  infinite;
+//     // }
+// }
+// @keyframes pulse1 {
+//     0%{ @include bs(0px 0px 0px rgba($primary-color,0)); }
+//     10%{ @include bs(12px 10px 4px $primary-color); }
+//     100%{ @include bs(0px 40px 0px rgba($primary-color,0)); }
+// }
+// @keyframes pulse2 {
+//     from{ @include bs(12px 10px 4px $teal-color); }
+//     to{ @include bs(4px 40px 1px rgba($teal-color,0)); }
+// }

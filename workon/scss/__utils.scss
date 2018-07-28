@@ -1,0 +1,338 @@
+@mixin cl() {
+    zoom: 1;
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin placeholder {
+  /* Style Placeholders */
+  input:-webkit-autofill, 
+  textarea:-webkit-autofill, 
+  select:-webkit-autofill {
+    @content;
+  }
+  ::-webkit-input-placeholder {
+    @content;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+    @content;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+    @content;
+  }
+
+  :-ms-input-placeholder {
+    @content;
+  }
+}
+
+@mixin filter($filter-type,$filter-amount) { 
+  -webkit-filter: $filter-type+unquote('(#{$filter-amount})');
+  -moz-filter: $filter-type+unquote('(#{$filter-amount})');
+  -ms-filter: $filter-type+unquote('(#{$filter-amount})');
+  -o-filter: $filter-type+unquote('(#{$filter-amount})');
+  filter: $filter-type+unquote('(#{$filter-amount})');
+}
+@mixin blackandwhite() { 
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+@mixin blur($x) {
+   @include filter('blur', $x);
+}
+
+@mixin lg($n...) {
+  background: -webkit-linear-gradient($n);
+  background: -moz-linear-gradient($n);
+  background: -o-linear-gradient($n);
+  background: linear-gradient($n);
+}
+@mixin lgi($n...) {
+  background: -webkit-linear-gradient($n) !important;
+  background: -moz-linear-gradient($n) !important;
+  background: -o-linear-gradient($n) !important;
+  background: linear-gradient($n) !important;
+}
+// @mixin lg__old($direction, $color-stops...) {
+//   background: nth(nth($color-stops, 1), 1);
+//   background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+//   background: linear-gradient($direction, $color-stops);
+// }
+@mixin bs($n...) {
+    box-shadow: $n;
+    -webkit-box-shadow: $n;
+    -moz-box-shadow: $n;
+    -o-box-shadow: $n;
+    -ms-box-shadow: $n;
+}
+@mixin bs1() {
+    @include bs(0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2));
+}
+@mixin bs2() {
+    @include bs(0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3));
+}
+@mixin bs3() {
+    @include bs(0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3));
+}
+@mixin bs4() {
+    @include bs(0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3));
+}
+@mixin tf($n) {
+    -ms-transform: $n; /* Internet Explorer */
+    -moz-transform: $n; /* Firefox */
+    -webkit-transform: $n; /* Safari et Chrome */
+    -o-transform: $n; /* Opera */
+    transform: $n; /* Opera */
+}
+@mixin blur($n:5px) {
+    -ms-filter: blur($n);
+    -webkit-filter: blur($n);
+    filter: blur($n);
+}
+@mixin truncate($n:'...') {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display:block;
+}
+@mixin tr($n...) {
+    -ms-transition: $n;
+    -moz-transition: $n;
+    -webkit-transition: $n;
+    -o-transition: $n;
+    transition: $n;
+}
+
+@mixin an($n...) {
+    -webkit-animation: $n;
+    -webkit-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+    -moz-animation: $n;
+    -moz-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+    -o-animation: $n;
+    -o-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+    animation: $n;
+    animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+}
+
+// Mixins to eliminate code repitition
+@mixin reset-offset {
+  margin-left: auto;
+  left: auto;
+  right: auto;
+}
+@mixin grid-classes($size, $i, $perc) {
+  &.offset-#{$size}#{$i} {
+    margin-left: $perc;
+  }
+  &.pull-#{$size}#{$i} {
+    right: $perc;
+  }
+  &.push-#{$size}#{$i} {
+    left: $perc;
+  }
+}
+
+@keyframes placeholder {
+    from { top:-8px; left:-8px; }
+    50% { top:-10px; left:-10px; }
+    to { top:-8px; left:-8px; }
+}
+
+/***** LOADINGS *****/
+@keyframes spin {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.hidden { display: none !important; }
+.left { float: left !important; }
+.right { float: right !important; }
+
+
+/*******************
+  Utility Classes
+*******************/
+
+.hide {
+  display: none !important;
+}
+
+// Text Align
+.left-align {
+  text-align: left;
+}
+.right-align {
+  text-align: right
+}
+.center, .center-align {
+  text-align: center;
+}
+
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
+
+// No Text Select
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+@mixin cl() {
+    zoom: 1;
+    &:before, &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin lg($n...) {
+  background: -webkit-linear-gradient($n);
+  background: linear-gradient($n);
+}
+@mixin lgi($n...) {
+  background: -webkit-linear-gradient($n) !important;
+  background: linear-gradient($n) !important;
+}
+// @mixin lg__old($direction, $color-stops...) {
+//   background: nth(nth($color-stops, 1), 1);
+//   background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+//   background: linear-gradient($direction, $color-stops);
+// }
+@mixin bs($n...) {
+    box-shadow: $n;
+    -webkit-box-shadow: $n; // iOS <4.3 & Android <4.1
+}
+@mixin tf($n) {
+    -ms-transform: $n; /* Internet Explorer */
+    -moz-transform: $n; /* Firefox */
+    -webkit-transform: $n; /* Safari et Chrome */
+    -o-transform: $n; /* Opera */
+    transform: $n; /* Opera */
+}
+@mixin blur($n:5px) {
+    -ms-filter: blur($n);
+    -webkit-filter: blur($n);
+    filter: blur($n);
+}
+@mixin tr($n...) {
+    -ms-transition: $n;
+    -moz-transition: $n;
+    -webkit-transition: $n;
+    -o-transition: $n;
+    transition: $n;
+}
+
+.rl { position: relative; }
+.ab, .abs {
+    position: absolute !important;
+    &.top { top: 15px; bottom:auto; }
+    &.right { right: 15px; left:auto; }
+    &.left { left: 15px; right:auto; }
+    &.bottom { top:auto; bottom: 15px; }
+}
+.nm { margin: 0px !important; }
+.np { padding: 0px !important; }
+.dn { display:none !important; }
+.tac { text-align: center; }
+.tal { text-align: left; }
+.tar { text-align: right; }
+.vam { vertical-align: middle  !important; }
+.vat { vertical-align: top  !important; }
+.vab { vertical-align: bottom !important; }
+.cen {
+    position: absolute;
+    top: 50%; left: 50%;
+    @include tf(translateY(-50%) translateX(-50%));
+}
+.center {
+    position: absolute;
+    top: 50%; left: 50%;
+    @include tf(translateY(-50%) translateX(-50%));
+}
+.ovr {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+
+}
+.row {
+    // &.row0 > .col,
+    // .col.col0 {
+    //     padding-left: 0px;
+    //     padding-right: 0px;
+    //     margin-bottom: 0px;
+    // }
+}
+
+.fix {
+    position: fixed;
+    &.top { top: 15px; }
+    &.right { right: 15px; }
+    &.left { left: 15px; }
+    &.bottom { bottom: 15px; }
+}
+.fac {
+    display: flex;
+    align-items: center;
+}
+.clf { clear: both; }
+.cl, .clear {
+    @include cl();
+}
+.bs-1 { @include bs(0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)); }
+
+.ts-r90 { @include tf(rotate(90deg)); }
+.tr-050 { @include tr(all 0.05s ease-out); }
+.tr-100 { @include tr(all 0.10s ease-out); }
+.tr-150 { @include tr(all 0.15s ease-out); }
+.tr-200 { @include tr(all 0.20s ease-out); }
+.tr-250 { @include tr(all 0.25s ease-out); }
+.tr-500 { @include tr(all 0.50s ease-out); }
+
+.w100 { width:100%; }
+.h100 { height:100%; }

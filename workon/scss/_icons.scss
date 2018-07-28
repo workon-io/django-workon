@@ -1,0 +1,54 @@
+
+
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  src: url('../wabtec/fonts/MaterialIcons-Regular.eot');
+  src: url('../wabtec/fonts/MaterialIcons-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../wabtec/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+      url('../wabtec/fonts/MaterialIcons-Regular.woff') format('woff'),
+      url('../wabtec/fonts/MaterialIcons-Regular.ttf') format('truetype'),
+      url('../wabtec/fonts/MaterialIcons-Regular.svg#MaterialIcons-Regular') format('svg');
+  font-style: normal;
+  font-weight: 400;
+}
+
+.icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+
+  &.green {
+    color: $green-color;
+  }
+  &.red {
+    color: $red-color;
+  }
+  &.yellow {
+    color: $yellow-color;
+  }
+  
+  &.success {
+    color: #45af4d;
+  }
+  &.error {
+    color: $error-color;
+  }
+  &.disabled {
+    color: #dcdcdc;
+    
+  }
+}

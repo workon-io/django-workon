@@ -1,0 +1,11 @@
+a {
+    color: $text-color;
+    text-decoration: none;
+    cursor: pointer;
+
+	// Gets rid of tap active state
+	-webkit-tap-highlight-color: transparent;
+	&:hover {
+		color: $primary-color;
+	}
+}

@@ -1,9 +1,8 @@
 import os
 default_app_config = 'workon.conf.WorkonConfig'
 
-# if os.environ.get('DJANGO_SETTINGS_MODULE'):
-
 try:
+
     from workon.templates import *
     from workon.utils import *
     from workon.views import *
@@ -23,9 +22,6 @@ try:
     from workon.fields.embed import EmbedField
     from django.contrib.postgres.fields import JSONField
 
-except:
-    pass
+except ImportError:
 
-    # from workon.models.tracked import (
-    #   Tracked as TrackedModel
-    # )
+    pass

@@ -1,0 +1,40 @@
+@keyframes dzfi {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dz-preview { display:none; }
+.dz-drag-hover { 
+
+    position: relative;
+    z-index: 99;
+
+    &:after, &:before {
+        position: absolute;
+        z-index: 5;
+        pointer-events: none;
+        backface-visibility: hidden;
+        opacity: 0;
+        @include an(dzfi 0.2s linear);
+        @extend .tr-250;
+    }
+
+    &:before {
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        content: ' ';
+        background: rgba(255,255,255,0.5);
+        border: 5px dashed orange;
+    }
+
+    &:after {
+        @extend .cen;
+        content: 'Deposer votre document ici';
+        color: orange;
+        text-align: center;
+        font-size: 60px;
+        font-weight: bold;
+    }
+}
