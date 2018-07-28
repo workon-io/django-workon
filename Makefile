@@ -23,6 +23,11 @@ push_tags:
 pypi:
 	#python setup.py sdist upload -r pypi || echo 'Workon is up-to-date'
 	echo 'Ignoring'
-	
+
 pypi_upload:
 	python setup.py sdist upload -r pypi || echo 'docker-emperor is up-to-date'
+
+develop:
+	# sudo pip install .
+	python setup.py develop --user
+	which de
