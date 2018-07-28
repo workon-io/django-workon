@@ -1,6 +1,7 @@
 #from __future__ import print_function
 import ast
 import os
+import re
 import sys
 import codecs
 import subprocess
@@ -10,8 +11,10 @@ from setuptools import setup, find_packages
 
 
 def find_version(*parts):
-    from workon.version import __version__
-    return "{ver}".format(ver=__version__)
+    filename = os.path.join(os.path.dirname(__file__), 'workon/version.py')
+    with codecs.open(filename, encoding='utf-8') as fp:
+        version = re.search(r'__version__ = "([\d\.]+)"', fp.read()).group(1)
+    return "{ver}".format(ver=version)
 
 def read(*parts):
     filename = os.path.join(os.path.dirname(__file__), *parts)
