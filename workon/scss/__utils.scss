@@ -32,6 +32,13 @@
     @content;
   }
 }
+@mixin no-filter() { 
+  -webkit-filter: none;
+  -moz-filter: none;
+  -ms-filter: none;
+  -o-filter: none;
+  filter: none;
+}
 
 @mixin filter($filter-type,$filter-amount) { 
   -webkit-filter: $filter-type+unquote('(#{$filter-amount})');
