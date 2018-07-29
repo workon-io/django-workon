@@ -134,7 +134,7 @@
     }
 
     &.green {
-        background-color: #4CAF50 !important;
+        background-color: $green-color !important;
     }
     &.black {
         background-color: $black-color !important;
@@ -149,7 +149,7 @@
         }
     }
     &.orange {
-        background-color: orange !important;
+        background-color: $orange-color !important;
     }
     &.white {
         background-color: white !important;
