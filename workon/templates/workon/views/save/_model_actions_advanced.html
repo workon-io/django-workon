@@ -1,0 +1,14 @@
+<div class="buttons-group clear">
+    <div class="buttons fixed-buttons">
+        <a data-modal-close class="button left waves-effect">Annuler</a>
+        <button data-tooltip='{
+            "content": "#_modal_actions"
+            }' type="submit" name="_save" value="1" class="button green right waves-effect">{{ save_label|default:"Enregistrer" }}</button>
+        <div style="display:none;">
+            <button id="_modal_actions_save_and_continue" type="submit" name="_save_and_continue" value="1">{{ save_label|default:"Enregistrer et continuer" }}</button>
+            <div id="_modal_actions">
+                <button class="button small green waves-effect" onclick="$('#_modal_actions_save_and_continue').click()">& continuer</button>
+            </div>
+        </div>        
+    </div>
+</div>
