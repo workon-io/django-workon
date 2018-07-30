@@ -38,6 +38,11 @@
             right: 50%;
             @include tf(transformX(-50%) transformY(-50%));
         }
+        &.flat {
+            position: relative;
+            top: auto;
+            right: auto;
+        }
     }
     &:hover {
         > .actions, .__field-action, 

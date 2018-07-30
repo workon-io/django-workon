@@ -293,6 +293,9 @@ class List(generic.FormView):
 
     def form_initialize(self, form):
         return form
+
+    def get_prefix(self):
+        return 'workon_list_filters_form'
         
     def get_form_kwargs(self):
         kwargs = {

@@ -150,6 +150,17 @@
     @content;
   }
 }
+@mixin large-desktop-and-down {
+  @media (min-width: #{$desktop-width + 1px}) {
+    @content;
+  }
+}
+@mixin large-desktop-and-up {
+  @media (min-width: #{$large-desktop-width}) {
+    @content;
+  }
+}
+
 
 @if variable-exists('tabs-underline-color') { } @else { $tabs-underline-color: $primary-color-light !default !global; }
 @if variable-exists('tabs-text-color') { }  @else { $tabs-text-color: $primary-color !default !global; }
