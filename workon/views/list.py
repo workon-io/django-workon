@@ -264,6 +264,9 @@ class List(generic.FormView):
                     kwargs['field_class'] = forms.IntegerField
                 elif ftype in ["bool", "boolean"]:
                     kwargs['field_class'] = forms.BooleanField
+                elif ftype in ["hidden"]:
+                    kwargs['field_class'] = forms.TextField
+                    kwargs['field_kwargs'] = {'widget': forms.HiddenInput()}
                 elif ftype in ["date"]:
                     kwargs['field_class'] = workon.forms.DateField
                 elif ftype in ["datetime"]:

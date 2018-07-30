@@ -1,0 +1,14 @@
+<script type="text/javascript">
+    window.STATIC_URL = "{{ STATIC_URL }}";
+    window.FLOW_DEBUG = {{ FLOW_DEBUG|yesno:"true,false" }};
+    window.FLOW_DISCONNECTED_ENABLED = {{ FLOW_DISCONNECTED_ENABLED|yesno:"true,false" }};
+    {% if FLOW_DISCONNECTED_ENABLED %}
+    window.FLOW_DISCONNECTED_RECEIVE_URL = "{% url 'workon:flow-disconnected-receive' %}";
+    window.FLOW_DISCONNECTED_SEND_URL = "{% url 'workon:flow-disconnected-send' %}";
+    {% endif %}
+    window.FLOW_ACTIVITY_DELAY = {{ FLOW_ACTIVITY_DELAY|default:'null' }};
+    window.FLOW_SELF_PK = {{ request.user.pk|default:'null' }};
+    window.FLOW_WS_HEARTBEAT = {{ FLOW_WS_HEARTBEAT|default:'null' }};
+    window.FLOW_WS_URI = "{{ FLOW_WS_URI|default:'null' }}";
+    window.FLOW_WS_ENABLED = {{ FLOW_WS_ENABLED|yesno:"true,false" }};
+</script>

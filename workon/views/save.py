@@ -16,6 +16,7 @@ class SaveField():
     def __init__(self, name, label=None, col=12):
         self.name = name
         self.label = label
+        self.required = required
         self.meta = {
             'class': f'col s12 m{col}',
             'label': label or name,
@@ -52,9 +53,17 @@ class Save(generic.UpdateView):
     result_template_name = "workon/views/list/_row.html"
     modal_actions_template_name = workon.conf.SAVE_MODAL_ACTIONS_TEMPLATE
     fields = None
+    form_class = None
     form_classes = ''
     modal_classes = ''
 
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
     
     def get_template_names(self):
         if self.request.is_ajax():
@@ -177,7 +186,7 @@ class Save(generic.UpdateView):
         return f'{obj} enregistré'
 
     def form_valid(self, *args, **kwargs):
-        obj = self.save()
+        self.object = obj = self.save()
         success_message = self.get_success_message(obj)
         messages.success(self.request, success_message)
         return HttpResponseRedirect(self.get_success_url())
@@ -214,15 +223,17 @@ class JsonSave(Save):
 
     def get_valid_json(self, obj, **kwargs):
         success_message = self.get_success_message(obj)
+        kwargs['save_url'] = getattr(obj, 'update_url', self.get_save_url)()
         json = {
+            'formAction': kwargs['save_url'],
             'notice': {
                 'content': success_message,
                 'classes': 'success'
             }
         }
         if self.save_and_continue:
-            form = self.get_form()
-            form.instance = obj
+            self.form = self.get_form()
+            self.form.instance = obj
             success_continue_url = self.get_success_continue_url()
             if success_continue_url:
                 messages.success(self.request, success_message)
@@ -248,15 +259,17 @@ class ModalSave(JsonSave):
     
     def get_valid_json(self, obj, **kwargs):
         success_message = self.get_success_message(obj)
+        kwargs['save_url'] = getattr(obj, 'update_url', self.get_save_url)()
         json = {
+            'formAction': kwargs['save_url'],
             'notice': {
                 'content': success_message,
                 'classes': 'success'
             }
         }
         if self.save_and_continue:
-            form = self.get_form()
-            form.instance = obj
+            self.form = self.get_form()
+            self.form.instance = obj
             json['replaceModal'] = self.render_form(**kwargs)
         else:
             messages.success(self.request, success_message)
@@ -267,3 +280,8 @@ class ModalSave(JsonSave):
 
     def render_valid(self, obj, **kwargs):
         return JsonResponse(self.get_valid_json(obj, **kwargs))
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx['is_modal'] = True
+        return ctx

@@ -1,26 +1,31 @@
-import datetime, re
-from urllib.parse import urlparse
-from premailer import transform
+import datetime
+import re
 from email.utils import parseaddr
-from django.conf import settings
-from django.utils import six
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-from django.template import Context, RequestContext
-from django.utils.html import strip_tags
-from django.core.mail import get_connection, EmailMultiAlternatives
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.mail.backends.base import BaseEmailBackend
-from django.core.mail.message import sanitize_address, DEFAULT_ATTACHMENT_MIME_TYPE
 from django.core.mail.backends.smtp import EmailBackend
+from django.core.mail.message import sanitize_address, DEFAULT_ATTACHMENT_MIME_TYPE
+from django.template import Context, RequestContext
+from django.template.loader import get_template
+from django.utils import six
+from django.utils.html import strip_tags
+from urllib.parse import urlparse
+try:
+    from premailer import transform
+except:
+    def premailer(s, *args, **kwargs): return s
+
 
 _email_regex = re.compile("([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`"
-                    "{|}~-]+)*(@|\sat\s)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(\.|"
-                    "\sdot\s))+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)")
+                          "{|}~-]+)*(@|\sat\s)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(\.|"
+                          "\sdot\s))+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)")
 
 __all__ = [
-    'EmailStagingBackend', 
+    'EmailStagingBackend',
     'EmailProductionBackend',
 
     "extract_emails",
@@ -65,8 +70,6 @@ class EmailProductionBackend(EmailBackend):
         super()._send(message)
 
 
-
-
 def extract_emails(text):
     if text is not None:
         return list(set((email[0] for email in _email_regex.findall(text) if not email[0].startswith('//'))))
@@ -87,8 +90,10 @@ def emails_to_html(emails, reverse=True, classname=None, divider="<br />"):
     html = divider.join(emails)
     return html
 
+
 def extract_emails_to_html(text, **kwargs):
     return emails_to_html(extract_emails(text), **kwargs)
+
 
 def is_valid_email(email):
     if email is None:
@@ -99,26 +104,31 @@ def is_valid_email(email):
     else:
         return None
 
+
 class ContentEmail(EmailMultiAlternatives):
     def __init__(self, subject, content, sender, receivers, content_type=None, context={}, files=[], **kwargs):
         self.is_sent = False
 
         subject = " ".join(subject.splitlines())
         content = kwargs.pop('body', content)
-        
+
         if isinstance(receivers, six.string_types):
             receivers = [receivers]
 
         if content_type:
-            super(ContentEmail, self).__init__(subject, '', sender, receivers, **kwargs)
+            super(ContentEmail, self).__init__(
+                subject, '', sender, receivers, **kwargs)
         else:
-            super(ContentEmail, self).__init__(subject, content, sender, receivers, **kwargs)
+            super(ContentEmail, self).__init__(
+                subject, content, sender, receivers, **kwargs)
 
         if content_type:
             self.attach_alternative(content, content_type)
         if files:
             for file in files:
+                # (nom de fichier, contenu, type mime)
                 self.attach(*file)
+
 
 class HtmlTemplateEmail(EmailMultiAlternatives):
 
@@ -140,7 +150,11 @@ class HtmlTemplateEmail(EmailMultiAlternatives):
             for file in files:
                 self.attach(*file)
 
-# django : send_mail(subject, message, from_email, recipient_list, fail_silently=False, auth_user=None, auth_password=None, connection=None, html_message=None)
+# django : send_mail(subject, message, from_email, recipient_list,
+# fail_silently=False, auth_user=None, auth_password=None,
+# connection=None, html_message=None)
+
+
 def send_email(*args, return_email=False, **kwargs):
     fail_silently = kwargs.pop('fail_silently', False)
     message = make_email(*args, **kwargs)
@@ -149,36 +163,48 @@ def send_email(*args, return_email=False, **kwargs):
         return message
     return message.send(fail_silently=fail_silently)
 
+
 def make_email(subject, sender, receivers, content=None, html=None, template=None, context={}, content_type=None, files=[], **kwargs):
     if template:
         html_template = get_template(template)
         html = html_template.render(context)
-        message = HtmlTemplateEmail(subject, html, sender, receivers, context, files=files, **kwargs)
+        message = HtmlTemplateEmail(
+            subject, html, sender, receivers, context, files=files, **kwargs)
     elif html:
-        message = HtmlTemplateEmail(subject, html, sender, receivers, context, files=files, **kwargs)
+        message = HtmlTemplateEmail(
+            subject, html, sender, receivers, context, files=files, **kwargs)
     elif content:
-        message = ContentEmail(subject, content, sender, receivers, content_type=content_type, files=files, **kwargs)
+        message = ContentEmail(subject, content, sender, receivers,
+                               content_type=content_type, files=files, **kwargs)
 
     return message
+
 
 def send_emails(*emails, **kwargs):
     fail_silently = kwargs.pop('fail_silently', False)
     connection = get_connection()
     connection.open()
-    connection.send_messages(emails)
+    check = connection.send_messages(emails)
     connection.close()
+    return check
+
 
 def send_mass_email(messages, **kwargs):
     fail_silently = kwargs.pop('fail_silently', False)
     connection = get_connection()
     connection.open()
-    connection.send_messages(messages)
+    check = connection.send_messages(messages)
     connection.close()
+    return check
+
+
 
 def send_html_email(subject, sender, receivers, html='', context={}, files=[], **kwargs):
     fail_silently = kwargs.pop('fail_silently', False)
-    message = HtmlTemplateEmail(subject, html, sender, receivers, context, files=files, **kwargs)
+    message = HtmlTemplateEmail(
+        subject, html, sender, receivers, context, files=files, **kwargs)
     return message.send(fail_silently=fail_silently)
+
 
 def send_template_email(subject, sender, receivers, template=None, context={}, files=[], **kwargs):
     html_template = get_template(template)
@@ -188,15 +214,10 @@ def send_template_email(subject, sender, receivers, template=None, context={}, f
 
 
 def set_mailchimp_vars(template):
-    template = template.replace('*|CURRENT_YEAR|*', str(datetime.date.today().year) )
+    template = template.replace(
+        '*|CURRENT_YEAR|*', str(datetime.date.today().year))
     return template
 
 
 def clean_html_for_email(html):
     return transform(html)
-
-
-
-
-
-

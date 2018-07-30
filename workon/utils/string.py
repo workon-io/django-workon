@@ -1,6 +1,6 @@
 import unicodedata, re, json
 from django.utils.encoding import force_str, force_text
-from django.utils.text import slugify as django_slugify, mark_safe
+from django.utils.text import Truncator, slugify as django_slugify, mark_safe
 from django.utils.encoding import force_text
 from django.utils import six
 
@@ -13,6 +13,8 @@ __all__ = [
     "slugify",
     "prepare_for_search",
     "jsonify",
+    "truncatechars",
+    "truncatewords"
 ]
 
 def forceunicode(string):
@@ -28,14 +30,19 @@ def forceunicode(string):
     return string
 
 def jsonify(obj):
+    class Encoder(json.JSONEncoder):
+        def default(self, obj):
+            if not isinstance(obj, (dict, list, str, bytes)):
+                return str(obj)
+            return json.JSONEncoder.default(self, obj)
     if obj is None:
         return "{}"
     if isinstance(obj,dict):
-        return json.dumps(obj)
+        return json.dumps(obj, cls=Encoder)
     elif isinstance(obj,list):
-        return json.dumps(obj)
+        return json.dumps(obj, cls=Encoder)
     elif type(obj) == type({}.keys()):
-        return json.dumps(list(obj))
+        return json.dumps(list(obj), cls=Encoder)
     else:
         obj = re.sub(r'([\w\d_]+)\:', '"\\1":', obj)
         obj = re.sub(r'\'', '"', obj)
@@ -43,9 +50,9 @@ def jsonify(obj):
         obj = re.sub(r'Date\.UTC\(.+\)', '""', obj)
 
         try:
-            return json.dumps(json.loads(obj))
+            return json.dumps(json.loads(obj), cls=Encoder)
         except:
-            return json.loads(json.dumps(obj))
+            return json.loads(json.dumps(obj, cls=Encoder))
 
 def strip_accents(string, accents=('COMBINING ACUTE ACCENT', 'COMBINING GRAVE ACCENT', 'COMBINING TILDE')):
     accents = set(map(unicodedata.lookup, accents))
@@ -73,3 +80,10 @@ def prepare_for_search(string, default=""):
     string = string.replace(u'–', " ")
     string = string.replace(u'_', " ")
     return slugify(string).replace('-', ' ').lower().strip()
+
+
+def truncatechars(value, length=100, truncate=' ...', html=True):
+    return Truncator(str(value)).chars(length, truncate=truncate, html=html)
+
+def truncatewords(value, length=100, truncate=' ...', html=True):
+    return Truncator(str(value)).words(length, truncate=truncate, html=html)

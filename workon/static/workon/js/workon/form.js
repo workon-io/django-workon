@@ -24,22 +24,35 @@
 
     formSelector = '[data-form]';    
 
-    $(document).on('submit', formSelector, function(e, data, form)
+    $(document).on('submit', formSelector, function(e, data, form, trigger, disabled)
     {
         form = $(this);
+        if(form[0].locked) 
+        { 
+            e.stopPropagation();
+            return false;
+        }
+        trigger = data ? data._trigger: null;
         clearTimeout(this.submit_timeout);
         form.addClass('loading');
-        method = form.attr('method')
+        method = form.attr('method');
+
+        if(form.data('form')['submitDisabled'] == true) 
+        { 
+            disabled = form.find('[disabled]').prop('disabled', false);
+        }
 
         var options = {
             type: method ? method : 'POST',
             url: form.attr('action'),
             success: function(data)
             {
-                $.fn.ajaxResponse(data, form);
+                $.fn.ajaxResponse(data, form, trigger);
+                form.find('.error500, .error500-closer').remove();
                 form.removeClass('loading');
             },
             error: function(data) {
+                form.find('.error500, .error500-closer').remove();
                 try {
                     var html = $(data.responseText);
                     var ifr = $('<iframe class="error500"></iframe>');
@@ -49,6 +62,7 @@
                 catch(e) {
                     form.prepend('<pre class="error500">'+data.responseText+'</pre>');
                 }
+                form.prepend('<a class="error500-closer" onclick="$(this).next().remove(); $(this).remove()">x - close error panel</a>');
                 form.removeClass('loading').addClass('error500');                
             }
         };
@@ -94,30 +108,40 @@
                 window.history.pushState({path:newurl},'',newurl);
             };
         }
+        if(form.data('form')['submitDisabled'] == true) 
+        { 
+            disabled.prop('disabled', true);
+        }
         e.stopPropagation();
         return false;
     });
 
-    $(document).on('change', formSelector+' input, '+
-                             formSelector+' select, '+
-                             formSelector+' textarea', function(e, form)
-    {
-        if($(this.form).data('form')['submitOnChanges'] == true) { 
-            clearTimeout(this.form.submit_timeout);
-            $(this.form).submit(); 
-        }
-    });
-    $(document).on('keyup', '[data-form] input[type="text"]', function(e, form)
+    $(document).on('change', '[data-form] input, '+
+                             '[data-form] select, '+
+                             '[data-form] textarea', function(e, form)
     {
         var soc = $(this.form).data('form')['submitOnChanges'];
-        if(soc) {   
+        if(soc) {  
+            clearTimeout(this.form.submit_timeout);
+            $(this.form).trigger('submit', {
+                _trigger:  $(this)
+            });
+        }
+    });
+    $(document).on('keyup', '[data-form] input[type="text"]', function(e, form, trigger)
+    {
+        var soc = $(this.form).data('form')['submitOnChanges'];
+        if(soc) {               
             form = this.form;
+            trigger = $(this);
             clearTimeout(form.submit_timeout);
             var code = e.keyCode || e.which;  
             if(code != 13) { //Enter keycode
                 form.submit_timeout = setTimeout(function() { 
-                    $(form).submit(); 
-                }, soc==true?1000:soc);
+                    $(form).trigger('submit', {
+                        _trigger: trigger
+                    });
+                }, soc==true?350:soc);
             }     
         }
     });

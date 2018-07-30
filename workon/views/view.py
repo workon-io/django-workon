@@ -30,5 +30,6 @@ class View(generic.DetailView):
             return self.template_name
 
 
+
 class ModalView(View):
     pass

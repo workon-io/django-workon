@@ -1,15 +1,23 @@
 from django import forms
 
+
+__all__ = ['TreeSelect', 'TreeSelectMultiple', 'TreeModelChoiceField', 'TreeModelMultipleChoiceField']
+
+
 class TreeModelChoiceIterator(forms.models.ModelChoiceIterator):
 
     def choice(self, obj):
         parent_id = getattr(obj, 'parent_id', None)
         level = getattr(obj, getattr(self.queryset.model._meta, 'level_attr', 'level'), 1)
-        return super().choice(obj) + (parent_id, level)
+        return super().choice(obj) + (parent_id, level, obj)
 
 class TreeSelect(forms.SelectMultiple):
 
     template_name = "workon/forms/widgets/_treeselect.html"
+
+    def __init__(self, *args, **kwargs):
+        self.label_from_instance = kwargs.pop('label_from_instance', None)
+        super().__init__(*args, **kwargs)
 
     def get_context(self, name, value, attrs):
         by_ids = {}
@@ -20,11 +28,16 @@ class TreeSelect(forms.SelectMultiple):
             else:
                 test_selected = lambda o: o == value
 
+
         for choice in self.choices:
+            if self.label_from_instance:
+                label = self.label_from_instance(choice[4])
+            else:
+                label = choice[1]
             by_ids[choice[0]] = {
                 'items': [],
                 'is_selected': test_selected(choice[0]),
-                'label': choice[1],
+                'label': label,
                 'parent_id': choice[2],
                 'level': choice[3],
                 'value': choice[0]
@@ -48,7 +61,6 @@ class TreeSelect(forms.SelectMultiple):
             'attrs': self.build_attrs(self.attrs, attrs),
             'template_name': self.template_name,
         }
-        print(context['name'])
         return context
 
 class TreeSelectMultiple(TreeSelect, forms.SelectMultiple):

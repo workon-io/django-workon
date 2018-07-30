@@ -41,7 +41,7 @@
         return false;
     });
 
-    $.fn.ajaxResponse = function(data, form, isModal, cb)
+    $.fn.ajaxResponse = function(data, form, trigger, isModal, cb)
     {
         if(data) {
 
@@ -230,6 +230,10 @@
                 {
                     form.modal('close');
                 }
+                if(form && data.formAction)
+                {
+                    form.attr('action', data.formAction);
+                }
             }
             // HTML data Case
             else
@@ -262,8 +266,10 @@
                     nd.close();
                 }
             }
+            data._trigger = trigger;
             if (form) { form.trigger('xhr.response', data); }
         }
+        data._trigger = trigger;
         $(document).trigger('xhr.response', data);
     }
 }( jQuery ));

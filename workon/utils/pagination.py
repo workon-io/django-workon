@@ -214,6 +214,25 @@ class DiggPaginator(ExPaginator):
             raise ValueError('padding too large for body (max %d)'%max_padding)
         super().__init__(*args, **kwargs)
 
+    def get_queryset_for_instance(self, instance_pk):
+
+        try:
+            instance_pk = int(instance_pk)
+            if hasattr(self.object_list, 'values_list') and callable(
+                    self.object_list.values_list):
+                instance_pk_list = list(self.object_list.values_list('pk', flat=True))
+            else:
+                instance_pk_list = [o.pk for o in self.object_list]
+            object_index = instance_pk_list.index(instance_pk)
+            page = int(math.ceil(float(object_index + 1) / self.per_page))
+        except (ValueError, AttributeError, TypeError):
+            # AttributeError if object_list has no count() method.
+            # TypeError if object_list.count() requires arguments
+            # (i.e. is of type list).
+            page = 1
+
+        return self.get_queryset_for_page(page)
+
     def get_queryset_for_page(self, page=1):
         if page is None:
             page = 1

@@ -7,7 +7,6 @@
     {% for label, url in breadcrumbs %}
         <a href="{{ url }}">{{ label }}</a>
     {% endfor %}
-    <a>Liste</a>
 {% endblock %}
 
 {% block main %}
@@ -26,15 +25,6 @@
                 {% field field %}
             {% endif %}{% endfor %}
         </div>
-        <table id="list-filters" class="list-filters list-table">
-            <tr class="">
-                {% for field in form %}{% if not field.is_hidden %}
-                    <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>
-                {% endif %}{% endfor %}
-            </tr>
-        </table> 
-        <hr class="small" />
-        {% endif %}
         {% if actions %}
         <table id="list-actions" class="list-table">
             <tr class="">
@@ -44,15 +34,22 @@
                     </td>
                 {% endfor %}
             </tr>
-        </table> 
-        <hr class="small" />
+        </table>
         {% endif %}
+	<table id="list-filters" class="list-filters list-table">
+            <tr class="">
+                {% for field in form %}{% if not field.is_hidden %}
+                    <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>
+                {% endif %}{% endfor %}
+            </tr>
+        </table> 
+        {% endif %}        
         {% include list_results_template %}
          <div class="fixed-actions-box">
             {% if create_url %}
             <a class="button round large hoverable z-depth-2 right"
-                data-tooltip="Nouveau"
-                {{ create_method|default:'data-modal' }}="{{ create_url }}" >
+                data-tooltip="{% trans 'Nouveau' %}"
+                {{ create_method|default:'href' }}="{{ create_url }}" >
                 <i class="icon">add</i>
             </a>
             {% endif %}

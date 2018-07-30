@@ -16,15 +16,21 @@ var dropzone_defaults = {
             delay: null,
         });
         // formData.append("field", 'file');
+        $(this.element).trigger('dropzone.sending', { file: file, xhr: xhr, formData: formData, dropzone: this });
+        $(document).trigger('dropzone.sending', { file: file, xhr: xhr, formData: formData, dropzone: this });
     }
     , uploadprogress: function(file, progress)
     {
         this.notice.find("div.determinate").width(progress + "%");
+        $(this.element).trigger('dropzone.uploadprogress', { file: file, progress: progress, dropzone: this });
+        $(document).trigger('dropzone.uploadprogress', { file: file, progress: progress, dropzone: this });
     }
     , success: function(file, data)
     {
         this.notice.click();
-        $.fn.ajaxResponse(data);
+        $.fn.ajaxResponse(data, $(this.element), $(this.clickableElements));
+        $(this.element).trigger('dropzone.success', { file: file, data: data, dropzone: this });
+        $(document).trigger('dropzone.success', { file: file, data: data, dropzone: this });
     }
     , error: function(file, data)
     {
@@ -36,17 +42,20 @@ var dropzone_defaults = {
                     <div class="determinate" style="width: 0"></div>\
                 </div>',
             delay: null,
+            classes: 'error'
         });
-        $.fn.ajaxResponse(data);
+        $.fn.ajaxResponse(data, $(this.element), $(this.clickableElements));
+        form.trigger('dropzone.error', { file: file, data: data, dropzone: this });
+        $(document).trigger('dropzone.error', { file: file, data: data, dropzone: this });
     }
 };
 
 (function ($) {
-    apply = function(e, options, data)
+    apply = function(self, options, data)
     {
-        if(this.workon_dropzone === true) { return }
-        this.workon_dropzone = true;
-        data = $(this).data('dropzone');
+        if(self.workon_dropzone === true) { return }
+        self.workon_dropzone = true;
+        data = $(self).data('dropzone');
         options = $.extend(dropzone_defaults, {});
         if(typeof data == "object")
         {
@@ -58,7 +67,10 @@ var dropzone_defaults = {
                 url: options
             });
         }
-        $(this).dropzone(options);
+        $(self).dropzone(options);
     }
-    $(document).on('mouseover', '[data-dropzone]', apply);
+    $(document).on('mouseover', '[data-dropzone]', function() { apply(this); });
+    $(document).ready(function() {
+        $('[data-dropzone]').each(function() { apply(this); });
+    });
 })(jQuery);
