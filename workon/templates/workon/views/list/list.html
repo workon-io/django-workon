@@ -1,6 +1,6 @@
 {% extends layout_template|default:"workon/list/layout.html" %}
 
-{% load workon %}
+{% load workon i18n %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -36,7 +36,7 @@
             </tr>
         </table>
         {% endif %}
-	<table id="list-filters" class="list-filters list-table">
+        <table id="list-filters" class="list-filters list-table">
             <tr class="">
                 {% for field in form %}{% if not field.is_hidden %}
                     <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>

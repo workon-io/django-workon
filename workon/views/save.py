@@ -13,7 +13,7 @@ __all__ = ['Save', 'ModalSave', 'JsonSave', 'SaveField']
 
 
 class SaveField():
-    def __init__(self, name, label=None, col=12):
+    def __init__(self, name, label=None, required=False, col=12):
         self.name = name
         self.label = label
         self.required = required
