@@ -15,18 +15,21 @@ class Delete(generic.DeleteView):
         self.object = self.get_object()
         pk = self.object.pk
         self.object.delete()
+        return JsonResponse(self.get_json_data())
 
-        success_message = self.get_success_message(self.object)
-        json = {
-            'notice': {
-                'content': success_message,
-                'classes': 'success'
-            },
+    def get_success_message_json_notice(self):
+        return {
+            'content': self.get_success_message(self.object),
+            'classes': 'success'
         }
 
-        messages.success(self.request, success_message)
+    def get_json_data(self):
+        json = {
+            'notice': self.get_success_message_json_notice()
+        }
+        messages.success(self.request, self.get_success_message(self.object))
         json['redirect'] = self.request.META['HTTP_REFERER']
-
+        return json
         # return JsonResponse({
         #     'notice': {
         #         'content': f'{self.object} supprimé',
@@ -35,7 +38,6 @@ class Delete(generic.DeleteView):
         #     'remove': f'{self.object}_{self.object.pk}'
         # })
 
-        return JsonResponse(json)
 
 
 class ModalDelete(Delete):    

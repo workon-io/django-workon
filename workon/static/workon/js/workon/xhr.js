@@ -201,6 +201,12 @@
                     else if(isArray(data.notice)) { for(var i in data.notice) { $.fn.notice(data.notice[i]); } }
                     else { $.fn.notice(data.notice); }
                 }
+                if(data.modal)
+                {
+                    if(isDict(data.modal)) { $.fn.modal(data.modal); }
+                    else if(isArray(data.modal)) { for(var i in data.modal) { $.fn.modal(data.modal); } }
+                    else { $.fn.modal(data.modal); }
+                }
                 if(data.replaceModal)
                 {
                     data.leaveModal = true;
@@ -226,10 +232,14 @@
                     if(form) form.modal('close');
                     return;
                 }
-                if(form && data.leaveModal != true)//form && $(form).data('form')['closeModalOnSucess'])
+                if(data.closeModal == true)//form && $(form).data('form')['closeModalOnSucess'])
                 {
                     form.modal('close');
                 }
+                // if(form && data.leaveModal != true)//form && $(form).data('form')['closeModalOnSucess'])
+                // {
+                //     form.modal('close');
+                // }
                 if(form && data.formAction)
                 {
                     form.attr('action', data.formAction);

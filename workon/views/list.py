@@ -168,6 +168,7 @@ class List(generic.FormView):
     columns_instances = []
     form_class = None
     model = None
+    ajax_results = True
 
     paginate_by = 50
     paginate_body = 6
@@ -309,6 +310,11 @@ class List(generic.FormView):
                 'initial': self.request.GET,
             })
 
+            if not self.ajax_results:
+                kwargs.update({
+                    'data': self.request.GET,
+                })
+
         if self.request.method in ('POST', 'PUT'):
             kwargs.update({
                 'data': self.request.POST,
@@ -420,7 +426,6 @@ class List(generic.FormView):
     def get_breadbrumbs(self):
         return []
 
-
     def form_valid(self, form):
         self.data = self.F = form.cleaned_data
         self.queryset = self.get_queryset()
@@ -448,7 +453,6 @@ class List(generic.FormView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-
 
         ctx['breadcrumbs'] = self.get_breadbrumbs()
         ctx['columns'] = self.columns_instances

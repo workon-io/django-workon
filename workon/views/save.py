@@ -182,6 +182,13 @@ class Save(generic.UpdateView):
             }
         })
 
+    
+    def get_success_message_json_notice(self):
+        return {
+            'content': self.get_success_message(self.object),
+            'classes': 'success'
+        }
+
     def get_success_message(self, obj):
         return f'{obj} enregistré'
 
@@ -257,7 +264,7 @@ class JsonSave(Save):
 class ModalSave(JsonSave):
     template_name = "workon/views/save/_modal.html"
     
-    def get_valid_json(self, obj, **kwargs):
+    def get_json_data(self, obj, **kwargs):
         success_message = self.get_success_message(obj)
         kwargs['save_url'] = getattr(obj, 'update_url', self.get_save_url)()
         json = {
@@ -279,7 +286,7 @@ class ModalSave(JsonSave):
         return json
 
     def render_valid(self, obj, **kwargs):
-        return JsonResponse(self.get_valid_json(obj, **kwargs))
+        return JsonResponse(self.get_json_data(obj, **kwargs))
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
