@@ -170,6 +170,8 @@ class List(generic.FormView):
     model = None
 
     paginate_by = 50
+    paginate_body = 6
+    paginate_padding = 2
 
     create_url = None
     create_method = workon.conf.LIST_ROW_CREATE_METHOD
@@ -439,7 +441,7 @@ class List(generic.FormView):
         return render(self.request, self.get_template_names(), self.get_context_data())   
 
     def paginate(self):
-        self.queryset = workon.utils.DiggPaginator(self.queryset, self.paginate_by, body=6, padding=2).get_queryset_for_page(self.data.get('page'))     
+        self.queryset = workon.utils.DiggPaginator(self.queryset, self.paginate_by, body=self.paginate_body, padding=self.paginate_padding).get_queryset_for_page(self.data.get('page'))     
 
     def form_invalid(self, form):
         return self.form_valid(form)
@@ -452,6 +454,7 @@ class List(generic.FormView):
         ctx['columns'] = self.columns_instances
         ctx['actions'] = self.actions
         ctx['rows'] = self.get_rows()
+        ctx['objects'] = ctx['queryset'] = self.queryset
         ctx['create_method'] = self.__get_vomr('create_method')
         ctx['create_url'] = self.__get_vomr('create_url')
         ctx['list_results_template'] = self.__get_vomr('results_template_name')
