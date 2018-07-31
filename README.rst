@@ -1,7 +1,14 @@
 django-workon
 ======================
 
+Django multi extensions
 
+- Urls routing by decorator
+- Utils
+- Fields
+- Form Fields
+- Models helpers
+- Contribs
 
 Usage
 =====
