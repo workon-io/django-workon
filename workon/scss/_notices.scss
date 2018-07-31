@@ -88,12 +88,20 @@ $notice-background-color: #ffae4c;
     .loader {
 
     }
-    &.error {
+    &.green {
+        background: lighten($green-color, 10%);
+        color: white;
+    }
+    &.red {
         background: lighten($red-color, 10%);
+    }
+    &.error {
+        background: lighten($error-color, 10%);
         color: white;
     }
     &.success {
-        background: lighten($green-color, 10%);
+        background: lighten($success-color, 10%);
+        color: white;
     }
     &.warning {
         background: lighten(orange, 10%);
