@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+
 
 
 __all__ = ['DateTracked', 'StatusTracked', 'PositionTracked', 'FullTracked']
@@ -7,12 +9,11 @@ __all__ = ['DateTracked', 'StatusTracked', 'PositionTracked', 'FullTracked']
 
 class DateTracked(models.Model):
 
-    created_at = models.DateTimeField("Créé le", auto_now_add=True)
-    updated_at = models.DateTimeField("Modifié le", auto_now=True, db_index=True)
+    created_at = models.DateTimeField("Créé le", auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField("Modifié le", auto_now=True, db_index=True, null=True, blank=True)
 
     class Meta:
         abstract = True
-
 
     def save(self, *args, **kwargs):
         if not self.created_at:
