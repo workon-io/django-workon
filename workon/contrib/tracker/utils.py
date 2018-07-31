@@ -34,7 +34,6 @@ else:
 
         UNSAVED = dict()
         from django.db.models.signals import post_init, post_save, m2m_changed
-        from django.contrib.postgres.fields import JSONField
         from django.db.models import Model, ManyToManyField
         from django.utils import timezone
         from django.contrib.contenttypes.fields import GenericRelation

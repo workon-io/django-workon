@@ -9,6 +9,8 @@ from workon.forms.embed import EMBED_TYPES
 # - Mixcloud
 # - Dailymotion
 
+__all__ = ['EmbedField']
+
 
 class EmbedDescriptor(object):
 

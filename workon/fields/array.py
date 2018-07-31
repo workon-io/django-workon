@@ -1,9 +1,14 @@
 from django import forms
-from django.contrib.postgres.fields import ArrayField
 from django.forms import SelectMultiple
- 
+try:
+    from django.contrib.postgres.fields import ArrayField
+except ImportError:
+    
+    class ArrayField(object):
+        pass
 
-__all__ = ['ArrayChoiceField']
+
+__all__ = ['ArrayField', 'ArrayChoiceField']
 
 
 class ArraySelectMultiple(SelectMultiple):
@@ -31,4 +36,4 @@ class ArrayChoiceField(ArrayField):
         # Skip our parent's formfield implementation completely as we don't
         # care for it.
         # pylint:disable=bad-super-call
-        return super(ArrayField, self).formfield(**defaults)
+        return super(workon.ArrayField, self).formfield(**defaults)

@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.postgres.fields import ArrayField
+import workon
 
 
 __all__ = ['TrackEvent']
@@ -27,10 +27,10 @@ class TrackEvent(models.Model):
     field_name = models.CharField("Field", max_length=254)
     old_value = models.TextField("Old value", null=True, editable=False)
     new_value = models.TextField("New value", null=True, editable=False)
-    m2m_pk_set = ArrayField(
+    m2m_pk_set = workon.ArrayField(
         models.PositiveIntegerField('pk'), null=True
     )
-    m2m_repr_set = ArrayField(
+    m2m_repr_set = workon.ArrayField(
         models.CharField('Repr', max_length=254), null=True
     )
     m2m_model = None

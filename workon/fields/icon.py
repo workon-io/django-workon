@@ -4,6 +4,9 @@ from django.utils.text import capfirst
 from workon.forms import IconField as IconFormField, IconInput
 
 
+__all__ = ['IconField']
+
+
 class IconField(models.CharField):
     """
     A text field made to accept hexadecimal color value (#FFFFFF)

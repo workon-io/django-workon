@@ -5,6 +5,8 @@ from django.db import models
 from workon.forms import HtmlInput
 
 
+__all__ = ['HtmlField', 'HTMLField']
+
 # class HTMLField(TinyMceHTMLField):
 #     pass
 

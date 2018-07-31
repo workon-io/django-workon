@@ -1,5 +1,3 @@
-# encoding: utf-8
-import re
 import os
 import logging
 import locale
@@ -9,7 +7,19 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms.utils import flatatt
 from decimal import *
-from babel.numbers import format_number, format_decimal, format_percent
+
+try:
+    from babel.numbers import format_number, format_decimal, format_percent
+except:
+    def format_number(value, **kwargs):
+        return locale.currency(value)
+        
+    def format_decimal(value, **kwargs):
+        return locale.currency(value)
+
+    def format_percent(value, **kwargs):
+        return locale.currency(value)
+
 
 
 DEFAULT_CURRENCY = 'EUR'
