@@ -10,7 +10,7 @@ body, html {
     // font-family: Lato;
     // background: white;
     color: $text-color;
-    // background: #e6e6e6;
+    // background: #e6e6e6;    
 
     &.test-mode {
         .navbar {
@@ -44,7 +44,6 @@ body, html {
 main {
     padding: 25px;
     @extend .tr-250;
-    margin-left: 250px;
     @include tablet-and-down {
         
         margin-left: 0px;

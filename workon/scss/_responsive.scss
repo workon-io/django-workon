@@ -1,6 +1,57 @@
 /*********************
   Media Query Classes
 **********************/
+
+
+
+
+.phone-only {
+    @include tablet-and-up {
+        display: none !important;
+    }
+}
+.tablet-and-up-only {
+    @include tablet-and-down {
+        display: none !important;
+    }
+}
+.tablet-and-down-only {
+    @include tablet-and-up {
+        display: none !important;
+    }
+}
+.desktop-and-up-only {
+    @include tablet-and-up {
+        display: none !important;
+    }
+}
+.desktop-and-down-only {
+    @include large-desktop-and-up {
+        display: none !important;
+    }
+}
+.large-desktop-and-up-only {
+    @include desktop-and-up {
+        display: none !important;
+    }
+}
+.large-desktop-and-down-only {
+    @include desktop-and-up {
+        display: none !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .hide-on-small-only, .hide-on-small-and-down {
   @media #{$small-and-down} {
     display: none !important;
