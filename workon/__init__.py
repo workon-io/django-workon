@@ -20,3 +20,5 @@ from workon.fields.date import *
 from workon.fields.tree import *
 from workon.fields.embed import *
 from workon.fields.json import *
+from workon.fields.media import *
+

@@ -27,6 +27,7 @@
 
 @if variable-exists('highlight-color') { } @else { $highlight-color: opacify($primary-color, 0.3) !default !global; }
 
+@if variable-exists('material-icons') { } @else { $material-icons: '../workon/fonts/MaterialIcons-Regular' !global; }
 
 @if variable-exists('input-height') { } @else { $input-height: 3rem !default !global; }
 @if variable-exists('input-border-color') { } @else { $input-border-color: #9e9e9e !default !global; }
