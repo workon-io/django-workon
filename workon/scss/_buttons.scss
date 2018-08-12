@@ -155,6 +155,9 @@
         background-color: white !important;
         color: initial;
     }
+    &.yellow {
+        background-color: $yellow-color !important;
+    }
     &.tyellow {
         color: $yellow-color !important;
     }

@@ -21,7 +21,7 @@ else:
         The changed list of properties is refreshed on model initialization
         and save.
         
-        >>> @track_data('name')
+        >>> @track('name')
         >>> class Post(models.Model):
         >>>     name = models.CharField(...)
         >>> 
