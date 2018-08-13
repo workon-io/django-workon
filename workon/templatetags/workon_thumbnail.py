@@ -19,7 +19,9 @@ def lazy_register(register):
         from sorl.thumbnail.images import ImageFile, DummyImageFile
 
         class StaticThumbnailNode(ThumbnailNode):
-
+            
+            child_nodelists = []
+            
             def _render(self, context):
                 file_ = self.file_.resolve(context)
                 geometry = self.geometry.resolve(context)
@@ -32,7 +34,6 @@ def lazy_register(register):
                     else:
                         options[key] = value
                 thumbnail = workon.thumbnail_static(file_, geometry, **options)
-
 
                 if not thumbnail or (isinstance(thumbnail, DummyImageFile) and self.nodelist_empty):
                     if self.nodelist_empty:
