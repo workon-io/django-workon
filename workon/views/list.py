@@ -446,7 +446,19 @@ class List(generic.FormView):
         return render(self.request, self.get_template_names(), self.get_context_data())   
 
     def paginate(self):
-        self.queryset = workon.utils.DiggPaginator(self.queryset, self.paginate_by, body=self.paginate_body, padding=self.paginate_padding).get_queryset_for_page(self.data.get('page'))     
+        page = self.data.get('page')
+        if not page:
+            page = self.request.POST.get('page')
+        if not page:
+            page = self.request.GET.get('page')
+        self.queryset = workon.utils.DiggPaginator(
+            self.queryset, 
+            self.paginate_by, 
+            body=self.paginate_body, 
+            padding=self.paginate_padding
+        ).get_queryset_for_page(
+            page
+        )     
 
     def form_invalid(self, form):
         return self.form_valid(form)

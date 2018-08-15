@@ -131,10 +131,12 @@ $sidenav-line-height: $sidenav-item-height !default;
                 top: -15px;
             }
 
-            &:hover { background-color: $grey-color; }
-            &.active {
-                background-color: $grey-color;
+            &:hover, &.active { 
+                background-color: $secondary-color; 
                 color: $primary-color;
+            }
+            &.active {                
+                
                 font-weight: bold;
                 & > i.icon {
                     color:  $primary-color;
@@ -274,7 +276,7 @@ $sidenav-line-height: $sidenav-item-height !default;
         line-height: 16px;
         text-overflow: ellipsis;
     }
-    @include tablet-and-down{
+    @include tablet-and-down {
         top: 0px;
         transform: translateX(-105%);
         a {
