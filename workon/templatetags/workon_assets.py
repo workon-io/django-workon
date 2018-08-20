@@ -99,10 +99,16 @@ def lazy_register(register):
             else:
                 packages.append(name)
         for path in packages:
-            if path.startswith('http') or path.startswith('//'):
-                externals += f'<link type="text/css" rel="stylesheet"  href="{path}" media="screen,projection" />'
+
+            if path.endswith('.scss'):
+                type = "text/x-scss"
             else:
-                internals += f'<link type="text/css" rel="stylesheet"  href="{static(path)}" media="screen,projection" />'
+                type = "text/css"
+
+            if path.startswith('http') or path.startswith('//'):
+                externals += f'<link type="{type}" rel="stylesheet"  href="{path}" media="screen,projection" />'
+            else:
+                internals += f'<link type="{type}" rel="stylesheet"  href="{static(path)}" media="screen,projection" />'
         return {
             'externals': mark_safe(externals),
             'internals': mark_safe(internals)
