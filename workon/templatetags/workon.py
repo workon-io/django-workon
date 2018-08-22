@@ -34,17 +34,12 @@ def intval(value):
     except ValueError:
         return None
 
-@register.filter(name='sizify')
-def sizify(value):
-    return workon.sizify(value)
-
 @register.filter(name='numbers')
 def numbers(value):
     return workon.numbers(value)
     
 @register.filter(name='percent')
 def percent(value, decimal=2):
-    print(value, workon.percent)
     return workon.percent(value, decimal=decimal)
 
 # @register.simple_tag(name='delta_percent')
@@ -77,24 +72,15 @@ def startswith(str, compare):
 
 @register.filter
 def jsonify(obj):
-    if obj is None:
-        return "{}"
-    if isinstance(obj,dict):
-        return json.dumps(obj)
-    elif isinstance(obj,list):
-        return json.dumps(obj)
-    elif type(obj) == type({}.keys()):
-        return json.dumps(list(obj))
-    else:
-        obj = re.sub(r'([\w\d_]+)\:', '"\\1":', obj)
-        obj = re.sub(r'\'', '"', obj)
-        obj = re.sub(r'\/\/\s*[\w\s\d]+', '', obj)
-        obj = re.sub(r'Date\.UTC\(.+\)', '""', obj)
+    return wabtec.jsonify(obj)
 
-        try:
-            return json.dumps(json.loads(obj))
-        except:
-            return json.loads(json.dumps(obj))
+@register.filter(name='zfill')
+def zfill(obj, number):
+    return str(obj).zfill(number)
+
+@register.filter(name='sizify')
+def sizify(value):
+    return workon.sizify(value)
 
 @register.filter
 def sanitize(html):
