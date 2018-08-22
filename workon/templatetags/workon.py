@@ -34,6 +34,10 @@ def intval(value):
     except ValueError:
         return None
 
+@register.filter(name='sizify')
+def sizify(value):
+    return workon.sizify(value)
+
 @register.filter(name='numbers')
 def numbers(value):
     return workon.numbers(value)
