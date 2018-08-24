@@ -10,10 +10,11 @@ from django.db.models import CharField
 from django.core.exceptions import ValidationError
 from django.forms.utils import flatatt
 from django.utils.safestring import mark_safe
-
-logger = logging.getLogger(__name__)
-
 import workon.utils
+
+
+__all__ = ['IconField', 'IconInput']
+
 
 class IconField(forms.CharField):
 

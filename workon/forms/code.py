@@ -18,6 +18,8 @@ except ImportError:
     except ImportError:
         from django.forms.util import smart_unicode
 
+__all__ = ['CodeField', 'CodeInput']
+
 
 class CodeField(forms.CharField):
     def __init__(self, *args, **kwargs):

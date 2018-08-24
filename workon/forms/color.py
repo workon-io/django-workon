@@ -1,9 +1,7 @@
-
 import re
 import os
 import logging
 import json
-
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -15,7 +13,9 @@ from django.template.loader import render_to_string
 from django.forms.utils import flatatt
 from django.utils.safestring import mark_safe
 
-logger = logging.getLogger(__name__)
+
+__all__ = ['ColorField', 'ColorInput', 'RGBColorField']
+
 
 class ColorField(forms.CharField):
 

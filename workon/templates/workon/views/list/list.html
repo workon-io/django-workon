@@ -38,9 +38,12 @@
         {% endif %}
         <table id="list-filters" class="list-filters list-table">
             <tr class="">
-                {% for field in form %}{% if not field.is_hidden %}
-                    <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>
-                {% endif %}{% endfor %}
+                {% for field in form %}
+                    {% if field.field.meta.linebreaks %}</tr><tr>{% endif %}
+                    {% if not field.is_hidden %}
+                        <td><div class="{{ field.field.meta.attrs }}">{% field field %}</div></td>
+                    {% endif %}
+                {% endfor %}
             </tr>
         </table> 
         {% endif %}        

@@ -21,6 +21,9 @@ except:
         return locale.currency(value)
 
 
+__all__ = ['PriceField', 'PriceInput']
+
+
 
 DEFAULT_CURRENCY = 'EUR'
 # Send in data way to assets/js/input_format.js

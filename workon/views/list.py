@@ -89,7 +89,10 @@ class ListAction():
 
 
 class ListFilter():
-    def __init__(self, name, label=None, col=2, choices=None, classes='', multiple=False, default=None, field_class=None, field_kwargs=None):
+    def __init__(self, name, label=None, col=2, choices=None, classes='', 
+        multiple=False, default=None, field_class=None, field_kwargs=None,
+        linebreaks=False
+    ):
         self.name = name
         field_kwargs = field_kwargs if field_kwargs else {}
         field_kwargs['required'] = False
@@ -116,6 +119,7 @@ class ListFilter():
         self.meta = {
             'class': f'{classes}',
             'label': label or name,
+            'linebreaks': linebreaks
         }
 
 
@@ -128,6 +132,7 @@ class ListForm(forms.Form):
             field_kwargs = fi.form_field_kwargs
             self.fields[fi.name] = fi.form_field_class(**field_kwargs)
             self.fields[fi.name].meta = fi.meta
+            self.fields[fi.name].filter = fi
 
 
 
