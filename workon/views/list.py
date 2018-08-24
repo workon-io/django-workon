@@ -167,6 +167,7 @@ class List(generic.FormView):
     filters_instances = []
     columns_instances = []
     form_class = None
+    form_prefix = 'wlff' # workon_list_filters_form
     model = None
     ajax_results = True
 
@@ -298,7 +299,7 @@ class List(generic.FormView):
         return form
 
     def get_prefix(self):
-        return 'workon_list_filters_form'
+        return self.form_prefix
         
     def get_form_kwargs(self):
         kwargs = {

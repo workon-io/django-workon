@@ -72,7 +72,7 @@ def startswith(str, compare):
 
 @register.filter
 def jsonify(obj):
-    return wabtec.jsonify(obj)
+    return workon.jsonify(obj)
 
 @register.filter(name='zfill')
 def zfill(obj, number):
