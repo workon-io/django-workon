@@ -200,7 +200,7 @@ class HtmlInput(forms.Textarea):
 
         return config
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
 
         if value is None:
             value = ''
