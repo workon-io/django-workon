@@ -24,9 +24,9 @@ class TreeSelect(forms.SelectMultiple):
         test_selected = lambda o: None
         if value:
             if isinstance(value, list):
-                test_selected = lambda o: o in value
+                test_selected = lambda o: o in value or str(o) in value
             else:
-                test_selected = lambda o: o == value
+                test_selected = lambda o: o == value or str(o) in value
 
 
         for choice in self.choices:
