@@ -17,7 +17,7 @@ deploy:
 	make deploy_minor
 
 push_tags:
-	git push origin master
+	git push origin master --force
 	git push --tags
 
 pypi:
