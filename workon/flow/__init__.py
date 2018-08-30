@@ -2,3 +2,4 @@
 __version__ = '0.5.1'
 
 
+def send(*args, **kwargs): pass
