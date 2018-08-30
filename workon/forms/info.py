@@ -17,7 +17,7 @@ class InfoInput(forms.widgets.HiddenInput):
         self.text = kwargs.pop('text', "")
         super(InfoInput, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs={}):
+    def render(self, name, value, attrs={}, **kwargs):
         if 'id' not in attrs:
             attrs['id'] = "id_%s" % name
         return '''<div id="%(id)s" >%(value)s</div>

@@ -54,9 +54,9 @@ class CodeInput(forms.Textarea):
                 ''' % { 'id' : id.replace('-', '_'), 'mode': self.mode }
 
 
-    def render(self, name, value, attrs={}):
+    def render(self, name, value, attrs={}, **kwargs):
         if 'id' not in attrs:
             attrs['id'] = "id_%s" % name
         attrs['style'] = "display:none;"
-        render = super().render(name, value, attrs)
+        render = super().render(name, value, attrs, **kwargs)
         return mark_safe("%s%s" % (render, self.render_script(attrs['id'])))

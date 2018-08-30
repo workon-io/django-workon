@@ -76,12 +76,12 @@ class MediaInput(forms.widgets.ClearableFileInput):
             self.authorized_types = kwargs.pop('authorized_types')
         super(MediaInput, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs={}, **kwargs):
         # print "MediaInput.render : ", name, type(value), value, self.is_initial(value)
         if value is None:
             value = ''
 
-        field = super(MediaInput, self).render(name, value, attrs=attrs)
+        field = super(MediaInput, self).render(name, value, attrs=attrs, **kwargs)
 
         in_memory = False
 
@@ -105,7 +105,7 @@ class MediaInput(forms.widgets.ClearableFileInput):
             'embed_types': json.dumps(EMBED_TYPES)
         }
         if not self.is_required:
-            context['clear'] = CheckboxInput().render(checkbox_name, False, attrs={'id': checkbox_id})
+            context['clear'] = CheckboxInput().render(checkbox_name, False, attrs={'id': checkbox_id}, **kwargs)
         return render_to_string(self.template_name, Context(context))
 
 

@@ -120,19 +120,11 @@ class BaseDateInput(forms.DateTimeInput):
 
 
 
-    def render(self, name, value, attrs={}):
-        # print value
-        # if value:
-        #     if isinstance(value, six.string_types):
-        #         value = datetime.datetime.strptime(value, self.format)
-
-        #     if isinstance(value, datetime.datetime) or isinstance(value, datetime.time) or isinstance(value, datetime.date):
-        #         value = value.strftime(self.format).strip()
-        # # print value
-
+    def render(self, name, value, attrs={}, **kwargs):
+        renderer = kwargs.get('renderer', None)
         if 'id' not in attrs:
             attrs['id'] = "id_%s" % name
-        render = super(BaseDateInput, self).render(name, value, attrs)
+        render = super(BaseDateInput, self).render(name, value, attrs, **kwargs)
         return mark_safe("%s" % (render))
 
 

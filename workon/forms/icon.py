@@ -46,7 +46,7 @@ class IconInput(forms.widgets.TextInput):
         #     del kwargs['currency']
         super(IconInput, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs={}, **kwargs):
         root = workon.utils.get_project_root()
 
         id = str(time.time()).replace('.', '')
@@ -99,7 +99,7 @@ class IconInput(forms.widgets.TextInput):
                 contents += """<a class="contrib-icon-widget %s" data-value="%s" data-input="#%s"><i class="%s"></i></a>""" % (
                     "active" if value == classname else "",
                     classname,
-                    attrs['id'],
+                    attrs.get('id', ''),
                     classname
                 )
             contents += "</div>"
@@ -112,7 +112,7 @@ class IconInput(forms.widgets.TextInput):
                 %(inherit)s
             </div>
         """ % {
-            'inherit' : super(IconInput, self).render(name, value, attrs=attrs),
+            'inherit' : super(IconInput, self).render(name, value, attrs=attrs, **kwargs),
             'id': id
         }
         return mark_safe(html)

@@ -39,7 +39,7 @@ class BusinessHoursInput(forms.widgets.TextInput):
         self.expanded = kwargs.pop('expanded', False)
         super().__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs={}):
+    def render(self, name, value, attrs={}, **kwargs):
         if 'id' not in attrs:
             attrs['id'] = "id_%s" % name
 

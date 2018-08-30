@@ -121,9 +121,9 @@ class PriceWidget(forms.widgets.TextInput):
         kwargs['attrs'] = attrs
         super(PriceWidget, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs={}, **kwargs):
         value = price_format_decimal_to_currency(value, self.currency)
-        return super(PriceWidget, self).render(name, value, attrs)
+        return super(PriceWidget, self).render(name, value, attrs, **kwargs)
 
     # def _has_changed(self, initial, data):
     #     return super(PriceWidget, self)._has_changed(self._format_value(initial), data)

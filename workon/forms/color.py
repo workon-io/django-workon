@@ -76,11 +76,11 @@ class ColorInput(forms.widgets.TextInput):
         #         ''' % { 'id' : id }
 
 
-    def render(self, name, value, attrs={}):
+    def render(self, name, value, attrs={}, **kwargs):
         if 'id' not in attrs:
             attrs['id'] = "id_%s" % name
         attrs['style'] = 'border-bottom: 5px solid %s' % (value if value else '#000')
-        render = super(ColorInput, self).render(name, value, attrs)
+        render = super(ColorInput, self).render(name, value, attrs, **kwargs)
         return mark_safe("%s%s" % (render, self.render_script(attrs['id'])))
 
 
