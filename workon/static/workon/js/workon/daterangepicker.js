@@ -50,7 +50,7 @@
         this.timePickerIncrement = 1;
         this.timePickerSeconds = false;
         this.linkedCalendars = true;
-        this.autoUpdateInput = true;
+        this.autoUpdateInput = false;
         this.alwaysShowCalendars = false;
         this.ranges = {};
 
@@ -1598,11 +1598,17 @@
         },
 
         updateElement: function() {
-            if (this.element.is('input') && !this.singleDatePicker && this.autoUpdateInput) {
-                this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));
+            if (this.element.is('input') && !this.singleDatePicker) { //} && this.autoUpdateInput) {
+                this.element.val(this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format));                
+                if(this.element.val() == 'Invalid date' + this.locale.separator + 'Invalid date') {
+                    this.element.val('')
+                }
                 if(this.loaded) { this.element.trigger('change'); }
-            } else if (this.element.is('input') && this.autoUpdateInput) {
+            } else if (this.element.is('input') ) { //&& this.autoUpdateInput) {
                 this.element.val(this.startDate.format(this.locale.format));
+                if(this.element.val() == 'Invalid date' ) {
+                    this.element.val('')
+                }
                 if(this.loaded) { this.element.trigger('change'); }
             }
         },
