@@ -139,12 +139,13 @@ class ListForm(forms.Form):
 
 
 class ListColumn():
-    def __init__(self, name, label=None, classes='', attrs='', ellipsis=False, col=None):
+    def __init__(self, name, label=None, classes='', attrs='', ellipsis=False, col=None, value=None):
         self.name = name
         self.label = label
         self.classes = classes
         self.attrs = attrs
         self.ellipsis = ellipsis
+        self.value = value
 
     def __str__(self):
         return str(self.label) if self.label else ''
@@ -406,7 +407,17 @@ class List(generic.FormView):
             column=column_instance
         )
         name = column_instance.name 
-        value = self.__get_vomr_obj_value(name, obj)
+        if column_instance.value is not None:
+            if workon.is_lambda(column_instance.value):
+                value = column_instance.value(self, obj)
+            elif workon.is_method(column_instance.value):
+                return column_instance.value(self, obj)
+            else:
+                return column_instance.value
+            value = self.__get_vomr_obj_value(name, obj)
+
+        else:
+            value = self.__get_vomr_obj_value(name, obj)
 
         if value is None or value is "":
             value = f'''<i class="icon disabled">block</i>'''
