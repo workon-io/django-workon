@@ -414,8 +414,6 @@ class List(generic.FormView):
                 value = column_instance.value(self, obj)
             else:
                 value = column_instance.value
-            value = self.__get_vomr_obj_value(name, obj)
-
         else:
             value = self.__get_vomr_obj_value(name, obj)
 
