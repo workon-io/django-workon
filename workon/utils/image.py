@@ -9,7 +9,7 @@ from django.contrib.staticfiles import finders
 from django.templatetags.static import static 
 
 
-__all__ = ["base64image_iter", "thumbnail", "thumbnail_static", "static"]
+__all__ = ["base64image_iter", "base64image", "thumbnail", "thumbnail_static", "static"]
 
 
 base64img_finder = re.compile(r'(data\:image\/(\w+)\;base64\,([\w\+\/\d\=\n]+))')
@@ -27,6 +27,10 @@ def base64image_iter(text, uploaded_file=False):
                 image = SimpleUploadedFile('%s.png' % str(uuid.uuid4()), image, content_type='image/%s' % image_type)
             yield src, image
 
+def base64image(*args, **kwargs):
+    for src, image in base64image_iter(*args, **kwargs):
+        return image
+    return None
 
 class SafeStaticFilesStorage(get_storage_class(settings.STATICFILES_STORAGE)):
     def path(self, name):
