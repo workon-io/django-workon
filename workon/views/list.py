@@ -411,9 +411,9 @@ class List(generic.FormView):
             if workon.is_lambda(column_instance.value):
                 value = column_instance.value(self, obj)
             elif workon.is_method(column_instance.value):
-                return column_instance.value(self, obj)
+                value = column_instance.value(self, obj)
             else:
-                return column_instance.value
+                value = column_instance.value
             value = self.__get_vomr_obj_value(name, obj)
 
         else:
