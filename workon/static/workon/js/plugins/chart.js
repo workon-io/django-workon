@@ -641,9 +641,9 @@ $.fn.highchart = function(data)
 
 $(document).ready(function() 
 {
-    $('[data-chart]').each(function() 
+    $('[data-chart]').each(function(i, self) 
     {
-        make_chart(this, $(this).data('chart'));
+        make_chart($(self), $(self).data('chart'));
     });
 
 });
