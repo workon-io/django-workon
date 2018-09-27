@@ -139,16 +139,39 @@ class ListForm(forms.Form):
 
 
 class ListColumn():
-    def __init__(self, name, label=None, classes='', attrs='', ellipsis=False, col=None, value=None):
+    def __init__(self, name, label=None, classes='', attrs='', ellipsis=False, col=None, value=None, model=None):
         self.name = name
         self.label = label
         self.classes = classes
         self.attrs = attrs
         self.ellipsis = ellipsis
         self.value = value
+        self.model = model
 
     def __str__(self):
         return str(self.label) if self.label else ''
+
+    @classmethod
+    def make_instance(cls, listview, col):
+        if isinstance(col, cls):
+            col = col
+
+        elif isinstance(col, dict):
+            col = cls(**col)
+
+        elif isinstance(col, tuple):
+            col = cls.make_instance(listview, col[0], label=col[-1])
+
+        elif isinstance(col, six.string_types):
+            col = cls(col)
+
+        if listview.model and not col.label:
+            try:
+                col.label = listview.model._meta.get_field(col.name).verbose_name
+            except FieldDoesNotExist:
+                print('FieldDoesNotExist')
+                pass
+        return col
 
 class ListCol(ListColumn): pass
 
@@ -234,25 +257,6 @@ class List(generic.FormView):
         else:
             return getattr(obj, name, None)
 
-    def make_column_instance(self, col, **kwargs):
-        if isinstance(col, ListCol):
-            col = col
-
-        elif isinstance(col, dict):
-            col = ListCol(**col)
-
-        elif isinstance(col, tuple):
-            col = self.make_column_instance(col[0], label=col[-1])
-
-        elif isinstance(col, six.string_types):
-            if self.model and not 'label' in kwargs:
-                try:
-                    kwargs['label'] = self.model._meta.get_field(col).verbose_name
-                except FieldDoesNotExist:
-                    pass
-            col = ListCol(col, **kwargs)
-        return col
-
     def make_filter_instance(self, fi, **kwargs):
         if isinstance(fi, ListFilter):
             fi = fi
@@ -291,7 +295,7 @@ class List(generic.FormView):
 
     def get_form(self):
 
-        self.columns_instances = [ self.make_column_instance(fi) for fi in getattr(self, 'fields', self.columns)]
+        self.columns_instances = [ ListCol.make_instance(self, col) for col in getattr(self, 'fields', self.columns)]
         self.filters_instances = [ self.make_filter_instance(fi) for fi in self.filters]
 
         if not self.form_class:
