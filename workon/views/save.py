@@ -199,6 +199,7 @@ class Save(generic.UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
     def save(self, *args, **kwargs):
+        self.request.session['wls_last_object_saved'] = f'{getattr(self.object, "__class___", None)}_{getattr(self.object, "id", None)}'
         return self.form.save()
 
     def render_modal_title(self):

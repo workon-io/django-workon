@@ -152,7 +152,7 @@ class ListColumn():
         return str(self.label) if self.label else ''
 
     @classmethod
-    def make_instance(cls, listview, col):
+    def make_instance(cls, listview, col, **kwargs):
         if isinstance(col, cls):
             col = col
 
@@ -160,10 +160,11 @@ class ListColumn():
             col = cls(**col)
 
         elif isinstance(col, tuple):
+            label = col[-1]
             col = cls.make_instance(listview, col[0], label=col[-1])
 
         elif isinstance(col, six.string_types):
-            col = cls(col)
+            col = cls(col, **kwargs)
 
         if listview.model and not col.label:
             try:
@@ -291,7 +292,8 @@ class List(generic.FormView):
         return fi
 
 
-
+    def is_last_object_saved(self, obj):
+        return f'{getattr(obj, "__class___", None)}_{getattr(obj, "id", None)}' == self.request.session.get("wls_last_object_saved")
 
     def get_form(self):
 
