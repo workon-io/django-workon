@@ -455,6 +455,8 @@ class List(generic.FormView):
             response = getattr(self, f'action_{action}')(self.queryset)
             if not response:
                 self.queryset = self.get_queryset()
+            elif isinstance(response, models.QuerySet):
+                self.queryset = response
             else:
                 return response
         return self.render_valid(form)
