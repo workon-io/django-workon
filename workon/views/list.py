@@ -97,8 +97,6 @@ class ListFilter():
         field_kwargs = field_kwargs if field_kwargs else {}
         field_kwargs['required'] = False
         field_kwargs['initial'] = default
-        if label:
-            label = mark_safe(label)
         field_kwargs['label'] = label
         if not field_class:
             if choices is not None:
@@ -118,7 +116,7 @@ class ListFilter():
         self.form_field_class = field_class
         self.meta = {
             'class': f'{classes}',
-            'label': label or name,
+            'label': label if label else name,
             'linebreaks': linebreaks
         }
 

@@ -30,7 +30,7 @@
             <tr class="">
                 {% for action in actions %}
                     <td class="{{ action.meta.class }} right" {{ field.field.meta.attrs }}>
-                        <button type="submit" data-unform name="_action" class="button" value="{{ action.name }}" data-tooltip="{{ action.meta.label }}" >{{ action.meta.label }}</button>
+                        <button type="submit" data-unform name="_action" class="button" value="{{ action.name }}" data-tooltip="{{ action.meta.label|safe }}" >{{ action.meta.label|safe }}</button>
                     </td>
                 {% endfor %}
             </tr>
