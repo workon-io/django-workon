@@ -13,6 +13,7 @@ __all__ = [
     "cached_property", 
     "cached_property_with_ttl", 
     "memoize", 
+    'cached',
     "cache_get_or_set"
 ]
 
@@ -46,6 +47,8 @@ class memoize(object):
         return fn
     def _reset(self):
         self.cache = {}
+
+class cached(memoize): pass
 
 
 def cache_get_or_set(key, value, ttl):

@@ -43,7 +43,7 @@ def jsonify(obj):
         return json.dumps(obj, cls=Encoder)
     elif type(obj) == type({}.keys()):
         return json.dumps(list(obj), cls=Encoder)
-    else:
+    elif isinstance(obj, six.string_types):
         obj = re.sub(r'([\w\d_]+)\:', '"\\1":', obj)
         obj = re.sub(r'\'', '"', obj)
         obj = re.sub(r'\/\/\s*[\w\s\d]+', '', obj)
@@ -53,6 +53,8 @@ def jsonify(obj):
             return json.dumps(json.loads(obj), cls=Encoder)
         except:
             return json.loads(json.dumps(obj, cls=Encoder))
+    else:
+        return obj
 
 def strip_accents(string, accents=('COMBINING ACUTE ACCENT', 'COMBINING GRAVE ACCENT', 'COMBINING TILDE')):
     accents = set(map(unicodedata.lookup, accents))
