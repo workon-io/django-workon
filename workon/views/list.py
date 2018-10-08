@@ -312,14 +312,17 @@ class List(generic.FormView):
         return self.form_prefix
         
     def get_form_kwargs(self):
+        prefix = self.get_prefix()
         kwargs = {
             'initial': self.get_initial(),
-            'prefix': self.get_prefix(),
+            'prefix': prefix,
         }
         if self.request.method in ('GET'):
             kwargs.update({
-                'initial': self.request.GET,
+                'initial': {k.lstrip(f'{prefix}-'): v for k,v in self.request.GET.items()},
             })
+
+            print(kwargs)
 
             if not self.ajax_results:
                 kwargs.update({

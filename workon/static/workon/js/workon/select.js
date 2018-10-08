@@ -3,7 +3,6 @@
 (function ($) {
     var init = function ($el, options) 
     {
-        console.log(options)
         $el.select2(options);
     }
 
