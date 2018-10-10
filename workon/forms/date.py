@@ -114,7 +114,8 @@ class BaseDateInput(forms.DateTimeInput):
 
         attrs = {
             'data-datetime-widget': json.dumps(options),
-            'type': 'text'
+            'type': 'text',
+            'autocomplete': 'off'
         }
         self.attrs.update(attrs)
 
