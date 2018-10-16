@@ -38,5 +38,5 @@ if has_changes:
 
 
 	subprocess.check_output(["git", "add", "."])
-	subprocess.check_output(["git", "commit", "-am", '"autofix"'])
-	subprocess.check_output(["git", "tag", "-a", new_version, '-m', '"%s"' % comment])
+	subprocess.check_output(["git", "commit", "-am", '"%s"' % comment])
+	subprocess.check_output(["git", "tag", "-a", new_version, '-m', '"autoversioning"'])
