@@ -5,6 +5,7 @@
             <li class="navigation previous {% if not objects.has_previous %}disabled{% endif %}">
                 <a {% if objects.has_previous %}
                     data-page="{{ objects.previous_page_number }}"
+                    data-page-param="{{ page_param|default:'page' }}"
                     href="{% url_replace_param request.build_absolute_uri page_param|default:'page' objects.previous_page_number %}">
                     {% endif %}
                     <i class="icon">chevron_left</i>
@@ -16,6 +17,7 @@
                 <li class="{% if page == objects.number %}active{% else %}waves-effect{% endif %}">
                     <a
                         data-page="{{ page }}"
+                        data-page-param="{{ page_param|default:'page' }}"
                         href="{% url_replace_param request.build_absolute_uri page_param|default:'page' page %}">
                         {{ page }}
                     </a>
@@ -25,6 +27,7 @@
             <li class="navigation next {% if not objects.has_next %}disabled{% endif %}">
                 <a {% if objects.has_next %}
                     data-page="{{ objects.next_page_number }}"
+                    data-page-param="{{ page_param|default:'page' }}"
                     href="{% url_replace_param request.build_absolute_uri page_param|default:'page' objects.next_page_number %}">
                     {% endif %}
                     <i class="icon">chevron_right</i>

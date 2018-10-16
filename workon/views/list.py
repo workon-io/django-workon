@@ -470,11 +470,12 @@ class List(generic.FormView):
         return render(self.request, self.get_template_names(), self.get_context_data())   
 
     def paginate(self):
-        page = self.data.get('page')
+        page_param = f'{self.form_prefix}-page' if self.form_prefix else 'page'
+        page = self.data.get(page_param, self.data.get('page'))
         if not page:
-            page = self.request.POST.get('page')
+            page = self.request.POST.get(page_param, self.request.POST.get('page'))
         if not page:
-            page = self.request.GET.get('page')
+            page = self.request.GET.get(page_param, self.request.GET.get('page'))
         self.queryset = workon.utils.DiggPaginator(
             self.queryset, 
             self.paginate_by, 

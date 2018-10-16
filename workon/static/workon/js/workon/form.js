@@ -162,7 +162,9 @@
     });
     $(document).on('click', '[data-form] [data-page]', function(e)
     {
-        $(this).parents('[data-form]').eq(0).trigger('submit', { page: $(this).data('page') });
+        var data = {};
+        data[$(this).data('page-param')] = $(this).data('page');
+        $(this).parents('[data-form]').eq(0).trigger('submit', data);
         e.stopPropagation();
         return false;
     });
