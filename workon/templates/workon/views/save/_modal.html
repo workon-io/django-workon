@@ -2,7 +2,7 @@
 
 {% load workon %}
 
-{% block modal-classes %}{{ modal_classes }}{% endblock %}
+{% block modal-classes %}{{ modal_classes }} {{ form_classes }}{% endblock %}
 {% block modal-attrs %}
     action="{{ save_url }}"
     method="POST"

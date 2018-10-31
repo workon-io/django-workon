@@ -321,9 +321,6 @@ class List(generic.FormView):
             kwargs.update({
                 'initial': {k.lstrip(f'{prefix}-'): v for k,v in self.request.GET.items()},
             })
-
-            print(kwargs)
-
             if not self.ajax_results:
                 kwargs.update({
                     'data': self.request.GET,

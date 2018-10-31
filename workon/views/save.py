@@ -56,6 +56,7 @@ class Save(generic.UpdateView):
     form_class = None
     form_classes = ''
     modal_classes = ''
+    model = None
 
     # def post(self, request, *args, **kwargs):
     #     self.object = self.get_object()
@@ -83,12 +84,15 @@ class Save(generic.UpdateView):
     def get_form_id(self):
         return uuid.uuid1()
 
-    # def get_form_kwargs(self):
-    #     """Return the keyword arguments for instantiating the form."""
-    #     kwargs = super().get_form_kwargs()
-    #     if hasattr(self, 'object'):
-    #         kwargs.update({'instance': self.object})
-    #     return kwargs
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super().get_form_kwargs(*args, **kwargs)
+        if self.model is None:
+            kwargs.pop('instance', None)
+        else:         
+            instance = getattr(self, 'object', None)   
+            if instance:
+                kwargs.update({'instance': instance})
+        return kwargs
 
     def get_form_class(self):
 
@@ -97,37 +101,58 @@ class Save(generic.UpdateView):
         if self.form_class:
             return self.form_class
         else:
+            model = None
             if self.model is not None:
                 # If a model has been explicitly provided, use it
                 model = self.model
             elif hasattr(self, 'object') and self.object is not None:
                 model = self.object.__class__
             else:
-                model = self.get_queryset().model
+                qs = self.get_queryset()
+                if qs is not None:
+                    model = qs.model
 
-            if self.fields is None:
-                raise ImproperlyConfigured("Using ModelFormMixin (base class of %s) without the 'fields' attribute is prohibited." % self.__class__.__name__)
+            if model:
 
-            fields = []
-            for i, field in enumerate(self.fields):
-                if isinstance(field, SaveField):
-                    fields.append(field.name)
-                elif isinstance(field, dict):
-                    self.fields[i] = field = SaveField(**field)
-                    fields.append(field.name)
-                else:
-                    fields.append(field)
-            form = model_forms.modelform_factory(model, fields=fields)
-            form.save = form_save_instance
+                if self.fields is None:
+                    raise ImproperlyConfigured("Using ModelFormMixin (base class of %s) without the 'fields' attribute is prohibited." % self.__class__.__name__)
 
-            return form
+                fields = []
+                for i, field in enumerate(self.fields):
+                    if isinstance(field, SaveField):
+                        fields.append(field.name)
+                    elif isinstance(field, dict):
+                        self.fields[i] = field = SaveField(**field)
+                        fields.append(field.name)
+                    else:
+                        fields.append(field)
+                form_class = model_forms.modelform_factory(model, fields=fields)
+                form_class.save = form_save_instance
 
+            else:
+                form_class = self.form_class
+            return form_class
+
+    def get_queryset(self):
+        """
+        Return the `QuerySet` that will be used to look up the object.
+
+        This method is called by the default implementation of get_object() and
+        may not be called if get_object() is overridden.
+        """
+        if self.queryset is None:
+            if self.model:
+                return self.model._default_manager.all()
+            else:
+                return None
+        return self.queryset.all()
 
 
     def form_initialize(self, form):
         return form
 
     def get_form(self, *args, **kwargs):
+
 
         self.form = super().get_form(*args, **kwargs)
         self.form_id = self.get_form_id()
@@ -141,11 +166,12 @@ class Save(generic.UpdateView):
                 'class': f'col s12',
                 'label': field.label,
             }
-        for field in self.fields:
-            if isinstance(field, SaveField):
-                if self.form.fields.get(field.name):
-                    self.form.fields[field.name].label = (field.label or self.form.fields[field.name].label).capitalize()
-                    self.form.fields[field.name].meta.update(field.meta)
+        if self.fields:
+            for field in self.fields:
+                if isinstance(field, SaveField):
+                    if self.form.fields.get(field.name):
+                        self.form.fields[field.name].label = (field.label or self.form.fields[field.name].label).capitalize()
+                        self.form.fields[field.name].meta.update(field.meta)
 
         return self.form
 
@@ -160,7 +186,7 @@ class Save(generic.UpdateView):
         try:
             self.object = super().get_object()
         except AttributeError:
-            self.object = self.model()
+            self.object = self.model() if self.model else None
             self.created = True
 
         setattr(self, '_object', self.object)
