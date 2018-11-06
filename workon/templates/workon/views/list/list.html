@@ -24,6 +24,7 @@
             {% for field in form %}{% if field.is_hidden %}
                 {% field field %}
             {% endif %}{% endfor %}
+            <button style="display:none !important;" type="submit" data-unform>-</button>
         </div>
         {% if actions %}
         <table id="list-actions" class="list-table">

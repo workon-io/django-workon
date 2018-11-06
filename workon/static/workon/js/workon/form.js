@@ -26,6 +26,7 @@
 
     $(document).on('submit', formSelector, function(e, data, form, trigger, disabled)
     {
+        console.log('submit')
         form = $(this);
         if(form[0].locked) 
         { 
@@ -142,7 +143,12 @@
                         _trigger: trigger
                     });
                 }, soc==true?350:soc);
-            }     
+            }   
+            else {
+                $(form).trigger('submit', {
+                    _trigger: trigger
+                });
+            }  
         }
     });
     $(document).on('click', '[data-form] [type="submit"]', function(e, self)

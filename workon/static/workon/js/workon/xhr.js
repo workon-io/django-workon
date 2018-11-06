@@ -268,7 +268,7 @@
                 {
                     $('#'+$data.attr('id')).replaceWith($data);
                     // if(form && $(form).data('form')['closeModalOnSucess']) form.modal('close');
-                    if(form) form.modal('close');
+                    // if(form) form.modal('close');
                 }
                 else {
                     var nd = document.open("text/html", "replace");

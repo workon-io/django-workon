@@ -41,10 +41,10 @@ class PositionTracked(models.Model):
 
 class FullTracked(DateTracked, StatusTracked, PositionTracked):
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Créé par", related_name="created_%(class)ss", null=True, blank=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Créé par", related_name="+", null=True, blank=True, on_delete=models.SET_NULL)
     created_by_repr = models.CharField("Créé par", max_length=254, null=True, blank=True)
 
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Modifié par", related_name="updated_%(class)ss", null=True, blank=True, on_delete=models.SET_NULL)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Modifié par", related_name="+", null=True, blank=True, on_delete=models.SET_NULL)
     updated_by_repr = models.CharField("Modifié par", max_length=254, null=True, blank=True)
     
     class Meta:
