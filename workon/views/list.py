@@ -462,6 +462,7 @@ class List(generic.FormView):
     def render_valid(self, form):
         # try:
         self.paginate()
+        self.rows = self.get_rows()
         # except:
         #     self.queryset = qs
         return render(self.request, self.get_template_names(), self.get_context_data())   
@@ -492,8 +493,8 @@ class List(generic.FormView):
         ctx['breadcrumbs'] = self.get_breadbrumbs()
         ctx['columns'] = self.columns_instances
         ctx['actions'] = self.actions
-        ctx['rows'] = self.get_rows()
-        ctx['objects'] = ctx['queryset'] = self.queryset
+        ctx['rows'] = getattr(self, 'rows', [])
+        ctx['objects'] = ctx['queryset'] = getattr(self, 'queryset', [])
         ctx['create_method'] = self.__get_vomr('create_method')
         ctx['create_url'] = self.__get_vomr('create_url')
         ctx['list_results_template'] = self.__get_vomr('results_template_name')
@@ -503,7 +504,6 @@ class List(generic.FormView):
         ctx['list_id'] = self.__get_vomr('list_id')
         ctx['list_class'] = self.__get_vomr('list_class')
         ctx['queryset'] = getattr(self, 'queryset', [])
-
         return ctx
 
 class RowList(List):
