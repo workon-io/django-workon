@@ -60,7 +60,7 @@
                 clearTimeout(notice[0].workon_notice_to);
                 notice.stop().removeClass('off').css('margin-top', '');
                 notice.html(options.content);
-                notice.attr('classes', options.classes);
+                notice.attr('class', 'notice '+options.classes);
             }
             else {
                 if(options.removeOthers) {
