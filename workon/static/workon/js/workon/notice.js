@@ -6,7 +6,16 @@
         if(notice) {
             clearTimeout(notice[0].workon_notice_to);
             notice.addClass('off').stop().animate({ marginTop: -notice.outerHeight() -parseInt(notice.css('paddingTop')) -parseInt(notice.css('paddingBottom')) }, 250);
-            notice[0].workon_notice_to = setTimeout(function() { delete notices[notice[0].workon_notice_html]; notice.remove(); }, 5000);
+            notice[0].workon_notice_to = setTimeout(function() 
+            { 
+                delete notices[notice[0].workon_notice_html];
+                if(notice[0].workon_notice_uid) 
+                {
+                    delete notices[notice[0].workon_notice_uid];
+
+                } 
+                notice.remove(); 
+            }, 5000);
         }
     };
     $.fn.notice = function (options, options2, defaults, notice)
@@ -16,9 +25,10 @@
             offNotice(notice);
         }
         else {
-                defaults = {
+            defaults = {
                 delay: 3000,
                 classes: '',
+                uid: null,
                 removeOthers: false,
                 pulse: 'pulse1'
             };
@@ -44,6 +54,14 @@
                 clearTimeout(notice[0].workon_notice_to);
                 notice.stop().removeClass('off').css('margin-top', '');
             }
+            else if(options.uid && notices[options.uid])
+            {
+                notice = notices[options.uid];
+                clearTimeout(notice[0].workon_notice_to);
+                notice.stop().removeClass('off').css('margin-top', '');
+                notice.html(options.content);
+                notice.attr('classes', options.classes);
+            }
             else {
                 if(options.removeOthers) {
                     $.each(notices, function(i, notice) {
@@ -56,9 +74,15 @@
                 });
                 notices[html] = notice;
                 notice[0].workon_notice_html = html;
+                if(options.uid)
+                {
+                    notices[options.uid] = notice;
+                }
+                notice[0].workon_notice_uid = options.uid || null;
                 noticec.append(notice);
             }
-            if(options.delay && options.delay > 0) {
+            if(options.delay && options.delay > 0) 
+            {
                 clearTimeout(notice[0].workon_notice_to);
                 notice[0].workon_notice_to = setTimeout(function() { offNotice(notice); }, options.delay);
             }

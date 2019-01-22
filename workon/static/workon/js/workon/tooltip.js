@@ -1,5 +1,5 @@
 // This file will be UMDified by a build task.
-
+z
 var defaults = {
 		animation: 'fade',
 		animationDuration: 350,

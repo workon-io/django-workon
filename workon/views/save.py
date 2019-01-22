@@ -196,7 +196,7 @@ class Save(generic.UpdateView):
         return self.request.get_full_path()
 
     def render_form(self, **kwargs):
-        return workon.render_content(self.request, self.template_name, self.get_context_data(**{
+        return workon.render_content(self.request, self.get_template_names(), self.get_context_data(**{
             'form': self.form
         }, **kwargs))
 
