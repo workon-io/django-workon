@@ -43,7 +43,8 @@ body, html {
 }
 main {
     padding: 25px;
-    @extend .tr-250;
+    @extend .tr-250;    
+    @include fadeIn();
     @include tablet-and-down {
         
         margin-left: 0px;

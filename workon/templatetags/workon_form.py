@@ -34,7 +34,7 @@ def lazy_register(register):
             label = None
         placeholder = kwargs.pop('placeholder', None)
         if placeholder == True:
-            placeholder = field.label
+            placeholdefr = field.label
 
         widget_classes = f"field field_{field.name} {kwargs.pop('classes', '')}"
 
@@ -78,11 +78,11 @@ def lazy_register(register):
         template_name = f'workon/forms/fields/_{field.field.widget.__class__.__name__.lower()}.html'
         try:
             field.template = get_template(template_name)
-            if settings.DEBUG:
-                print(f"WO FIELD TPL for {field.name}: {template_name}")
+            # if settings.DEBUG:
+            #     print(f"WO FIELD TPL for {field.name}: {template_name}")
         except:
-            if settings.DEBUG:
-                print(f"WO FIELD TPL for {field.name}: {template_name}")
+            # if settings.DEBUG:
+            #     print(f"WO FIELD TPL for {field.name}: {template_name}")
             field.template = get_template('workon/forms/fields/_unknow.html')
 
 
